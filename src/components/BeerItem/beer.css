@@ -1,0 +1,13 @@
+.beer__tagline {
+    margin-bottom: 1rem;
+}
+
+.beer__content {
+    padding-top: 1.5rem;
+}
+
+.beer__image{
+    max-height: 300px;
+    display: block;
+    margin: auto;
+}
