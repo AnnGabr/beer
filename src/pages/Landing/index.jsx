@@ -4,9 +4,9 @@ import {SearchableList} from '../../containers';
 export default class Landing extends Component {
     render() {
         return (
-            <div>
+            <div className="layout has-scroll">
                 <SearchableList />
-            </div>
+            </div>      
         )    
     }
 }

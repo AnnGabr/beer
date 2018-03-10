@@ -1,5 +1,13 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+.layout {
+  height: 100%;
 }
+
+.has-scroll {
+  overflow-y: auto;
+}
+
+.no-scroll {
+  overflow-y: hidden;
+}
+
+

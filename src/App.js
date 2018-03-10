@@ -4,6 +4,7 @@ import { Drawer, Header } from './components';
 import { Router } from './routes';
 
 import 'bulma/css/bulma.css';
+import './index.css';
 
 export default class App extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="layout">
         <Drawer isOpened={this.state.isDrawerOpened} />
         <Header isButtonActive={this.state.isDrawerOpened} handleOpenDrawerButtonClick={this.toggleDrawer} />
         <Router />
