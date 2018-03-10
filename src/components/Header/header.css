@@ -4,5 +4,6 @@
 }
 
 .header__site-name {
-    padding-left: 1rem;
+    color: #ffffff;
+    font-size: 1.2em;
 }
