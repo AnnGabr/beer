@@ -1,3 +1,4 @@
-import Menu from './Menu';
+import SearchableList from './SearchableList';
+import BeerList from './BeerList';
 
-export {Menu};
+export { SearchableList, BeerList };
