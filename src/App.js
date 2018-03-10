@@ -22,7 +22,7 @@ export default class App extends Component {
     return (
       <div className="layout">
         <Drawer isOpened={this.state.isDrawerOpened} />
-        <Header isButtonActive={this.state.isDrawerOpened} handleOpenDrawerButtonClick={this.toggleDrawer} />
+        <Header isHamburgerActive={this.state.isDrawerOpened} onHamburgerClick={this.toggleDrawer} />
         <Router />
       </div>
     );

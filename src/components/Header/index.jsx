@@ -1,11 +1,13 @@
-import React, {Component} from 'react';
+import React from 'react';
+import Hamburger from './hamburger';
 
-export default class Header extends Component {
-    render() {
-        return (
-            <button className="button" style={{color: this.props.isButtonActive && 'green'}} onClick={this.props.handleOpenDrawerButtonClick} type="button">
-                Open
-            </button>
-        )
-    }
-}
+import './header.css';
+
+const Header = ({onHamburgerClick, isHamburgerActive}) => (
+    <div className="navbar header is-primary">
+        <Hamburger onClick={onHamburgerClick} isActive={isHamburgerActive} />
+        <h1 className="header__site-name">Beer Catalog</h1>
+    </div>
+);
+
+export default Header;

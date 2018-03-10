@@ -1,6 +1,6 @@
 import { Landing, Favorites, BeerDetails } from '../pages';
 import { Switch, Route } from 'react-router-dom';
-import React, {Component} from 'react';
+import React from 'react';
 
 export const Router = () => (
     <Switch>

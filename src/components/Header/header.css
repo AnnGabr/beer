@@ -1,0 +1,8 @@
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.header__site-name {
+    padding-left: 1rem;
+}
