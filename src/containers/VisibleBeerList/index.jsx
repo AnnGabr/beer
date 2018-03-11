@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 
-import { BeerItem } from '../../components';
+import {BeerList, Loader} from '../../components';
 
-import './beer-list.css';
-import './loader.css';
+import './beer-list-wrapper.css';
 
 const mapStateToProps = state => {
     return { ...state.beerList };
 };
 
-class BeerList extends Component {
+class VisibleBeerList extends Component {
     constructor(props){
         super(props);
 
@@ -58,27 +57,15 @@ class BeerList extends Component {
             )
         }
 
-        let beers = this.props.beers.map((beer) => (
-            <li key={beer.id} className="column is-one-third">
-                <BeerItem {...beer} />
-            </li>
-        ));
-        beers.push(
-            <li key="-1" 
-                className="column is-12 loader-wrapper content-end" 
-                style={{display: this.props.loading ? 'inline-block':'none'}}>
-                <div className="list-loader" />
-            </li>
-        )
-
         return (
-            <ul className="columns is-multiline beer-list is-warning">
-                {beers}
-            </ul>
+            <div className="beer-list-wrapper">
+                <BeerList beers = {this.props.beers}/>
+                <Loader variant="content-end" loading={this.props.loading}/>
+            </div>
         )    
     }
 }
 
-const ConnectedBeerList = connect(mapStateToProps)(BeerList);
+VisibleBeerList = connect(mapStateToProps)(VisibleBeerList);
 
-export default ConnectedBeerList;
+export default VisibleBeerList;
