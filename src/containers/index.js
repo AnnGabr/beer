@@ -1,4 +1,4 @@
 import SearchableList from './SearchableList';
-import VisibleBeerList from './VisibleBeerList';
+import InfiniteBeerList from './InfiniteBeerList';
 
-export { SearchableList, VisibleBeerList };
+export { SearchableList, InfiniteBeerList };

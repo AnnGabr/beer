@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {Searchbar, Filter} from '../../components';
-import VisibleBeerList from '../VisibleBeerList';
+import InfiniteBeerList from '../InfiniteBeerList';
 
 export default class SearchableList extends Component {
     constructor(props) {
@@ -20,7 +20,7 @@ export default class SearchableList extends Component {
             <section className="section container">
                 <Searchbar onSearch={this.toggleFilter}/>
                 <Filter isOpened={this.state.isFilterOpened}/>
-                <VisibleBeerList />
+                <InfiniteBeerList />
             </section>
         )
     }

@@ -9,7 +9,7 @@ const mapStateToProps = state => {
     return { ...state.beerList };
 };
 
-class VisibleBeerList extends Component {
+class InfiniteBeerList extends Component {
     constructor(props){
         super(props);
 
@@ -66,6 +66,6 @@ class VisibleBeerList extends Component {
     }
 }
 
-VisibleBeerList = connect(mapStateToProps)(VisibleBeerList);
+InfiniteBeerList = connect(mapStateToProps)(InfiniteBeerList);
 
-export default VisibleBeerList;
+export default InfiniteBeerList;
