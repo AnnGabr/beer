@@ -1,7 +1,7 @@
 import { rootReducer } from '../reducers';
 import { createStore } from 'redux';
 
-import { actionTypes } from '../actions/actionTypes';
+//import { actionTypes } from '../actions/actionTypes';
 
 export const store = createStore(rootReducer);
 
