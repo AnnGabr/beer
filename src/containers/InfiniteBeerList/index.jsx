@@ -3,24 +3,10 @@ import { connect } from "react-redux";
 import { fetchBeers, requestTypes, receiveBeers, requestBeers } from '../../actions/actionCreators/beerList';
 import { BeerList, Loader } from '../../components';
 import { MAIN_CONTENT_SELECTOR } from '../../constants';
+import { retriveIdNameImgTagline } from '../../utils/beers-filters';
 import './beer-list-wrapper.css';
 
 let PAGE = 1;
-
-function retriveIdNameImgTagline(serverResponse){
-    serverResponse = JSON.parse(serverResponse);
-    let beers = [];
-    if(Array.isArray(serverResponse)){
-        beers = serverResponse.map((beer) => ({
-            id: beer.id,
-            image_url: beer.image_url,
-            name: beer.name,
-            tagline: beer.tagline
-        }));
-    }
-    
-    return beers;
-}
 
 const mapDispatchToProps = {
     receiveBeers,
@@ -34,6 +20,7 @@ const mapStateToProps = state => {
 class InfiniteBeerList extends Component {
 
     componentDidMount() {
+        //test
         this.props.requestBeers();
         const request = {
             urlParams: {
@@ -48,43 +35,12 @@ class InfiniteBeerList extends Component {
             })
             .catch((error) => console.log(error));
         PAGE += 1;
-
-        let mainContent = document.querySelector(MAIN_CONTENT_SELECTOR);
-        mainContent.addEventListener('scroll', this.loadOnScroll);
+        //test
+        this.addScrollListener();
     }
 
     componentWillUnmount() {
-        let mainContent = document.querySelector(MAIN_CONTENT_SELECTOR);
-        mainContent.addEventListener('scroll', this.loadOnScroll);
-    }
-
-    loadOnScroll = (event) => {
-        let mainContent = document.querySelector(MAIN_CONTENT_SELECTOR);
-        if(!mainContent) return;
-        
-        let isAtEnd = (
-            mainContent.clientHeight +  mainContent.scrollTop >= mainContent.scrollHeight - 10
-        );
-
-        if(isAtEnd){
-            console.log('isAtEnd');
-            if(this.props.loading) return;
-
-            this.props.requestBeers();
-            const request = {
-                urlParams: {
-                    page: PAGE,
-                    perPage: 9,
-                },
-                type: requestTypes.GET_BEERS
-            }
-            fetchBeers(request)
-            .then((response) => {
-                this.props.receiveBeers(retriveIdNameImgTagline(response))
-            })
-            .catch((error) => console.log(error));
-            PAGE += 1;
-        }
+        this.removeScrollListener();
     }
 
     render() {
@@ -103,6 +59,49 @@ class InfiniteBeerList extends Component {
                 <Loader loading={this.props.loading}/>
             </div>
         )    
+    }
+
+    addScrollListener = () => {
+        let mainContent = document.querySelector(MAIN_CONTENT_SELECTOR);
+        if(mainContent) {
+            mainContent.addEventListener('scroll', this.loadOnScroll);
+        }
+    }
+
+    removeScrollListener = () => {
+        let mainContent = document.querySelector(MAIN_CONTENT_SELECTOR);
+        if(mainContent) {
+            mainContent.removeEventListener('scroll', this.loadOnScroll);
+        }
+    }
+
+    loadOnScroll = (event) => {
+        let mainContent = document.querySelector(MAIN_CONTENT_SELECTOR);
+        if(!mainContent) return;
+        
+        let isAtEnd = (
+            mainContent.clientHeight +  mainContent.scrollTop >= mainContent.scrollHeight - 10
+        );
+        if(isAtEnd){
+            console.log('isAtEnd');
+            if(this.props.loading) return;
+            //test
+            this.props.requestBeers();
+            const request = {
+                urlParams: {
+                    page: PAGE,
+                    perPage: 9,
+                },
+                type: requestTypes.GET_BEERS
+            }
+            fetchBeers(request)
+            .then((response) => {
+                this.props.receiveBeers(retriveIdNameImgTagline(response))
+            })
+            .catch((error) => console.log(error));
+            PAGE += 1;
+            //test
+        }
     }
 }
 

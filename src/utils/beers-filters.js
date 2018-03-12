@@ -1,4 +1,4 @@
-function retriveIdNameImgTagline(serverResponse){
+export function retriveIdNameImgTagline(serverResponse){
     serverResponse = JSON.parse(serverResponse);
     let beers = [];
     if(Array.isArray(serverResponse)){

@@ -5,26 +5,17 @@ import './drawer-container.css';
 import './drawer.css';
 import './primary-navigation.css';
 
+
 const DRAWER_SELECTOR = '[role="drawer"]';
 
 class Drawer extends Component  {
+    
     componentDidMount() {
         this.addOnClickListener();
     }
 
     componentWillUnmount() {
-        this.addOnClickListener();
-    }
-
-    addOnClickListener = () => {
-        const drawer = document.querySelector(DRAWER_SELECTOR);
-        if(drawer) {
-            drawer.addEventListener('click', this.stopPropagation);
-        }
-    }
-
-    stopPropagation = (event) => {
-        event.stopPropagation();
+        this.removeOnClickListener();
     }
 
     render() {
@@ -50,6 +41,24 @@ class Drawer extends Component  {
                 </nav>
             </aside>
         )
+    }
+
+    addOnClickListener = () => {
+        const drawer = document.querySelector(DRAWER_SELECTOR);
+        if(drawer) {
+            drawer.addEventListener('click', this.stopPropagation);
+        }
+    }
+
+    removeOnClickListener = () => {
+        const drawer = document.querySelector(DRAWER_SELECTOR);
+        if(drawer) {
+            drawer.removeEventListener('click', this.stopPropagation);
+        }
+    }
+
+    stopPropagation = (event) => {
+        event.stopPropagation();
     }
 }
 
