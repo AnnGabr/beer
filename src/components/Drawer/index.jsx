@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 import './drawer-container.css';
@@ -29,14 +30,14 @@ class Drawer extends Component  {
                         <span className="title is-5">Beer Catolog</span>
                     </header> 
                     <nav className="primary-navigation drawer__content">
-                        <a className="primary-navigation-item" href="#">
+                        <Link to="/" className="primary-navigation-item" href="#">
                             <i className="material-icon primary-navigation__icon" aria-hidden="true">inbox</i>
                             <span>Home</span>
-                        </a>
-                        <a className="primary-navigation-item" href="#">
+                        </Link>
+                        <Link to="favorites" className="primary-navigation-item" href="#">
                             <i className="material-icon primary-navigation__icon" aria-hidden="true">star</i>
                             <span>Favorites</span>
-                        </a>
+                        </Link>
                     </nav>
                 </nav>
             </aside>

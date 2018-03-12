@@ -2,27 +2,23 @@ import { actionTypes } from '../actionTypes';
 import { ROOT_URL } from '../../utils/api';
 
 export const requestBeers = () => ({
-        type: actionTypes.REQUEST_BEERS
+    type: actionTypes.REQUEST_BEERS
 });
 
 export const receiveBeers = (beers) => ({
-        type: actionTypes.BEERS_FETCHED,
-        payload: beers
+    type: actionTypes.BEERS_FETCHED,
+    payload: beers
 });
 
-export function receiveBeersFailure (error) {
-    return {
-        type: actionTypes.FETCH_BEERS_FAILED,
-        payload: error
-    }
-}
+export const receiveBeersFailure = (error) => ({
+    type: actionTypes.FETCH_BEERS_FAILED,
+    payload: error
+});
 
-export function resetBeers (beers) { 
-    return {
-        type: actionTypes.RESET_BEERSS,
-        payload: beers
-    }
-}
+export const resetBeers = (beers) => ({ 
+    type: actionTypes.RESET_BEERSS,
+    payload: beers
+});
 
 export const requestTypes = {
     GET_BEERS: "GET_BEERS",
