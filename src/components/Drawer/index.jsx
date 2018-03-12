@@ -30,11 +30,11 @@ class Drawer extends Component  {
                         <span className="title is-5">Beer Catolog</span>
                     </header> 
                     <nav className="primary-navigation drawer__content">
-                        <Link to="/" className="primary-navigation-item" href="#">
+                        <Link to="/" className="primary-navigation-item">
                             <i className="material-icon primary-navigation__icon" aria-hidden="true">inbox</i>
                             <span>Home</span>
                         </Link>
-                        <Link to="favorites" className="primary-navigation-item" href="#">
+                        <Link to="favorites" className="primary-navigation-item">
                             <i className="material-icon primary-navigation__icon" aria-hidden="true">star</i>
                             <span>Favorites</span>
                         </Link>
