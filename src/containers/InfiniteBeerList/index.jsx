@@ -27,12 +27,12 @@ class InfiniteBeerList extends Component {
     }
 
     fetchData() {
-        const { request, receiveBeers } = this.props;
-        this.props.requestBeers();
+        const { request, receiveBeers, requestBeers } = this.props;
+        requestBeers();
         fetchBeers(request)
             .then((response) => {
-                receiveBeers(retriveIdNameImgTagline(response))
-            })
+                console.log(response);
+                receiveBeers(retriveIdNameImgTagline(response))})
             .catch((error) => console.log(error));
     }
 
@@ -76,7 +76,6 @@ class InfiniteBeerList extends Component {
             mainContent.clientHeight +  mainContent.scrollTop >= mainContent.scrollHeight - 10
         );
         if(isAtEnd){
-            //console.log('isAtEnd');
             if(this.props.loading) return;
             this.fetchData();
         }

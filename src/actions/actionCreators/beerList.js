@@ -39,33 +39,40 @@ export const fetchBeers = (request) => {
     }   
 }
 
-const fetchBeersDefault = ({page, perPage}) => new Promise ((resolve, reject) => {
-        const url = ROOT_URL + `?page=${page}&per_page=${perPage}`;
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
+const fetchBeersDefault = ({page, perPage}) => 
+    fetchBeersByUrl(ROOT_URL + `?page=${page}&per_page=${perPage}`);
 
-        xhr.onload = function() {
-            if (this.status === 200) {
-                resolve(this.response);
-            } else {
-                let error = new Error(this.statusText);
-                error.code = this.status;
-                reject(error);
-            }
-        };
-        xhr.onerror = function() {
-            reject(new Error("Network Error"))
-        };
-        
-        xhr.send();
+const fetchBeersByIds = ({page, perPage, ids}) => {
+    const idsUrlPart = Array.prototype.join.call(ids, '|');
+    return fetchBeersByUrl(ROOT_URL + `?page=${page}&per_page=${perPage}` + `&ids=${idsUrlPart}`);
+}
+
+const fetchBeersByName = ({page, perPage, name, filters}) => {
+    let beerInfoUrlPart = '&beer_name=' + name.trim().replace(/\s+/ig, '_');
+    if(filters) {
+        const { abv_lt, ibu_lt, ebc_lt } = filters;
+        beerInfoUrlPart += `&abv_lt=${abv_lt}&ibu_lt=${ibu_lt}&ebc_lt=${ebc_lt}`;
     }
-);
-
-const fetchBeersByIds = () => {
-
+    return fetchBeersByUrl(ROOT_URL + `?page=${page}&per_page=${perPage}` + beerInfoUrlPart);
 }
 
-const fetchBeersByName = () => {
+const fetchBeersByUrl = (url) => new Promise ((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
 
-}
+    xhr.onload = function() {
+        if (this.status === 200) {
+            resolve(this.response);
+        } else {
+            let error = new Error(this.statusText);
+            error.code = this.status;
+            reject(error);
+        }
+    };
+    xhr.onerror = function() {
+        reject(new Error("Network Error"))
+    };
+    
+    xhr.send();
+});
 
