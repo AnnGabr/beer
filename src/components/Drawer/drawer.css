@@ -1,0 +1,25 @@
+.drawer {
+    position: relative;
+    z-index: 10;
+
+    width: 320px;
+    height: 100%;
+
+    background-color: #ffffff;
+
+    touch-action: none;
+}
+
+.drawer__header {
+    position: relative;
+
+    height: 200px;
+    padding: 36px 24px;
+}
+
+.drawer__content {
+    position: relative;
+
+    padding: 30px 0;
+}
+

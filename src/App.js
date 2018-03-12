@@ -9,7 +9,7 @@ import './index.css';
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {isDrawerOpened: false};
+    this.state = {isDrawerOpened: false};  
     this.toggleDrawer = this.toggleDrawer.bind(this);
   }
 

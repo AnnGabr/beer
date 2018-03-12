@@ -1,0 +1,45 @@
+.primary-navigation-item {
+    display: flex;
+
+    padding: 9px 0 9px 30px;
+
+    color: #808b96;
+
+    font-weight: 500;
+}
+
+.primary-navigation-item:first-child {
+    background-color: #e0ffff;
+    color: #3498db;
+}
+
+.primary-navigation-item:hover {
+    color: #3498db;
+    background-color: #ffffe0;
+}
+
+.primary-navigation__icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 16px;
+
+    opacity: 0.8;
+}
+
+.material-icon {
+    white-space: nowrap;
+    letter-spacing: normal;
+    text-transform: none;
+    word-wrap: normal;
+
+    font-family: "Material Icons";
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+
+    direction: ltr;
+    -webkit-font-feature-settings: "liga";
+            font-feature-settings: "liga";
+    -webkit-font-smoothing: antialiased;
+}

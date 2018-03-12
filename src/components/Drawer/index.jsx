@@ -1,11 +1,56 @@
 import React, {Component} from 'react';
+import classNames from 'classnames';
 
-export default class Drawer extends Component {
+import './drawer-container.css';
+import './drawer.css';
+import './primary-navigation.css';
+
+const DRAWER_SELECTOR = '[role="drawer"]';
+
+class Drawer extends Component  {
+    componentDidMount() {
+        this.addOnClickListener();
+    }
+
+    componentWillUnmount() {
+        this.addOnClickListener();
+    }
+
+    addOnClickListener = () => {
+        const drawer = document.querySelector(DRAWER_SELECTOR);
+        if(drawer) {
+            drawer.addEventListener('click', this.stopPropagation);
+        }
+    }
+
+    stopPropagation = (event) => {
+        event.stopPropagation();
+    }
+
     render() {
-        return (
-            <div style={{height: '200px', width: '200px', color: 'green', display: (this.props.isOpened)? 'block' : 'none'}}>
-                Im drawer.
-            </div>
+        const {isOpened, closeDrawer} = this.props;
+        return (     
+            <aside 
+                className={classNames('drawer-container', { 'drawer-container--opened': isOpened})} 
+                onClick={closeDrawer}>
+                <nav className="drawer" style={{display: isOpened ? 'block' : 'none'}} role="drawer">
+                    <header className="hero is-info drawer__header">
+                        <span className="title is-5">Beer Catolog</span>
+                    </header> 
+                    <nav className="primary-navigation drawer__content">
+                        <a className="primary-navigation-item" href="#">
+                            <i className="material-icon primary-navigation__icon" aria-hidden="true">inbox</i>
+                            <span>Home</span>
+                        </a>
+                        <a className="primary-navigation-item" href="#">
+                            <i className="material-icon primary-navigation__icon" aria-hidden="true">star</i>
+                            <span>Favorites</span>
+                        </a>
+                    </nav>
+                </nav>
+            </aside>
         )
     }
 }
+
+export default Drawer;
