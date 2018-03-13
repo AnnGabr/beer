@@ -7,24 +7,23 @@ const initialState = {
     error: null
 }
 
-export default function beerList(state = initialState, action) {
-    switch(action.type) {
+export default function beerList(state = initialState, {type, payload}) {
+    switch(type) {
         case actionTypes.REQUEST_BEERS:
             return {...state, 
                 loading: true
             };
         case actionTypes.BEERS_FETCHED: 
-            return {...state, 
-                isAllFetched: isAllFetched(action.payload.beers), 
-                beers: [...state.beers, ...action.payload.beers], 
+            return {  
+                beers: [...state.beers, ...payload.beers], 
                 loading: false, 
+                isAllFetched: isAllFetched(payload.beers),
                 error: null
             };
         case actionTypes.FETCH_BEERS_FAILED:
-            return {...state, 
-                beers: null, 
-                loading: false, 
-                error: action.payload
+            return { 
+                ...initialState, 
+                error: payload
             };
         case actionTypes.RESET_BEERS:
             return {...initialState};

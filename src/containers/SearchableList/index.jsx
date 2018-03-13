@@ -5,7 +5,7 @@ import {Searchbar, Filter} from '../../components';
 import InfiniteBeerList from '../InfiniteBeerList';
 
 import {fetchBeers, resetBeers} from '../../actions/actionCreators/beerList';
-import { SEARCH_FAIL_MESSAGE } from '../../constants';
+import {SEARCH_FAIL_MESSAGE, FETCH_FAIL_MESSAGE} from '../../constants';
 
 const mapStateToProps = state => ({
     ...state.beerList
@@ -26,21 +26,30 @@ class SearchableList extends Component {
     }
 
     render() {
-        const searchReault = (
+        let searchReault = (
             <InfiniteBeerList 
                 loading={this.props.loading}
                 beers={this.props.beers}
             />
         );
-        
         if(this.props.error) {
-            return (
+            searchReault = (
                 <div className="beer-list">
                     <div className="title">
-                        {SEARCH_FAIL_MESSAGE}
+                        {FETCH_FAIL_MESSAGE}
                     </div>
                 </div>
-            )
+            );
+        } else if(this.props.isAllFetched) {
+            if(this.props.beers.length === 0) {
+                searchReault = (
+                    <div className="beer-list">
+                        <div className="title">
+                            {SEARCH_FAIL_MESSAGE}
+                        </div>
+                    </div>
+                );
+            }
         }
 
         return (

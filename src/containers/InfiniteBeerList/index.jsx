@@ -21,10 +21,11 @@ class InfiniteBeerList extends Component {
     }
 
     render() {
+        const {beers, loading} = this.props;
         return (
             <div className="beer-list-wrapper">
-                <BeerList beers = {this.props.beers}/>
-                <Loader loading={this.props.loading}/>
+                <BeerList beers={beers}/>
+                <Loader loading={loading}/>
             </div>
         )    
     }
