@@ -26,14 +26,14 @@ class SearchableList extends Component {
     }
 
     render() {
-        let searchReault = (
+        let searchReasult = (
             <InfiniteBeerList 
                 loading={this.props.loading}
                 beers={this.props.beers}
             />
         );
         if(this.props.error) {
-            searchReault = (
+            searchReasult = (
                 <div className="beer-list">
                     <div className="title">
                         {FETCH_FAIL_MESSAGE}
@@ -42,7 +42,7 @@ class SearchableList extends Component {
             );
         } else if(this.props.isAllFetched) {
             if(this.props.beers.length === 0) {
-                searchReault = (
+                searchReasult = (
                     <div className="beer-list">
                         <div className="title">
                             {SEARCH_FAIL_MESSAGE}
@@ -55,8 +55,10 @@ class SearchableList extends Component {
         return (
             <section className="section container">
                 <Searchbar onSearch={this.handleSearch}/>
-                <Filter isOpened={this.state.isFilterOpened}/>
-                {searchReault}
+                <Filter 
+                    isOpened={this.state.isFilterOpened} 
+                    onValueChanged={this.handleSearch}/>
+                {searchReasult}
             </section>
         )
     }
