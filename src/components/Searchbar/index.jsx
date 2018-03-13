@@ -6,11 +6,12 @@ import { requestTypes } from '../../utils/api';
 import './searchbar.css';
 
 class Searchbar extends Component {
+    
     handleSearch = (event) => {
         event.preventDefault();
         //test
-        if(this.input.value.trim() !== ''){
-            this.props.setRequest();
+        if(this.input.value.trim() === ''){
+            this.props.setRequest({type: requestTypes.GET_BEERS});
         }
         else{
             this.props.setRequest({type: requestTypes.GET_BY_NAME, urlParams: {name: this.input.value || ''}});

@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { fetchBeers } from '../../actions/actionCreators/beerList';
 import { BeerList, Loader } from '../../components';
-import { MAIN_CONTENT_SELECTOR, SEARCH_FAIL_MESSAGE } from '../../constants';
+import { MAIN_CONTENT_SELECTOR } from '../../constants';
 import './beer-list-wrapper.css';
-
-const mapStateToProps = state => ({
-    ...state.beerList
-});
 
 class InfiniteBeerList extends Component {
 
@@ -25,18 +21,6 @@ class InfiniteBeerList extends Component {
     }
 
     render() {
-        if(this.props.error !== null) {
-            const {message, code} = this.props.error;
-            return (
-                <div className="beer-list">
-                    <div className="title">
-                        {SEARCH_FAIL_MESSAGE}
-                        {`Error code: ${code}`}
-                    </div>
-                </div>
-            )
-        }
-
         return (
             <div className="beer-list-wrapper">
                 <BeerList beers = {this.props.beers}/>
@@ -72,6 +56,6 @@ class InfiniteBeerList extends Component {
     }
 }
 
-InfiniteBeerList = connect(mapStateToProps, { fetchBeers })(InfiniteBeerList);
+InfiniteBeerList = connect(null, { fetchBeers })(InfiniteBeerList);
 
 export default InfiniteBeerList;
