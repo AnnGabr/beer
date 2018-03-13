@@ -1,11 +1,12 @@
 import { rootReducer } from '../reducers';
 import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 import { loadState, saveState } from './localStorage';
 import throttle from 'lodash/throttle';
 
 export const configureStore = () => {
-    const middlewares = [];
+    const middlewares = [thunk];
     if(process.env.NODE_ENV !== 'production') {
         middlewares.push(logger);
     }
@@ -28,10 +29,3 @@ export const configureStore = () => {
 }
 
 export default configureStore;
-
-
-//import { actionTypes } from '../actions/actionTypes';
-
-//store.dispatch({type: actionTypes.FETCH_BEERS });
-//store.dispatch({type: actionTypes.FETCH_BEERS_FAILED, payload: "I can`t access the server."});
-//store.dispatch({type: actionTypes.RESET_BEERS });

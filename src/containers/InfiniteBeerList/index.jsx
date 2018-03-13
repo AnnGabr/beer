@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { fetchBeers, receiveBeers, requestBeers } from '../../actions/actionCreators/beerList';
+import { fetchBeers } from '../../actions/actionCreators/beerList';
 import { BeerList, Loader } from '../../components';
-import { MAIN_CONTENT_SELECTOR } from '../../constants';
-import { retriveIdNameImgTagline } from '../../utils/beers-filters';
+import { MAIN_CONTENT_SELECTOR, SEARCH_FAIL_MESSAGE } from '../../constants';
 import './beer-list-wrapper.css';
 
-const mapDispatchToProps = {
-    receiveBeers,
-    requestBeers
-};
-
-const mapStateToProps = state => ({ 
-    ...state.beerList, request: state.request 
+const mapStateToProps = state => ({
+    ...state.beerList
 });
 
 class InfiniteBeerList extends Component {
@@ -27,21 +21,18 @@ class InfiniteBeerList extends Component {
     }
 
     fetchData() {
-        const { request, receiveBeers, requestBeers } = this.props;
-        requestBeers();
-        fetchBeers(request)
-            .then((response) => {
-                console.log(response);
-                receiveBeers(retriveIdNameImgTagline(response))})
-            .catch((error) => console.log(error));
+        this.props.fetchBeers();
     }
 
     render() {
         if(this.props.error !== null) {
+            const {message, code} = this.props.error;
             return (
                 <div className="beer-list">
-                    <div className="title">Try later =(</div>
-                    <div className="subtitle">{this.props.error}</div>
+                    <div className="title">
+                        {SEARCH_FAIL_MESSAGE}
+                        {`Error code: ${code}`}
+                    </div>
                 </div>
             )
         }
@@ -55,33 +46,32 @@ class InfiniteBeerList extends Component {
     }
 
     addScrollListener = () => {
-        let mainContent = document.querySelector(MAIN_CONTENT_SELECTOR);
+        const mainContent = document.querySelector(MAIN_CONTENT_SELECTOR);
         if(mainContent) {
             mainContent.addEventListener('scroll', this.loadOnScroll);
         }
     }
 
     removeScrollListener = () => {
-        let mainContent = document.querySelector(MAIN_CONTENT_SELECTOR);
+        const mainContent = document.querySelector(MAIN_CONTENT_SELECTOR);
         if(mainContent) {
             mainContent.removeEventListener('scroll', this.loadOnScroll);
         }
     }
 
     loadOnScroll = (event) => {
-        let mainContent = document.querySelector(MAIN_CONTENT_SELECTOR);
+        const mainContent = document.querySelector(MAIN_CONTENT_SELECTOR);
         if(!mainContent) return;
         
-        let isAtEnd = (
+        const isAtEnd = (
             mainContent.clientHeight +  mainContent.scrollTop >= mainContent.scrollHeight - 10
         );
         if(isAtEnd){
-            if(this.props.loading) return;
             this.fetchData();
         }
     }
 }
 
-InfiniteBeerList = connect(mapStateToProps, mapDispatchToProps)(InfiniteBeerList);
+InfiniteBeerList = connect(mapStateToProps, { fetchBeers })(InfiniteBeerList);
 
 export default InfiniteBeerList;
