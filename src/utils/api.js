@@ -1,5 +1,4 @@
 export const requestTypes = {
-    GET_BEERS: "GET_BEERS",
     GET_BY_IDS: "GET_BY_IDS",
     GET_BY_NAME: "GET_BY_NAME"
 }
@@ -8,8 +7,6 @@ export const ROOT_URL = 'https://api.punkapi.com/v2/beers';
 
 export const fetchBeers = (request) => {
     switch(request.type){
-        case requestTypes.GET_BEERS:
-            return fetchBeersDefault(request.urlParams);
         case requestTypes.GET_BY_IDS:
             return fetchBeersByIds(request.urlParams);
         case requestTypes.GET_BY_NAME:
@@ -19,18 +16,18 @@ export const fetchBeers = (request) => {
     }   
 }
 
-const fetchBeersDefault = ({page, perPage}) => 
-    fetchBeersByUrl(ROOT_URL + `?page=${page}&per_page=${perPage}`);
-
 const fetchBeersByIds = ({page, perPage, ids}) => {
     const idsUrlPart = Array.prototype.join.call(ids, '|');
     return fetchBeersByUrl(ROOT_URL + `?page=${page}&per_page=${perPage}` + `&ids=${idsUrlPart}`);
 }
 
-const fetchBeersByName = ({page, perPage, name, filters}) => {
-    let beerInfoUrlPart = '&beer_name=' + name.trim().replace(/\s+/ig, '_');
-    if(filters) {
-        const { abv_lt, ibu_lt, ebc_lt } = filters;
+const fetchBeersByName = ({page, perPage, name, filter}) => {
+    let beerInfoUrlPart = '';
+    if(name) {
+        beerInfoUrlPart += '&beer_name=' + name.trim().replace(/\s+/ig, '_');
+    } 
+    if(filter) {
+        const { abv_lt, ibu_lt, ebc_lt } = filter;
         beerInfoUrlPart += `&abv_lt=${abv_lt}&ibu_lt=${ibu_lt}&ebc_lt=${ebc_lt}`;
     }
     return fetchBeersByUrl(ROOT_URL + `?page=${page}&per_page=${perPage}` + beerInfoUrlPart);

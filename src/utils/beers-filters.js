@@ -2,6 +2,7 @@ export function retriveIdNameImgTagline(serverResponse){
     let beers = [];
     try{
         serverResponse = JSON.parse(serverResponse);
+        console.log(serverResponse);
         if(Array.isArray(serverResponse)){
             beers = serverResponse.map((beer) => ({
                 id: beer.id,
@@ -13,6 +14,5 @@ export function retriveIdNameImgTagline(serverResponse){
     } catch(err){
         console.log(`Can not parse server response at: ${retriveIdNameImgTagline}.`);
     }
-    
     return beers;
 }

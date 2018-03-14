@@ -9,14 +9,17 @@ class Searchbar extends Component {
     
     handleSearch = (event) => {
         event.preventDefault();
-        //test
-        if(this.input.value.trim() === ''){
-            this.props.setRequest({type: requestTypes.GET_BEERS});
+
+        let beerName = null;
+        if(this.input.value.trim() !== '') {
+            beerName = this.input.value;
         }
-        else{
-            this.props.setRequest({type: requestTypes.GET_BY_NAME, urlParams: {name: this.input.value || ''}});
-        }
-        //test
+        this.props.setRequest({
+            type: requestTypes.GET_BY_NAME, 
+            urlParams: {
+                name: beerName
+            }
+        });
         this.props.onSearch();
     }
 

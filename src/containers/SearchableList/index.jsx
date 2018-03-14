@@ -55,9 +55,7 @@ class SearchableList extends Component {
         return (
             <section className="section container">
                 <Searchbar onSearch={this.handleSearch}/>
-                <Filter 
-                    isOpened={this.state.isFilterOpened} 
-                    onValueChanged={this.handleSearch}/>
+                <Filter isOpened={this.state.isFilterOpened}/>
                 {searchReasult}
             </section>
         )

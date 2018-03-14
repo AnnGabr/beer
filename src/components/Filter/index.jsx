@@ -8,9 +8,16 @@ import Slider from '../Slider';
 import './filters.css';
 
 class Filter extends Component {
-    handleFilterChange = (event) => {
-        //this.props.onValueChanged();
-        console.log('slider');
+    handleFilterChange = () => {
+        this.props.setRequest({
+            urlParams: {
+                filter: {
+                    abv_lt: this.alcVolume.value,
+                    ibu_lt: this.internBitUnits.value,
+                    ebc_lt: this.colorEbc.value
+                }
+            }
+        });
     }
 
     render() {
@@ -31,25 +38,27 @@ class Filter extends Component {
                     </ul>
                     <ul className="filters__list">
                         <li className="filters__list-item">
-                            <Slider
+                            <Slider                  
                                 min="2"
                                 max="14"
-                                step="0.1"
-                                onDragEnd={this.handleFilterChange}
+                                sliderRef={range => this.alcVolume = range}
+                                onChange={this.handleFilterChange}
                             />
                         </li>
                         <li className="filters__list-item">
-                            <Slider
+                            <Slider                  
                                 min="0"
                                 max="120"
-                                onDragEnd={this.handleFilterChange}
+                                sliderRef={range => this.internBitUnits = range} 
+                                onChange={this.handleFilterChange}
                             />
                         </li>
                         <li className="filters__list-item">
-                            <Slider
+                            <Slider 
                                 min="4"
                                 max="80"
-                                onDragEnd={this.handleFilterChange}
+                                sliderRef={range => this.colorEbc = range}
+                                onChange={this.handleFilterChange}
                             />
                         </li>
                     </ul>

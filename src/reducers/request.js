@@ -2,12 +2,11 @@ import { actionTypes } from '../actions/actionTypes';
 import { requestTypes } from '../utils/api';
 
 const initialState = {
-    type: requestTypes.GET_BEERS,
+    type: requestTypes.GET_BY_NAME,
     urlParams: {
         page: 1,
         perPage: 9
-    },
-    isAllFetched: false
+    }
 };
 
 export default function request(state = initialState, action) {
@@ -20,11 +19,12 @@ export default function request(state = initialState, action) {
                 }
             };
         case actionTypes.SET_REQUEST: 
-            return {...state, 
-                type: action.payload.type, 
+            return {
+                type: action.payload.type || state.type,
                 urlParams: {
-                    ...initialState.urlParams,
-                    ...action.payload.urlParams
+                    ...state.urlParams,
+                    ...action.payload.urlParams,
+                    ...initialState.urlParams
                 }
             };
         default:

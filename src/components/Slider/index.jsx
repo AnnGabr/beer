@@ -3,17 +3,19 @@ import React, {Component} from 'react';
 import './input.css';
 import './slider.css';
 
-class Slider extends Component {
+export default class Slider extends Component { 
     constructor(props) {
         super(props);
-        this.state = { value: this.props.min };
+        this.state = {value: this.props.min};
     }
 
     handleOnChange = (event) => {
         this.setState({value: event.target.value});
+        this.props.onChange(this.state.value)
     }
 
     render(){
+        const {onChange, sliderRef, ...sliderParams} = this.props;
         return (
             <div className="slider">
                 <div className="slider__value">
@@ -21,13 +23,12 @@ class Slider extends Component {
                 </div>
                 <input 
                     type="range"
-                    value = {this.state.value}
+                    value={this.state.value}
+                    ref={sliderRef}
                     onChange={this.handleOnChange}
-                    {...this.props}     
+                    {...sliderParams}     
                 />
             </div>
         );
     }
 }
-
-export default Slider;
