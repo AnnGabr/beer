@@ -16,13 +16,13 @@ class SearchableList extends Component {
         super(props);
         this.state = {isFilterOpened: false};
     }
-    
+
     handleSearch = () => {
+        this.props.resetBeers();
+        this.props.fetchBeers();
         if(!this.state.isFilterOpened) {
             this.setState({isFilterOpened: true});
         }      
-        this.props.resetBeers();
-        this.props.fetchBeers();
     }
 
     render() {
@@ -55,7 +55,7 @@ class SearchableList extends Component {
         return (
             <section className="section container">
                 <Searchbar onSearch={this.handleSearch}/>
-                <Filter isOpened={this.state.isFilterOpened}/>
+                {this.state.isFilterOpened && <Filter />}
                 {searchReasult}
             </section>
         )

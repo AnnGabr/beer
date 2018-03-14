@@ -8,7 +8,15 @@ import Slider from '../Slider';
 import './filters.css';
 
 class Filter extends Component {
+    componentDidMount() {
+        this.changeRequest();
+    }
+
     handleFilterChange = () => {
+        this.changeRequest();
+    }
+
+    changeRequest() {
         this.props.setRequest({
             urlParams: {
                 filter: {
@@ -22,7 +30,7 @@ class Filter extends Component {
 
     render() {
         return (
-            <div className="filters" style={{display: this.props.isOpened ? 'block': 'none'}}>
+            <div className="filters">
                 <div className="filters__header title is-6">Filter results</div>
                 <div className="filters__content">
                     <ul className="filters__list">
