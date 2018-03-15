@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { fetchBeers } from '../../actions/actionCreators/beerList';
 import { BeerList, Loader } from '../../components';
 import { MAIN_CONTENT_SELECTOR } from '../../constants';
+import { retrieveMain } from '../../utils/beers-filters';
 import './beer-list-wrapper.css';
 
 class InfiniteBeerList extends Component {
@@ -17,7 +18,7 @@ class InfiniteBeerList extends Component {
     }
 
     fetchData() {
-        this.props.fetchBeers();
+        this.props.fetchBeers(retrieveMain);
     }
 
     render() {

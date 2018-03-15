@@ -8,10 +8,6 @@ import Slider from '../Slider';
 import './filters.css';
 
 class Filter extends Component {
-    componentDidMount() {
-        this.changeRequest();
-    }
-
     handleFilterChange = () => {
         this.changeRequest();
     }

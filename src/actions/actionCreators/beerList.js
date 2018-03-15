@@ -1,6 +1,5 @@
 import { actionTypes } from '../actionTypes';
 import * as api from '../../utils/api';
-import * as util from '../../utils/beers-filters';
 import { isFetching } from '../../reducers/beerList';
 
 export const resetBeers = (beers) => ({ 
@@ -8,18 +7,18 @@ export const resetBeers = (beers) => ({
     payload: beers
 });
 
-export const fetchBeers = () => (dispatch, getState) => {
+export const fetchBeers = (onSuccess) => (dispatch, getState) => {
     const state = getState();
-    const { request } = state;
 
     if(isFetching(state) || state.beerList.isAllFetched) {
         return;
     }
 
+    const { request, favorites } = state;
     dispatch(requestBeers(request));
 
     return api.fetchBeers(request).then(response => 
-        dispatch(receiveBeers(request, util.retriveIdNameImgTagline(response)))
+        dispatch(receiveBeers(request, onSuccess(response, favorites.beerIds)))
     ).catch(error => 
         dispatch(receiveBeersFailure(error))
     );
