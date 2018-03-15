@@ -1,22 +1,33 @@
 import {actionTypes} from '../actionTypes';
+import * as localStorage from '../../store/localStorage';
 
 export const saveFavoriteChange = (id, isFavorite) => (dispatch, getState) => {
    const { favorites } = getState();
 
    const includes = favorites.beerIds.includes(id);
    if(includes && !isFavorite) {
-        dispatch(removeFavorite(id));
+        const newFavorites = removeBeerId(favorites.beerIds, id);
+        saveFavorites(newFavorites, dispatch);    
    }else if(!includes && isFavorite){
-        dispatch(addFavorite(id));
+        const newFavorites = addBeerId(favorites.beerIds, id);
+        saveFavorites(newFavorites, dispatch);
    }
-};
+}; 
 
-const addFavorite = (id) => ({
-    type: actionTypes.FAVORITE_ADDED,
-    payload: id
-});
+function saveFavorites(newFavorites, dispatch) {
+    localStorage.saveState({
+        favorites: {
+            beerIds: newFavorites
+        }
+    });
+    dispatch(changeFavorites(newFavorites));
+}
 
-const removeFavorite = (id) => ({
-    type: actionTypes.FAVORITE_REMOVED,
-    payload: id
+const addBeerId = (beerIds, id) => beerIds.concat(id);
+
+const removeBeerId = (beerIds, idToRemove) => beerIds.filter((id) => id !== idToRemove);
+
+const changeFavorites = (newFavorites) => ({
+    type: actionTypes.FAVORITES_CHANGED,
+    payload: newFavorites
 });
