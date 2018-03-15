@@ -1,5 +1,5 @@
-import SearchableList from './SearchableList';
+import SearchableBeerList from './SearchableBeerList';
 import InfiniteBeerList from './InfiniteBeerList';
-import PagedList from './PagedList';
+import PagedBeerList from './PagedBeerList';
 
-export { SearchableList, InfiniteBeerList, PagedList };
+export { SearchableBeerList, InfiniteBeerList, PagedBeerList };

@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+
 import { fetchBeers } from '../../actions/actionCreators/beerList';
-import FavoriteBeerList from '../InfiniteBeerList';
+import { setRequest } from '../../actions/actionCreators/request';
+import { retrieveExpanded } from '../../utils/beers-filters';
+
+import { BeerList, Loader } from '../../components';
 
 import './paged-list.css';
 
@@ -9,9 +13,16 @@ const mapStateToProps = (state) =>({
     ...state.beerList
 });
 
-class PagedList extends Component {
+class PagedBeerList extends Component {
+
     componentDidMount() {
-        fetchBeers();
+        this.props.setRequest({
+            type: "GET_BY_IDS",
+            urlParams: {
+                ids: [1, 2, 3]
+            }
+        });
+        this.props.fetchBeers(retrieveExpanded);
     }
 
     render() {
@@ -20,12 +31,13 @@ class PagedList extends Component {
                 <header className="title is-2 paged-list__title">
                     Your favorite beers
                 </header>
-                <main>
-                    <FavoriteBeerList 
-                        beers={this.props.beers}
+                <main className="paged-list__list">
+                    <BeerList 
+                        beers={this.props.beers} 
                         isColumnList={true}
                         isExpanded={true}
                     />
+                    <Loader loading={this.props.loading}/>
                 </main>
                 <footer>
                     
@@ -35,6 +47,6 @@ class PagedList extends Component {
     }
 }
 
-PagedList = connect(mapStateToProps, { fetchBeers })(PagedList);
+PagedBeerList = connect(mapStateToProps, { fetchBeers, setRequest })(PagedBeerList);
 
-export default PagedList;
+export default PagedBeerList;

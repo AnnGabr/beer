@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
     ...state.beerList
 });
 
-class SearchableList extends Component {
+class SearchableBeerList extends Component {
     constructor(props) {
         super(props);
         this.state = {isFilterOpened: false};
@@ -63,6 +63,6 @@ class SearchableList extends Component {
     }
 }
 
-SearchableList = connect(mapStateToProps, { fetchBeers, resetBeers })(SearchableList);
+SearchableBeerList = connect(mapStateToProps, { fetchBeers, resetBeers })(SearchableBeerList);
 
-export default SearchableList;
+export default SearchableBeerList;

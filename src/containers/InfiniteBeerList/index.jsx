@@ -25,11 +25,7 @@ class InfiniteBeerList extends Component {
         const {beers, loading} = this.props;
         return (
             <div className="beer-list-wrapper">
-                <BeerList 
-                    beers={beers} 
-                    isColumnList={this.props.isColumnList}
-                    isExpanded={this.props.isExpanded}
-                />
+                <BeerList beers={beers} />
                 <Loader loading={loading}/>
             </div>
         )    
