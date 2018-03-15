@@ -1,13 +1,33 @@
+.beer-content--expanded {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .beer__tagline {
     margin-bottom: 1rem;
 }
 
-.beer__content {
+.beer__tagline--expanded {
+    color: #a9a9a9;
+
+    font-size: 1em;
+}
+
+.beer__about {
     padding-top: 1.5rem;
 }
 
-.beer__image{
-    max-height: 300px;
+.beer__image-container--expanded {
+    min-width: 200px;
+}
+
+.beer__image {
     display: block;
+
+    height: 300px;
     margin: auto;
+}
+
+.beer__image--expanded {
+    height: 200px;
 }

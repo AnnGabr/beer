@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-export default class Favorites extends Component {
-    render() {
-        return (
-            <div>
-                Favorites
-            </div>
-        )    
-    }
-}
+import { PagedList } from '../../containers';
+
+const Favorites = (props) =>  (
+    <main className="layout has-scroll">
+        <PagedList />
+    </main>      
+);
+
+export default Favorites;

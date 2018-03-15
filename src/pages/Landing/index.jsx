@@ -1,13 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {SearchableList} from '../../containers';
 import { MAIN_CONTENT } from '../../constants';
 
-export default class Landing extends Component {
-    render() {
-        return (
-            <main role={MAIN_CONTENT} className="layout has-scroll">
-                <SearchableList />
-            </main>      
-        )    
-    }
-}
+const Landing = (props) =>  (
+    <main role={MAIN_CONTENT} className="layout has-scroll">
+        <SearchableList />
+    </main>      
+);
+
+export default Landing;
