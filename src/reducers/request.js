@@ -23,9 +23,7 @@ export default function request(state = initialState, action) {
                 type: action.payload.type || state.type,
                 urlParams: {
                     ...state.urlParams,
-                    ...initialState.urlParams,
-                    ...action.payload.urlParams,
-                    
+                    ...action.payload.urlParams
                 }
             };
         default:
