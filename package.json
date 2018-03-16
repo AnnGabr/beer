@@ -8,6 +8,7 @@
     "classnames": "^2.2.5",
     "hamburgers": "^0.9.3",
     "lodash": "^4.17.5",
+    "random-uuid-v4": "0.0.6",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-logger": "^1.1.0",

@@ -1,7 +1,15 @@
-.paged-list__list {
-    padding: 3rem 0 8rem;
+.paged-list__title {
+    position: relative;
 }
 
 .paged-list__title {
     text-align: center;
+}
+
+.paged-list__list {
+    padding: 3rem 0;
+}
+
+.paged-list__footer {
+    bottom: 0;
 }

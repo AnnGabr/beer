@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
-import { fetchBeers } from '../../actions/actionCreators/beerList';
+import { fetchBeers, resetBeers } from '../../actions/actionCreators/beerList';
 import { setRequest } from '../../actions/actionCreators/request';
 import { retrieveExpanded } from '../../utils/beers-filters';
 
-import { BeerList, Loader } from '../../components';
+import { BeerList, Loader, ButtonGroup } from '../../components';
 
 import './paged-list.css';
 
 const mapStateToProps = (state) =>({
-    ...state.beerList
+    ...state.beerList, ...state.favorites
 });
 
 class PagedBeerList extends Component {
@@ -19,7 +19,8 @@ class PagedBeerList extends Component {
         this.props.setRequest({
             type: "GET_BY_IDS",
             urlParams: {
-                ids: [1, 2, 3]
+                perPage: 5,
+                ids: this.props.beerIds
             }
         });
         this.props.fetchBeers(retrieveExpanded);
@@ -39,14 +40,31 @@ class PagedBeerList extends Component {
                     />
                     <Loader loading={this.props.loading}/>
                 </main>
-                <footer>
-                    
-                </footer>
+                {this.props.beerIds.length > 5 && (
+                    <footer className="paged-list__footer">
+                        <ButtonGroup 
+                            count={Math.ceil(this.props.beerIds.length/5)}
+                            onClick={this.handlePageClick} />
+                    </footer>
+                )}
             </section>
         )  
     }
+
+    handlePageClick = (page) => {
+        console.log(this.props.beerIds.slice((page - 1)*5, 5*page));
+        this.props.resetBeers();
+        this.props.setRequest({
+            type: "GET_BY_IDS",
+            urlParams: {
+                perPage: 5,
+                ids: this.props.beerIds.slice((page - 1)*5, 5*page)
+            }
+        });
+        this.props.fetchBeers(retrieveExpanded);
+    }
 }
 
-PagedBeerList = connect(mapStateToProps, { fetchBeers, setRequest })(PagedBeerList);
+PagedBeerList = connect(mapStateToProps, { fetchBeers, resetBeers, setRequest })(PagedBeerList);
 
 export default PagedBeerList;

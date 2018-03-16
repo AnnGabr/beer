@@ -3,8 +3,6 @@ import classNames from 'classnames';
 
 import BeerItem from '../BeerItem';
 
-import './beer-list.css';
-
 export default class BeerList extends Component {
     render() {
         const {beers, isColumnList, isExpanded} = this.props;
