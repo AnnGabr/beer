@@ -1,8 +1,4 @@
 import {actionTypes} from '../actionTypes';
-import {setRequest} from '../actionCreators/request';
-import {fetchBeers} from '../actionCreators/beerList';
-
-import {retrieveExpanded} from '../../utils/beers-filters';
 
 import * as localStorage from '../../store/localStorage';
 

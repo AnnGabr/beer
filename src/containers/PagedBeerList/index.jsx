@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
 import { resetBeers, fetchBeers } from '../../actions/actionCreators/beerList';
-import { fetchFavorites } from '../../actions/actionCreators/favorites';
 import { setRequest } from '../../actions/actionCreators/request';
 import { requestTypes } from '../../utils/api';
 

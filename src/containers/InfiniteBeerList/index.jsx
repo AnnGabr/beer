@@ -1,12 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+
+import { setRequest } from '../../actions/actionCreators/request';
 import { fetchBeers } from '../../actions/actionCreators/beerList';
-import { BeerList, Loader } from '../../components';
-import { MAIN_CONTENT_SELECTOR } from '../../constants';
+import { requestTypes } from '../../utils/api';
 import { retrieveMain } from '../../utils/beers-filters';
+
+import { BeerList, Loader } from '../../components';
+
+import { MAIN_CONTENT_SELECTOR } from '../../constants';
 import './beer-list-wrapper.css';
 
 class InfiniteBeerList extends Component {
+
+    componentWillMount() {
+        this.props.setRequest({
+            type: requestTypes.GET_BY_NAME,
+            urlParams: {
+                page: 1,
+                perPage: 9
+            }
+        });
+    }
 
     componentDidMount() {
         this.fetchData();
@@ -58,6 +73,6 @@ class InfiniteBeerList extends Component {
     }
 }
 
-InfiniteBeerList = connect(null, { fetchBeers })(InfiniteBeerList);
+InfiniteBeerList = connect(null, { fetchBeers, setRequest })(InfiniteBeerList);
 
 export default InfiniteBeerList;

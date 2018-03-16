@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { setRequest } from '../../actions/actionCreators/request';
-import { requestTypes } from '../../utils/api';
 
 import './searchbar.css';
 
@@ -15,9 +14,9 @@ class Searchbar extends Component {
             beerName = this.input.value;
         }
         this.props.setRequest({
-            type: requestTypes.GET_BY_NAME, 
             urlParams: {
-                name: beerName
+                name: beerName,
+                page: 1
             }
         });
         this.props.onSearch();
