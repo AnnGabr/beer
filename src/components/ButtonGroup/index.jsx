@@ -11,7 +11,6 @@ export default class ButtonGroup extends Component {
     }
 
     render() {
-        console.log(this.state);
         return (
             <div className="buttons has-addons is-centered">
                 {this.makeGroup(this.props.count, this.state.active)}
@@ -33,7 +32,6 @@ export default class ButtonGroup extends Component {
                     {i}
                 </button>
             );
-            console.log(group[i - 1]);
         }
 
         return group;

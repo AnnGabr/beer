@@ -1,5 +1,26 @@
 import {actionTypes} from '../actionTypes';
+import {setRequest} from '../actionCreators/request';
+import {fetchBeers} from '../actionCreators/beerList';
+
+import {retrieveExpanded} from '../../utils/beers-filters';
+
 import * as localStorage from '../../store/localStorage';
+
+export const fetchFavorites = (page, perPage) => (dispatch, getState) => {
+    dispatch(setRequest(
+        getFavoritesRequest(page, perPage, getState().favorites.beerIds)
+    ));
+    dispatch(fetchBeers(retrieveExpanded));
+}
+
+const getFavoritesRequest = (page, perPage, ids) =>({
+    type: "GET_BY_IDS",
+    urlParams: {
+        page: page,
+        perPage: perPage,
+        ids: ids
+    }
+});
 
 export const saveFavoriteChange = (id, isFavorite) => (dispatch, getState) => {
    const { favorites } = getState();

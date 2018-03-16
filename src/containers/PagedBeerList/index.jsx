@@ -1,30 +1,41 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
-import { fetchBeers, resetBeers } from '../../actions/actionCreators/beerList';
-import { setRequest } from '../../actions/actionCreators/request';
-import { retrieveExpanded } from '../../utils/beers-filters';
+import { resetBeers } from '../../actions/actionCreators/beerList';
+import { fetchFavorites } from '../../actions/actionCreators/favorites';
 
 import { BeerList, Loader, ButtonGroup } from '../../components';
 
 import './paged-list.css';
 
-const mapStateToProps = (state) =>({
-    ...state.beerList, ...state.favorites
+const mapStateToProps = (state) => ({
+    ...state.beerList, 
+    beerCount: state.favorites.beerIds.length
 });
 
 class PagedBeerList extends Component {
+    constructor(props) {
+        super(props);
+
+        this.currentPage = props.startPage || 1;
+        this.perPage = props.perPage || 5;      
+    }
 
     componentDidMount() {
-        this.props.setRequest({
-            type: "GET_BY_IDS",
-            urlParams: {
-                perPage: 5,
-                ids: this.props.beerIds
-            }
-        });
-        this.props.fetchBeers(retrieveExpanded);
+        this.fetchData(this.currentPage, this.perPage)      
     }
+
+    fetchData(newPage) {
+        this.props.resetBeers();
+        this.props.fetchFavorites(newPage, this.perPage);
+    }
+
+    handlePageClick = (newPage) => {  
+        if(newPage !== this.currentPage) {
+            this.fetchData(newPage);
+            this.currentPage = newPage;
+        }
+    } 
 
     render() {
         return (
@@ -40,31 +51,17 @@ class PagedBeerList extends Component {
                     />
                     <Loader loading={this.props.loading}/>
                 </main>
-                {this.props.beerIds.length > 5 && (
-                    <footer className="paged-list__footer">
-                        <ButtonGroup 
-                            count={Math.ceil(this.props.beerIds.length/5)}
-                            onClick={this.handlePageClick} />
-                    </footer>
-                )}
+                <footer className="paged-list__footer">
+                    <ButtonGroup 
+                        count={Math.ceil(this.props.beerCount/this.perPage)}
+                        onClick={this.handlePageClick} 
+                    />
+                </footer>
             </section>
         )  
     }
-
-    handlePageClick = (page) => {
-        console.log(this.props.beerIds.slice((page - 1)*5, 5*page));
-        this.props.resetBeers();
-        this.props.setRequest({
-            type: "GET_BY_IDS",
-            urlParams: {
-                perPage: 5,
-                ids: this.props.beerIds.slice((page - 1)*5, 5*page)
-            }
-        });
-        this.props.fetchBeers(retrieveExpanded);
-    }
 }
 
-PagedBeerList = connect(mapStateToProps, { fetchBeers, resetBeers, setRequest })(PagedBeerList);
+PagedBeerList = connect(mapStateToProps, { fetchFavorites, resetBeers })(PagedBeerList);
 
 export default PagedBeerList;
