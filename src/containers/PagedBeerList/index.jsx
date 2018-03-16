@@ -45,12 +45,12 @@ class PagedBeerList extends Component {
     }
 
     fetchData(newPage) {
-        this.props.resetBeers();
         this.props.setRequest({
             urlParams:{
                 page: newPage
             }
         });
+        this.props.resetBeers();
         this.props.fetchBeers(retrieveExpanded);
     }
 
