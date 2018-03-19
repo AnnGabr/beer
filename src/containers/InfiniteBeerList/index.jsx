@@ -1,28 +1,12 @@
 import React, { Component } from 'react';
-import { connect } from "react-redux";
-
-import { setRequest } from '../../actions/actionCreators/request';
-import { fetchBeers, resetBeers } from '../../actions/actionCreators/beerList';
-import { requestTypes } from '../../utils/api';
-import { mapToLandingModels } from '../../utils/beers-filters';
 
 import { BeerList, Loader } from '../../components';
 
 import { MAIN_CONTENT_SELECTOR } from '../../constants';
 import './beer-list-wrapper.css';
 
-class InfiniteBeerList extends Component {
+export default class InfiniteBeerList extends Component {
     componentDidMount() {
-        this.props.setRequest({
-            type: requestTypes.GET_BY_NAME,
-            urlParams: {
-                page: 1,
-                perPage: this.props.perPage
-            }
-        });
-        this.props.resetBeers();
-        this.fetchData();
-        
         this.addScrollListener();
     }
 
@@ -30,16 +14,11 @@ class InfiniteBeerList extends Component {
         this.removeScrollListener();
     }
 
-    fetchData() {
-        this.props.fetchBeers(mapToLandingModels);
-    }
-    
     render() {
-        const {beers, loading} = this.props;
         return (
             <div className="beer-list-wrapper">
-                <BeerList beers={beers} />
-                <Loader loading={loading}/>
+                <BeerList beers={this.props.beers} />
+                <Loader loading={this.props.loading}/>
             </div>
         )    
     }
@@ -66,11 +45,7 @@ class InfiniteBeerList extends Component {
             mainContent.clientHeight +  mainContent.scrollTop >= mainContent.scrollHeight - 10
         );
         if(isAtEnd){
-            this.fetchData();
+            this.props.onEndAchive();
         }
     }
 }
-
-InfiniteBeerList = connect(null, { fetchBeers, setRequest, resetBeers })(InfiniteBeerList);
-
-export default InfiniteBeerList;

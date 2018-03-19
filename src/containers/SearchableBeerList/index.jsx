@@ -6,6 +6,7 @@ import InfiniteBeerList from '../InfiniteBeerList';
 
 import {fetchBeers, resetBeers} from '../../actions/actionCreators/beerList';
 import {setRequest} from '../../actions/actionCreators/request';
+import { requestTypes } from '../../utils/api';
 
 import {mapToLandingModels} from '../../utils/beers-filters';
 
@@ -18,7 +19,21 @@ const mapStateToProps = state => ({
 class SearchableBeerList extends Component {
     constructor(props) {
         super(props);
+
+        this.perPage = props.perPage || 9;
         this.state = {isFilterOpened: false};
+    }
+
+    componentWillMount() {
+        this.props.setRequest({
+            type: requestTypes.GET_BY_NAME,
+            urlParams: {
+                page: 1,
+                perPage: this.perPage
+            }
+        });
+        this.props.resetBeers();
+        this.props.fetchBeers(mapToLandingModels);
     }
 
     render() {
@@ -49,9 +64,10 @@ class SearchableBeerList extends Component {
     getSearchResult() {
         let searchReasult = (
             <InfiniteBeerList 
+                onEndAchive={this.handleEndAchive}
                 loading={this.props.loading}
                 beers={this.props.beers}
-                perPage={9}
+                perPage={this.perPage}
             />
         );
         if(this.props.error) {
@@ -61,8 +77,12 @@ class SearchableBeerList extends Component {
                 searchReasult = <Message text={SEARCH_FAIL_MESSAGE}/>;
             }
         }
-        
+
         return searchReasult;
+    }
+
+    handleEndAchive = () => {
+        this.props.fetchBeers(mapToLandingModels);
     }
 }
 
