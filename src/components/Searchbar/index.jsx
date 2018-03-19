@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux';
-import { setRequest } from '../../actions/actionCreators/request';
 
 import './searchbar.css';
 
