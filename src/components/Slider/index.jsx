@@ -9,11 +9,6 @@ export default class Slider extends Component {
         this.state = {value: this.props.min};
     }
 
-    handleOnChange = (event) => {
-        this.setState({value: event.target.value});
-        this.props.onChange(this.state.value)
-    }
-
     render(){
         const {onChange, sliderRef, ...sliderParams} = this.props;
         return (
@@ -30,5 +25,10 @@ export default class Slider extends Component {
                 />
             </div>
         );
+    }
+
+    handleOnChange = (event) => {
+        this.setState({value: event.target.value});
+        this.props.onChange(this.state.value)
     }
 }

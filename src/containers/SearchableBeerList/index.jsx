@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {Searchbar, Filter} from '../../components';
+import {Searchbar, Filter, Message} from '../../components';
 import InfiniteBeerList from '../InfiniteBeerList';
 
 import {fetchBeers, resetBeers} from '../../actions/actionCreators/beerList';
@@ -18,6 +18,16 @@ class SearchableBeerList extends Component {
         this.state = {isFilterOpened: false};
     }
 
+    render() {
+        return (
+            <section className="section container">
+                <Searchbar onSearch={this.handleSearch}/>
+                {this.state.isFilterOpened && <Filter />}
+                {this.getSearchResult()}
+            </section>
+        )
+    }
+
     handleSearch = () => {
         this.props.resetBeers();
         this.props.fetchBeers(retrieveMain);
@@ -26,7 +36,7 @@ class SearchableBeerList extends Component {
         }      
     }
 
-    render() {
+    getSearchResult() {
         let searchReasult = (
             <InfiniteBeerList 
                 loading={this.props.loading}
@@ -34,32 +44,14 @@ class SearchableBeerList extends Component {
             />
         );
         if(this.props.error) {
-            searchReasult = (
-                <div className="beer-list">
-                    <div className="title">
-                        {FETCH_FAIL_MESSAGE}
-                    </div>
-                </div>
-            );
+            searchReasult = <Message text={FETCH_FAIL_MESSAGE}/>;
         } else if(this.props.isAllFetched) {
             if(this.props.beers.length === 0) {
-                searchReasult = (
-                    <div className="beer-list">
-                        <div className="title">
-                            {SEARCH_FAIL_MESSAGE}
-                        </div>
-                    </div>
-                );
+                searchReasult = <Message text={SEARCH_FAIL_MESSAGE}/>;
             }
         }
-
-        return (
-            <section className="section container">
-                <Searchbar onSearch={this.handleSearch}/>
-                {this.state.isFilterOpened && <Filter />}
-                {searchReasult}
-            </section>
-        )
+        
+        return searchReasult;
     }
 }
 

@@ -16,10 +16,6 @@ class BeerItem extends Component {
         this.props.saveFavoriteChange(this.props.id, this.state.isFavorite);
     }
 
-    handleFavoriteClick = () => {
-        this.setState({isFavorite: !this.state.isFavorite});
-    }
-
     render() {
         const beerClass = classNames(
             'beer',
@@ -67,6 +63,10 @@ class BeerItem extends Component {
                 </article>
             </div>
         )
+    }
+
+    handleFavoriteClick = () => {
+        this.setState({isFavorite: !this.state.isFavorite});
     }
 }
 

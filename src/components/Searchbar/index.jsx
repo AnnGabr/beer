@@ -4,24 +4,7 @@ import { setRequest } from '../../actions/actionCreators/request';
 
 import './searchbar.css';
 
-class Searchbar extends Component {
-    
-    handleSearch = (event) => {
-        event.preventDefault();
-
-        let beerName = null;
-        if(this.input.value.trim() !== '') {
-            beerName = this.input.value;
-        }
-        this.props.setRequest({
-            urlParams: {
-                name: beerName,
-                page: 1
-            }
-        });
-        this.props.onSearch();
-    }
-
+class Searchbar extends Component {   
     render() {
         return (
             <form className="field is-grouped searchbar">
@@ -40,6 +23,22 @@ class Searchbar extends Component {
                 </span>
             </form>
         )
+    }
+
+    handleSearch = (event) => {
+        event.preventDefault();
+
+        let beerName = null;
+        if(this.input.value.trim() !== '') {
+            beerName = this.input.value;
+        }
+        this.props.setRequest({
+            urlParams: {
+                name: beerName,
+                page: 1
+            }
+        });
+        this.props.onSearch();
     }
 }
 

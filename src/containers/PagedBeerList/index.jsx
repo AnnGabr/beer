@@ -54,13 +54,6 @@ class PagedBeerList extends Component {
         this.props.fetchBeers(retrieveExpanded);
     }
 
-    handlePageClick = (newPage) => {  
-        if(newPage !== this.currentPage) {
-            this.fetchData(newPage);
-            this.currentPage = newPage;
-        }
-    } 
-
     render() {
         return (
             <section className="section container paged-list">
@@ -84,6 +77,13 @@ class PagedBeerList extends Component {
             </section>
         )  
     }
+
+    handlePageClick = (newPage) => {  
+        if(newPage !== this.currentPage) {
+            this.fetchData(newPage);
+            this.currentPage = newPage;
+        }
+    } 
 }
 
 PagedBeerList = connect(mapStateToProps, { fetchBeers, resetBeers, setRequest })(PagedBeerList);

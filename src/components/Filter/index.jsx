@@ -8,22 +8,6 @@ import Slider from '../Slider';
 import './filters.css';
 
 class Filter extends Component {
-    handleFilterChange = () => {
-        this.changeRequest();
-    }
-
-    changeRequest() {
-        this.props.setRequest({
-            urlParams: {
-                filter: {
-                    abv_lt: this.alcVolume.value,
-                    ibu_lt: this.internBitUnits.value,
-                    ebc_lt: this.colorEbc.value
-                }
-            }
-        });
-    }
-
     render() {
         return (
             <div className="filters">
@@ -69,6 +53,22 @@ class Filter extends Component {
                 </div>
             </div>
         )
+    }
+
+    handleFilterChange = () => {
+        this.changeRequest();
+    }
+
+    changeRequest() {
+        this.props.setRequest({
+            urlParams: {
+                filter: {
+                    abv_lt: this.alcVolume.value,
+                    ibu_lt: this.internBitUnits.value,
+                    ebc_lt: this.colorEbc.value
+                }
+            }
+        });
     }
 }
 

@@ -12,7 +12,6 @@ import { MAIN_CONTENT_SELECTOR } from '../../constants';
 import './beer-list-wrapper.css';
 
 class InfiniteBeerList extends Component {
-
     componentWillMount() {
         this.props.setRequest({
             type: requestTypes.GET_BY_NAME,
