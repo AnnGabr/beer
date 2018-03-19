@@ -1,14 +1,10 @@
-export function retrieveMain(serverResponse, favorites){
+export function mapToLandingModels(serverResponse, favorites){
     let beers = [];
     try{
         serverResponse = JSON.parse(serverResponse);
         if(Array.isArray(serverResponse)){
             beers = serverResponse.map((beer) => ({
-                id: beer.id,
-                image_url: beer.image_url,
-                name: beer.name,
-                tagline: beer.tagline,
-                isFavorite: favorites.includes(beer.id)
+                ...getMainInfo(beer, favorites)
             }));
         }
     } catch(err){
@@ -17,18 +13,14 @@ export function retrieveMain(serverResponse, favorites){
     return beers;
 }
 
-export function retrieveExpanded(serverResponse, favorites){
+export function mapToFavoritesModels(serverResponse, favorites){
     let beers = [];
     try{
         serverResponse = JSON.parse(serverResponse);
         if(Array.isArray(serverResponse)){
             beers = serverResponse.map((beer) => ({
-                id: beer.id,
-                image_url: beer.image_url,
-                name: beer.name,
-                tagline: beer.tagline,
-                description: beer.description,
-                isFavorite: favorites.includes(beer.id)
+                ...getMainInfo(beer, favorites),
+                description: beer.description
             }));
         }
     } catch(err){
@@ -37,7 +29,15 @@ export function retrieveExpanded(serverResponse, favorites){
     return beers;
 }
 
-export function retrieveAll(serverResponse, favorites){
+const getMainInfo = (beer, favorites) => ({
+    id: beer.id,
+    image_url: beer.image_url,
+    name: beer.name,
+    tagline: beer.tagline,
+    isFavorite: favorites.includes(beer.id)
+});
+
+export function mapToDetailsModels(serverResponse, favorites){
     let beers = [];
     try{
         serverResponse = JSON.parse(serverResponse);

@@ -4,7 +4,7 @@ import Searchbar from './Searchbar';
 import Filter from './Filter'
 import BeerList from './BeerList';
 import Loader from './Loader';
-import ButtonGroup from './ButtonGroup';
+import PagingPanel from './PagingPanel';
 import Message from './Message';
 
-export {Drawer, Header, Searchbar, Filter, BeerList, Loader, ButtonGroup, Message};
+export {Drawer, Header, Searchbar, Filter, BeerList, Loader, PagingPanel, Message};

@@ -5,9 +5,9 @@ import { resetBeers, fetchBeers } from '../../actions/actionCreators/beerList';
 import { setRequest } from '../../actions/actionCreators/request';
 import { requestTypes } from '../../utils/api';
 
-import { retrieveExpanded } from '../../utils/beers-filters';
+import { mapToFavoritesModels } from '../../utils/beers-filters';
 
-import { BeerList, Loader, ButtonGroup } from '../../components';
+import { BeerList, Loader, PagingPanel } from '../../components';
 
 import './paged-list.css';
 
@@ -24,9 +24,6 @@ class PagedBeerList extends Component {
         this.currentPage = props.startPage || 1;
         this.perPage = props.perPage || 5;  
         this.pageCount = Math.ceil(props.beerCount/this.perPage);
-        if(this.pageCount < 2) {
-            this.pageCount = 0;
-        }    
     }
 
     componentWillMount() {
@@ -51,7 +48,7 @@ class PagedBeerList extends Component {
             }
         });
         this.props.resetBeers();
-        this.props.fetchBeers(retrieveExpanded);
+        this.props.fetchBeers(mapToFavoritesModels);
     }
 
     render() {
@@ -69,9 +66,10 @@ class PagedBeerList extends Component {
                     <Loader loading={this.props.loading}/>
                 </main>
                 <footer className="paged-list__footer">
-                    <ButtonGroup 
+                    <PagingPanel 
                         count={this.pageCount}
                         onClick={this.handlePageClick} 
+                        gap={this.perPage}
                     />
                 </footer>
             </section>

@@ -6,7 +6,7 @@ import InfiniteBeerList from '../InfiniteBeerList';
 
 import {fetchBeers, resetBeers} from '../../actions/actionCreators/beerList';
 import {SEARCH_FAIL_MESSAGE, FETCH_FAIL_MESSAGE} from '../../constants';
-import {retrieveMain} from '../../utils/beers-filters';
+import {mapToLandingModels} from '../../utils/beers-filters';
 
 const mapStateToProps = state => ({
     ...state.beerList
@@ -30,7 +30,7 @@ class SearchableBeerList extends Component {
 
     handleSearch = () => {
         this.props.resetBeers();
-        this.props.fetchBeers(retrieveMain);
+        this.props.fetchBeers(mapToLandingModels);
         if(!this.state.isFilterOpened) {
             this.setState({isFilterOpened: true});
         }      

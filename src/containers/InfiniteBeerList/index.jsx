@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { setRequest } from '../../actions/actionCreators/request';
 import { fetchBeers } from '../../actions/actionCreators/beerList';
 import { requestTypes } from '../../utils/api';
-import { retrieveMain } from '../../utils/beers-filters';
+import { mapToLandingModels } from '../../utils/beers-filters';
 
 import { BeerList, Loader } from '../../components';
 
@@ -31,20 +31,6 @@ class InfiniteBeerList extends Component {
         this.removeScrollListener();
     }
 
-    fetchData() {
-        this.props.fetchBeers(retrieveMain);
-    }
-
-    render() {
-        const {beers, loading} = this.props;
-        return (
-            <div className="beer-list-wrapper">
-                <BeerList beers={beers} />
-                <Loader loading={loading}/>
-            </div>
-        )    
-    }
-
     addScrollListener = () => {
         const mainContent = document.querySelector(MAIN_CONTENT_SELECTOR);
         if(mainContent) {
@@ -69,6 +55,20 @@ class InfiniteBeerList extends Component {
         if(isAtEnd){
             this.fetchData();
         }
+    }
+
+    fetchData() {
+        this.props.fetchBeers(mapToLandingModels);
+    }
+    
+    render() {
+        const {beers, loading} = this.props;
+        return (
+            <div className="beer-list-wrapper">
+                <BeerList beers={beers} />
+                <Loader loading={loading}/>
+            </div>
+        )    
     }
 }
 
