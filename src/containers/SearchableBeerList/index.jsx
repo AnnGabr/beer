@@ -5,8 +5,11 @@ import {Searchbar, Filter, Message} from '../../components';
 import InfiniteBeerList from '../InfiniteBeerList';
 
 import {fetchBeers, resetBeers} from '../../actions/actionCreators/beerList';
-import {SEARCH_FAIL_MESSAGE, FETCH_FAIL_MESSAGE} from '../../constants';
+import {setRequest} from '../../actions/actionCreators/request';
+
 import {mapToLandingModels} from '../../utils/beers-filters';
+
+import {SEARCH_FAIL_MESSAGE, FETCH_FAIL_MESSAGE} from '../../constants';
 
 const mapStateToProps = state => ({
     ...state.beerList
@@ -22,13 +25,20 @@ class SearchableBeerList extends Component {
         return (
             <section className="section container">
                 <Searchbar onSearch={this.handleSearch}/>
-                {this.state.isFilterOpened && <Filter />}
+                {this.state.isFilterOpened && <Filter ref={node => this.filter = node}/>}
                 {this.getSearchResult()}
             </section>
         )
     }
 
-    handleSearch = () => {
+    handleSearch = (beerName) => {
+        this.props.setRequest({
+            urlParams: {
+                page: 1,
+                name: beerName,
+                filter: this.filter && this.filter.value
+            }
+        });
         this.props.resetBeers();
         this.props.fetchBeers(mapToLandingModels);
         if(!this.state.isFilterOpened) {
@@ -55,6 +65,6 @@ class SearchableBeerList extends Component {
     }
 }
 
-SearchableBeerList = connect(mapStateToProps, { fetchBeers, resetBeers })(SearchableBeerList);
+SearchableBeerList = connect(mapStateToProps, { fetchBeers, resetBeers, setRequest })(SearchableBeerList);
 
 export default SearchableBeerList;

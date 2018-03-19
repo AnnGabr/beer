@@ -1,13 +1,27 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {setRequest} from '../../actions/actionCreators/request';
-
 import Slider from '../Slider';
 
 import './filters.css';
 
-class Filter extends Component {
+export default class Filter extends Component {
+    componentDidMount() {
+        this.updateFilter();
+    }
+
+    handleFilterChange = () => {
+        this.updateFilter();
+    }
+
+    updateFilter() {
+        this.value = {
+            abv_lt: this.alcVolume.value,
+            ibu_lt: this.internBitUnits.value,
+            ebc_lt: this.colorEbc.value
+        };
+    }
+
     render() {
         return (
             <div className="filters">
@@ -54,24 +68,4 @@ class Filter extends Component {
             </div>
         )
     }
-
-    handleFilterChange = () => {
-        this.changeRequest();
-    }
-
-    changeRequest() {
-        this.props.setRequest({
-            urlParams: {
-                filter: {
-                    abv_lt: this.alcVolume.value,
-                    ibu_lt: this.internBitUnits.value,
-                    ebc_lt: this.colorEbc.value
-                }
-            }
-        });
-    }
 }
-
-Filter = connect(null, { setRequest })(Filter);
-
-export default Filter;
