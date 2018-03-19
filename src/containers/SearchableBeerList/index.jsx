@@ -51,6 +51,7 @@ class SearchableBeerList extends Component {
             <InfiniteBeerList 
                 loading={this.props.loading}
                 beers={this.props.beers}
+                perPage={9}
             />
         );
         if(this.props.error) {

@@ -25,6 +25,7 @@ export default class PagingPanel extends Component {
 
     getButtonsGroup() {
         const pagesCount = this.props.count;
+        
         if(pagesCount < 2) return;
 
         const {visibleStartPage, active} = this.state;
@@ -32,7 +33,10 @@ export default class PagingPanel extends Component {
         let group = [];
         if(pagesCount > 5){
             group.push(
-                <button className="button" onClick={this.handlePreviousPagesClick}>
+                <button 
+                    key={uuid()} 
+                    className="button" 
+                    onClick={this.handlePreviousPagesClick}>
                     <i className="material-icon" aria-hidden="true">chevron_left</i>
                 </button>
             );
@@ -50,7 +54,10 @@ export default class PagingPanel extends Component {
         }
         if(pagesCount - this.gap >= visibleStartPage){
             group.push(
-                <button className="button" onClick={this.handleNextPagesClick}>
+                <button 
+                    key={uuid()} 
+                    className="button" 
+                    onClick={this.handleNextPagesClick}>
                     <i className="material-icon" aria-hidden="true">chevron_right</i>
                 </button>
             );

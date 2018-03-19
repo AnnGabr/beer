@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 
 import { setRequest } from '../../actions/actionCreators/request';
-import { fetchBeers } from '../../actions/actionCreators/beerList';
+import { fetchBeers, resetBeers } from '../../actions/actionCreators/beerList';
 import { requestTypes } from '../../utils/api';
 import { mapToLandingModels } from '../../utils/beers-filters';
 
@@ -12,23 +12,36 @@ import { MAIN_CONTENT_SELECTOR } from '../../constants';
 import './beer-list-wrapper.css';
 
 class InfiniteBeerList extends Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.setRequest({
             type: requestTypes.GET_BY_NAME,
             urlParams: {
                 page: 1,
-                perPage: 9
+                perPage: this.props.perPage
             }
         });
-    }
-
-    componentDidMount() {
+        this.props.resetBeers();
         this.fetchData();
+        
         this.addScrollListener();
     }
 
     componentWillUnmount() {
         this.removeScrollListener();
+    }
+
+    fetchData() {
+        this.props.fetchBeers(mapToLandingModels);
+    }
+    
+    render() {
+        const {beers, loading} = this.props;
+        return (
+            <div className="beer-list-wrapper">
+                <BeerList beers={beers} />
+                <Loader loading={loading}/>
+            </div>
+        )    
     }
 
     addScrollListener = () => {
@@ -56,22 +69,8 @@ class InfiniteBeerList extends Component {
             this.fetchData();
         }
     }
-
-    fetchData() {
-        this.props.fetchBeers(mapToLandingModels);
-    }
-    
-    render() {
-        const {beers, loading} = this.props;
-        return (
-            <div className="beer-list-wrapper">
-                <BeerList beers={beers} />
-                <Loader loading={loading}/>
-            </div>
-        )    
-    }
 }
 
-InfiniteBeerList = connect(null, { fetchBeers, setRequest })(InfiniteBeerList);
+InfiniteBeerList = connect(null, { fetchBeers, setRequest, resetBeers })(InfiniteBeerList);
 
 export default InfiniteBeerList;

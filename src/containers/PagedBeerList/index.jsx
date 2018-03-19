@@ -23,10 +23,10 @@ class PagedBeerList extends Component {
 
         this.currentPage = props.startPage || 1;
         this.perPage = props.perPage || 5;  
-        this.pageCount = Math.ceil(props.beerCount/this.perPage);
+        this.pagesCount = Math.ceil(props.beerCount/this.perPage);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.setRequest({
             type: requestTypes.GET_BY_IDS,
             urlParams: {
@@ -35,12 +35,16 @@ class PagedBeerList extends Component {
                 ids: this.props.beerIds
             }
         });
-    }
-
-    componentDidMount() {
         this.fetchData(this.currentPage);      
     }
 
+    handlePageClick = (newPage) => {  
+        if(newPage !== this.currentPage) {
+            this.fetchData(newPage);
+            this.currentPage = newPage;
+        }
+    } 
+    
     fetchData(newPage) {
         this.props.setRequest({
             urlParams:{
@@ -67,7 +71,7 @@ class PagedBeerList extends Component {
                 </main>
                 <footer className="paged-list__footer">
                     <PagingPanel 
-                        count={this.pageCount}
+                        count={this.pagesCount}
                         onClick={this.handlePageClick} 
                         gap={this.perPage}
                     />
@@ -75,13 +79,6 @@ class PagedBeerList extends Component {
             </section>
         )  
     }
-
-    handlePageClick = (newPage) => {  
-        if(newPage !== this.currentPage) {
-            this.fetchData(newPage);
-            this.currentPage = newPage;
-        }
-    } 
 }
 
 PagedBeerList = connect(mapStateToProps, { fetchBeers, resetBeers, setRequest })(PagedBeerList);
