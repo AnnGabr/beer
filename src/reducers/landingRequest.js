@@ -11,16 +11,16 @@ const initialState = {
 
 export default function request(state = initialState, action) {
     switch(action.type) {
-        case actionTypes.BEERS_FETCHED: 
+        case actionTypes.LANDING_BEERS_FETCHED: 
             return {...state, 
                 urlParams: {
                     ...state.urlParams, 
                     page: state.urlParams.page + 1
                 }
             };
-        case actionTypes.SET_REQUEST: 
+        case actionTypes.SET_LANDING_REQUEST: 
             return {
-                type: action.payload.type || state.type,
+                ...state,
                 urlParams: {
                     ...state.urlParams,
                     ...action.payload.urlParams

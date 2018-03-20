@@ -3,35 +3,31 @@ import { actionTypes } from '../actions/actionTypes';
 const initialState = {
     beers: [],
     loading: false,
-    isAllFetched: false,
     error: null
 }
 
-export default function beerList(state = initialState, {type, payload}) {
+export default function favoritesBeerList(state = initialState, {type, payload}) {
     switch(type) {
-        case actionTypes.REQUEST_BEERS:
+        case actionTypes.REQUEST_FAVORITES_BEERS:
             return {...state, 
                 loading: true
             };
-        case actionTypes.BEERS_FETCHED: 
+        case actionTypes.FAVORITES_BEERS_FETCHED: 
             return {  
-                beers: [...state.beers, ...payload.beers], 
+                beers: [...payload], 
                 loading: false, 
-                isAllFetched: isAllFetched(payload.beers),
                 error: null
             };
-        case actionTypes.FETCH_BEERS_FAILED:
+        case actionTypes.FAVORITES_BEERS_FETCH_FAILED:
             return { 
                 ...initialState, 
                 error: payload
             };
-        case actionTypes.RESET_BEERS:
+        case actionTypes.RESET_FAVORITES_BEERS:
             return {...initialState};
         default:
             return state;
     }
 }
 
-const isAllFetched = (fetchedBeers) => (fetchedBeers.length === 0);
-
-export const isFetching = ({ beerList }) => beerList.loading;
+export const isFetching = ({ landingBeerList }) => favoritesBeerList.loading;

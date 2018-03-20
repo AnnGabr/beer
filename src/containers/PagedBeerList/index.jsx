@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
-import { resetBeers, fetchBeers } from '../../actions/actionCreators/beerList';
-import { setRequest } from '../../actions/actionCreators/request';
-import { requestTypes } from '../../utils/api';
+import { resetBeers, fetchBeers } from '../../actions/actionCreators/favoritesBeerList';
+import { setRequest } from '../../actions/actionCreators/favoritesRequest';
 
 import { mapToFavoritesModels } from '../../utils/beers-filters';
 
@@ -12,7 +11,7 @@ import { BeerList, Loader, PagingPanel } from '../../components';
 import './paged-list.css';
 
 const mapStateToProps = (state) => ({
-    ...state.beerList,
+    ...state.favoritesBeerList,
     ...state.favorites,
     beerCount: state.favorites.beerIds.length
 });
@@ -28,7 +27,6 @@ class PagedBeerList extends Component {
 
     componentDidMount() {
         this.props.setRequest({
-            type: requestTypes.GET_BY_IDS,
             urlParams: {
                 page: this.currentPage,
                 perPage: this.perPage,

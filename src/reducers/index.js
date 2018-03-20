@@ -1,8 +1,15 @@
 import {combineReducers} from 'redux';
-import beerList from './beerList';
+
+import landingBeerList from './landingBeerList';
+import landingRequest from './landingRequest';
+import favoritesBeerList from './favoritesBeerList';
+import favoritesRequest from './favoritesRequest';
 import favorites from './favorites';
-import request from './request';
 
 export const rootReducer = combineReducers({
-    beerList, favorites, request
+    landingBeerList, 
+    landingRequest, 
+    favoritesBeerList, 
+    favoritesRequest,
+    favorites
 });

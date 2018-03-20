@@ -3,36 +3,26 @@ import {connect} from 'react-redux';
 
 import {Searchbar, Filter, Message, InfiniteBeerList} from '../../components';
 
-import {fetchBeers, resetBeers} from '../../actions/actionCreators/beerList';
-import {setRequest} from '../../actions/actionCreators/request';
-import {requestTypes} from '../../utils/api';
+import {fetchBeers, resetBeers} from '../../actions/actionCreators/landingBeerList';
+import {setRequest} from '../../actions/actionCreators/landingRequest';
 
 import {mapToLandingModels} from '../../utils/beers-filters';
 
 import {SEARCH_FAIL_MESSAGE, FETCH_FAIL_MESSAGE} from '../../constants';
 
 const mapStateToProps = state => ({
-    ...state.beerList
+    ...state.landingBeerList
 });
 
 class SearchableBeerList extends Component {
     constructor(props) {
         super(props);
 
-        this.perPage = props.perPage || 9;
         this.state = {isFilterOpened: false};
     }
 
-    componentWillMount() {
-        this.props.setRequest({
-            type: requestTypes.GET_BY_NAME,
-            urlParams: {
-                page: 1,
-                perPage: this.perPage
-            }
-        });
-        this.props.resetBeers();
-        this.props.fetchBeers(mapToLandingModels);
+    componentDidMount() {
+        this.fetchBeers();
     }
 
     render() {
@@ -54,7 +44,7 @@ class SearchableBeerList extends Component {
             }
         });
         this.props.resetBeers();
-        this.props.fetchBeers(mapToLandingModels);
+        this.fetchBeers();
         if(!this.state.isFilterOpened) {
             this.setState({isFilterOpened: true});
         }      
@@ -67,7 +57,6 @@ class SearchableBeerList extends Component {
                 onEndAchive={this.handleEndAchive}
                 loading={this.props.loading}
                 beers={this.props.beers}
-                perPage={this.perPage}
             />
         );
         if(this.props.error) {
@@ -82,6 +71,10 @@ class SearchableBeerList extends Component {
     }
 
     handleEndAchive = () => {
+        this.fetchBeers();
+    }
+
+    fetchBeers() {
         this.props.fetchBeers(mapToLandingModels);
     }
 }
