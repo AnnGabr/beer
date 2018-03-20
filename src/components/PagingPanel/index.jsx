@@ -18,29 +18,37 @@ export default class PagingPanel extends Component {
     render() {
         return (
             <div className="buttons has-addons is-centered">
-                {this.getButtonsGroup()}
+                {this.getArrowLeft()}
+                {this.getPagesGroup()}
+                {this.getArrowRight()}
             </div>
         );
     }
 
-    getButtonsGroup() {
+    getArrowLeft = () => this.props.count > 5 && (
+        <button
+            className="button" 
+            onClick={this.handlePreviousPagesClick}>
+            <i className="material-icon" aria-hidden="true">chevron_left</i>
+        </button>
+    )
+
+    handlePreviousPagesClick = () => {
+        let newVisibleStartPage = this.state.visibleStartPage - this.gap;
+        newVisibleStartPage = newVisibleStartPage > this.startPage ? 
+                                    newVisibleStartPage : this.startPage;
+
+        this.setState({visibleStartPage: newVisibleStartPage});
+    }
+
+    getPagesGroup() {
         const pagesCount = this.props.count;
-        
+
         if(pagesCount < 2) return;
 
         const {visibleStartPage, active} = this.state;
 
-        let group = [];
-        if(pagesCount > 5){
-            group.push(
-                <button 
-                    key={uuid()} 
-                    className="button" 
-                    onClick={this.handlePreviousPagesClick}>
-                    <i className="material-icon" aria-hidden="true">chevron_left</i>
-                </button>
-            );
-        }       
+        let group = []; 
         for(let i = visibleStartPage; (i < visibleStartPage + this.gap) && i <= pagesCount ; i++) {
             const buttonClass = classNames('button', {'is-info': i === active});
             group.push(
@@ -49,16 +57,6 @@ export default class PagingPanel extends Component {
                     className={buttonClass}
                     onClick={this.handleOnPageClick}>
                     {i}
-                </button>
-            );
-        }
-        if(pagesCount - this.gap >= visibleStartPage){
-            group.push(
-                <button 
-                    key={uuid()} 
-                    className="button" 
-                    onClick={this.handleNextPagesClick}>
-                    <i className="material-icon" aria-hidden="true">chevron_right</i>
                 </button>
             );
         }
@@ -72,15 +70,15 @@ export default class PagingPanel extends Component {
         this.props.onClick(+event.target.textContent);
     }
 
+    getArrowRight = () => this.props.count - this.gap >= this.state.visibleStartPage && (
+        <button
+            className="button" 
+            onClick={this.handleNextPagesClick}>
+            <i className="material-icon" aria-hidden="true">chevron_right</i>
+        </button>
+    )
+
     handleNextPagesClick = () => {
         this.setState({visibleStartPage: this.state.visibleStartPage + this.gap});
-    }
-
-    handlePreviousPagesClick = () => {
-        let newVisibleStartPage = this.state.visibleStartPage - this.gap;
-        newVisibleStartPage = newVisibleStartPage > this.startPage ? 
-                                    newVisibleStartPage : this.startPage;
-
-        this.setState({visibleStartPage: newVisibleStartPage});
     }
 }

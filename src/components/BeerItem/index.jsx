@@ -46,7 +46,7 @@ class BeerItem extends Component {
                         <p className={taglineClass}>
                             {this.props.tagline}
                         </p>
-                        { this.props.isExpanded && (<p>{this.props.description}</p>)}
+                        { this.props.isExpanded && <p>{this.props.description}</p> }
                         <div className="field is-grouped is-grouped-multiline beer__buttons">
                             <div className="control">
                                 <button className="button is-outlined is-link">Open</button>

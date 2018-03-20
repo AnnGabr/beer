@@ -2,11 +2,9 @@ import React from 'react';
 
 import './loader.css';
 
-const Loader = ({role, loading}) => (
-    <div className="loader-wrapper"
-        style={{display: loading ? 'block':'none'}}>
+const Loader = ({loading}) => loading && (
+    <div className="loader-wrapper">
         <div className="list-loader" />
-    </div>
-)
+    </div>)
 
 export default Loader;
