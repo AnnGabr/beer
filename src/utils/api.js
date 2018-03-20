@@ -3,7 +3,7 @@ export const requestTypes = {
     GET_BY_NAME: "GET_BY_NAME"
 }
 
-export const ROOT_URL = 'https://api.punkapi.com/v2/beers';
+const ROOT_URL = 'https://api.punkapi.com/v2/beers';
 
 export const fetchBeers = (request) => {
     switch(request.type){
@@ -17,8 +17,8 @@ export const fetchBeers = (request) => {
 }
 
 const fetchBeersByIds = ({page, perPage, ids}) => {
-    const idsUrlPart = Array.prototype.join.call(ids, '|');
-    return fetchBeersByUrl(ROOT_URL + `?page=${page}&per_page=${perPage}` + `&ids=${idsUrlPart}`);
+    const idsUrlPart = ids.join('|');
+    return fetchBeersByUrl(getUrlByPage(page, perPage) + `&ids=${idsUrlPart}`);
 }
 
 const fetchBeersByName = ({page, perPage, name, filter}) => {
@@ -27,11 +27,13 @@ const fetchBeersByName = ({page, perPage, name, filter}) => {
         beerInfoUrlPart += '&beer_name=' + name.trim().replace(/\s+/ig, '_');
     } 
     if(filter) {
-        const { abv_lt, ibu_lt, ebc_lt } = filter;
-        beerInfoUrlPart += `&abv_lt=${abv_lt}&ibu_lt=${ibu_lt}&ebc_lt=${ebc_lt}`;
+        const { alcoholVolum, internationalBitternessUnits, colorEBC } = filter;
+        beerInfoUrlPart += `&abv_lt=${alcoholVolum}&ibu_lt=${internationalBitternessUnits}&ebc_lt=${colorEBC}`;
     }
-    return fetchBeersByUrl(ROOT_URL + `?page=${page}&per_page=${perPage}` + beerInfoUrlPart);
+    return fetchBeersByUrl(getUrlByPage(page, perPage) + beerInfoUrlPart);
 }
+
+const getUrlByPage = (page, perPage) => ROOT_URL + `?page=${page}&per_page=${perPage}`;
 
 const fetchBeersByUrl = (url) => new Promise ((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -46,6 +48,7 @@ const fetchBeersByUrl = (url) => new Promise ((resolve, reject) => {
             reject(error);
         }
     };
+
     xhr.onerror = function() {
         reject(new Error("Network Error"))
     };

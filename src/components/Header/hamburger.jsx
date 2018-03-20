@@ -11,8 +11,9 @@ const Hamburger = ({onClick, isActive}) => {
         'hamburger--spring', 
         {'is-active': isActive}
     );
+
     return(
-        <div className={hamburgerClass} type="button" onClick={onClick}>
+        <div className={hamburgerClass} onClick={onClick}>
             <div className="hamburger-box is-block">
                 <div className="hamburger-inner"></div>
             </div>

@@ -1,14 +1,14 @@
 export function mapToLandingModels(serverResponse, favorites){
     let beers = [];
     try{
-        serverResponse = JSON.parse(serverResponse);
-        if(Array.isArray(serverResponse)){
-            beers = serverResponse.map((beer) => ({
+        const parsedResponse = JSON.parse(serverResponse);
+        if(Array.isArray(parsedResponse)){
+            beers = parsedResponse.map((beer) => ({
                 ...getMainInfo(beer, favorites)
             }));
         }
     } catch(err){
-        console.log(`Can not parse server response at: retriveMain.`);
+        console.log('Can not parse server response at: mapToLandingModels.');
     }
     return beers;
 }
@@ -16,16 +16,17 @@ export function mapToLandingModels(serverResponse, favorites){
 export function mapToFavoritesModels(serverResponse, favorites){
     let beers = [];
     try{
-        serverResponse = JSON.parse(serverResponse);
-        if(Array.isArray(serverResponse)){
-            beers = serverResponse.map((beer) => ({
+        const parsedResponse = JSON.parse(serverResponse);
+        if(Array.isArray(parsedResponse)){
+            beers = parsedResponse.map((beer) => ({
                 ...getMainInfo(beer, favorites),
                 description: beer.description
             }));
         }
     } catch(err){
-        console.log(`Can not parse server response at: retriveExpanded.`);
+        console.log('Can not parse server response at: mapToFavoritesModels.');
     }
+
     return beers;
 }
 
@@ -40,15 +41,16 @@ const getMainInfo = (beer, favorites) => ({
 export function mapToDetailsModels(serverResponse, favorites){
     let beers = [];
     try{
-        serverResponse = JSON.parse(serverResponse);
-        if(Array.isArray(serverResponse)){
-            beers = serverResponse.map((beer) => ({
-                ...serverResponse,
+        const parsedResponse = JSON.parse(serverResponse);
+        if(Array.isArray(parsedResponse)){
+            beers = parsedResponse.map((beer) => ({
+                ...parsedResponse,
                 isFavorite: favorites.includes(beer.id)
             }));
         }
     } catch(err){
-        console.log(`Can not parse server response at: retriveAll.`);
+        console.log('Can not parse server response at: mapToDetailsModels.');
     }
+    
     return beers;
 }

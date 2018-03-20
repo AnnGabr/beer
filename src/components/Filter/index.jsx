@@ -15,9 +15,9 @@ export default class Filter extends Component {
 
     updateFilter() {
         this.value = {
-            abv_lt: this.alcVolume.value,
-            ibu_lt: this.internBitUnits.value,
-            ebc_lt: this.colorEbc.value
+            alcoholVolum: this.alcVolume.value,
+            internationalBitternessUnits: this.internBitUnits.value,
+            colorEBC: this.colorEbc.value
         };
     }
 
