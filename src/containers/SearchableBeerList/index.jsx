@@ -44,6 +44,7 @@ class SearchableBeerList extends Component {
             }
         });
         this.props.fetchBeers(mapToLandingModels);
+        
         if(!this.state.isFilterOpened) {
             this.setState({isFilterOpened: true});
         }      

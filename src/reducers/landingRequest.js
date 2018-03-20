@@ -11,6 +11,13 @@ const initialState = {
 
 export default function request(state = initialState, action) {
     switch(action.type) {
+        case actionTypes.LANDING_BEERS_RESET: 
+            return {...state, 
+                urlParams: {
+                    ...state.urlParams, 
+                    page: 1
+                }
+            };
         case actionTypes.LANDING_BEERS_FETCHED: 
             return {...state, 
                 urlParams: {

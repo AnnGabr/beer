@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
-import { resetBeers, fetchBeers } from '../../actions/actionCreators/favoritesBeerList';
+import { fetchBeers } from '../../actions/actionCreators/favoritesBeerList';
 import { setRequest } from '../../actions/actionCreators/favoritesRequest';
 
 import { mapToFavoritesModels } from '../../utils/beers-filters';
@@ -49,7 +49,6 @@ class PagedBeerList extends Component {
                 page: newPage
             }
         });
-        this.props.resetBeers();
         this.props.fetchBeers(mapToFavoritesModels);
     }
 
@@ -79,6 +78,6 @@ class PagedBeerList extends Component {
     }
 }
 
-PagedBeerList = connect(mapStateToProps, { fetchBeers, resetBeers, setRequest })(PagedBeerList);
+PagedBeerList = connect(mapStateToProps, { fetchBeers, setRequest })(PagedBeerList);
 
 export default PagedBeerList;

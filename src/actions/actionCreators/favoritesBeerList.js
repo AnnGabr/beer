@@ -2,11 +2,6 @@ import { actionTypes } from '../actionTypes';
 import * as api from '../../utils/api';
 import { isFetching} from '../../reducers/favoritesBeerList';
 
-export const resetBeers = (beers) => ({ 
-    type: actionTypes.RESET_FAVORITES_BEERS,
-    payload: beers
-});
-
 export const fetchBeers = (onSuccess) => (dispatch, getState) => {
     const state = getState();
 
