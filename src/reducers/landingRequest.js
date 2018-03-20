@@ -18,6 +18,7 @@ export default function request(state = initialState, action) {
                     page: 1
                 }
             };
+        case actionTypes.LANDING_BEERS_MORE_FETCHED:
         case actionTypes.LANDING_BEERS_FETCHED: 
             return {...state, 
                 urlParams: {
