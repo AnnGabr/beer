@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {Searchbar, Filter, Message} from '../../components';
-import InfiniteBeerList from '../InfiniteBeerList';
+import {Searchbar, Filter, Message, InfiniteBeerList} from '../../components';
 
 import {fetchBeers, resetBeers} from '../../actions/actionCreators/beerList';
 import {setRequest} from '../../actions/actionCreators/request';
-import { requestTypes } from '../../utils/api';
+import {requestTypes} from '../../utils/api';
 
 import {mapToLandingModels} from '../../utils/beers-filters';
 
@@ -64,6 +63,7 @@ class SearchableBeerList extends Component {
     getSearchResult() {
         let searchReasult = (
             <InfiniteBeerList 
+                scrollableComponent={this.props.scrollableComponent}
                 onEndAchive={this.handleEndAchive}
                 loading={this.props.loading}
                 beers={this.props.beers}

@@ -6,5 +6,16 @@ import BeerList from './BeerList';
 import Loader from './Loader';
 import PagingPanel from './PagingPanel';
 import Message from './Message';
+import InfiniteBeerList from './InfiniteBeerList';
 
-export {Drawer, Header, Searchbar, Filter, BeerList, Loader, PagingPanel, Message};
+export {
+    Drawer, 
+    Header, 
+    Searchbar, 
+    Filter, 
+    BeerList, 
+    Loader, 
+    PagingPanel, 
+    Message, 
+    InfiniteBeerList
+};
