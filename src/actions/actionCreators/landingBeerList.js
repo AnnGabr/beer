@@ -13,6 +13,24 @@ export const fetchBeers = (onSuccess) => (dispatch, getState) => {
     if(isFetching(state) || isAllFetched(state)) {
         return;
     }
+    dispatch(requestBeers());
+
+    const { landingRequest, favorites } = state;
+
+    return api.fetchBeers(landingRequest).then(response => {
+        dispatch(resetBeers());
+        dispatch(receiveBeers(onSuccess(response, favorites.beerIds)))
+    }).catch(error => 
+        dispatch(receiveBeersFailure(error))
+    );
+}
+
+export const fetchMoreBeers = (onSuccess) => (dispatch, getState) => {
+    const state = getState();
+
+    if(isFetching(state) || isAllFetched(state)) {
+        return;
+    }
 
     dispatch(requestBeers());
 

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import {Searchbar, Filter, Message, InfiniteBeerList} from '../../components';
 
-import {fetchBeers, resetBeers} from '../../actions/actionCreators/landingBeerList';
+import {fetchBeers, fetchMoreBeers} from '../../actions/actionCreators/landingBeerList';
 import {setRequest} from '../../actions/actionCreators/landingRequest';
 
 import {mapToLandingModels} from '../../utils/beers-filters';
@@ -22,7 +22,7 @@ class SearchableBeerList extends Component {
     }
 
     componentDidMount() {
-        this.fetchBeers();
+        this.props.fetchBeers(mapToLandingModels);
     }
 
     render() {
@@ -43,8 +43,7 @@ class SearchableBeerList extends Component {
                 filter: this.filter && this.filter.value
             }
         });
-        this.props.resetBeers();
-        this.fetchBeers();
+        this.props.fetchBeers(mapToLandingModels);
         if(!this.state.isFilterOpened) {
             this.setState({isFilterOpened: true});
         }      
@@ -71,14 +70,10 @@ class SearchableBeerList extends Component {
     }
 
     handleEndAchive = () => {
-        this.fetchBeers();
-    }
-
-    fetchBeers() {
-        this.props.fetchBeers(mapToLandingModels);
+        this.props.fetchMoreBeers(mapToLandingModels);
     }
 }
 
-SearchableBeerList = connect(mapStateToProps, { fetchBeers, resetBeers, setRequest })(SearchableBeerList);
+SearchableBeerList = connect(mapStateToProps, { fetchBeers, fetchMoreBeers, setRequest })(SearchableBeerList);
 
 export default SearchableBeerList;
