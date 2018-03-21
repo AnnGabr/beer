@@ -2,9 +2,9 @@ import React from 'react';
 
 import { PagedBeerList } from '../../containers';
 
-const Favorites = (props) =>  (
+const Favorites = ({match}) => (
     <main className="layout has-scroll">
-        <PagedBeerList />
+        <PagedBeerList active={parseInt(match.params.pageNumber, 10)}/>
     </main>      
 );
 

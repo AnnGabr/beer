@@ -5,7 +5,7 @@ import React from 'react';
 export const Router = () => (
     <Switch>
         <Route exact path='/' component={Landing} />
-        <Route path='/favorites' component={Favorites} />
+        <Route path='/favorites/page=:pageNumber' component={Favorites} />
         <Route path='/beer' component={BeerDetails} />
     </Switch>
 );

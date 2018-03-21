@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import classNames from 'classnames';
 import uuid from 'random-uuid-v4';
@@ -7,12 +8,26 @@ export default class PagingPanel extends Component {
     constructor(props) {
         super(props);
 
-        this.gap = this.props.gap || 5;
-        this.startPage = this.props.startPage || 1;
+        console.log('here');
+        this.gap = props.gap || 5;
+        this.startPage = props.startPage || 1;
         this.state = {
-            active: this.props.active || 1,
-            visibleStartPage: this.props.startPage || 1
+            active: props.active || 1,
+            visibleStartPage: this.getVisibleStartPage()
         };
+        console.log(this.state);
+    }
+
+    getVisibleStartPage() {
+        const {gap, startPage} = this;
+        const active = this.props.active;
+
+        let visibleStartPage = startPage;
+        while(visibleStartPage + gap < active) {
+            visibleStartPage += gap;
+        }
+
+        return visibleStartPage;
     }
 
     render() {
@@ -52,12 +67,12 @@ export default class PagingPanel extends Component {
         for(let i = visibleStartPage; (i < visibleStartPage + this.gap) && i <= pagesCount ; i++) {
             const buttonClass = classNames('button', {'is-info': i === active});
             group.push(
-                <button
+                <Link to={`page=${i}`}
                     key={(i === active) ? uuid() : i} 
                     className={buttonClass}
                     onClick={this.handleOnPageClick}>
                     {i}
-                </button>
+                </Link>
             );
         }
 

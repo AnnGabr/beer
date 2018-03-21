@@ -10,7 +10,7 @@ import { BeerList, Loader, PagingPanel } from '../../components';
 
 import './paged-list.css';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, ownProps) => ({
     ...state.favoritesBeerList,
     ...state.favorites,
     beerCount: state.favorites.beerIds.length
@@ -20,7 +20,7 @@ class PagedBeerList extends Component {
     constructor(props) {
         super(props);
 
-        this.currentPage = props.startPage || 1;
+        this.currentPage = props.active || 1;
         this.perPage = props.perPage || 5;  
         this.pagesCount = Math.ceil(props.beerCount/this.perPage);
     }
@@ -33,23 +33,7 @@ class PagedBeerList extends Component {
                 ids: this.props.beerIds
             }
         });
-        this.fetchData(this.currentPage);      
-    }
-
-    handlePageClick = (newPage) => {  
-        if(newPage !== this.currentPage) {
-            this.fetchData(newPage);
-            this.currentPage = newPage;
-        }
-    } 
-    
-    fetchData(newPage) {
-        this.props.setRequest({
-            urlParams:{
-                page: newPage
-            }
-        });
-        this.props.fetchBeers(mapToFavoritesModels);
+        this.fetchData();      
     }
 
     render() {
@@ -71,10 +55,31 @@ class PagedBeerList extends Component {
                         count={this.pagesCount}
                         onClick={this.handlePageClick} 
                         gap={this.perPage}
+                        active={this.currentPage}
                     />
                 </footer>
             </section>
         )  
+    }
+
+    handlePageClick = (newPage) => {  
+        if(newPage !== this.currentPage) {
+            this.updateRequest(newPage);
+            this.fetchData();
+            this.currentPage = newPage;
+        }
+    } 
+
+    updateRequest(newPage) {
+        this.props.setRequest({
+            urlParams:{
+                page: newPage
+            }
+        }); 
+    }
+
+    fetchData() {
+        this.props.fetchBeers(mapToFavoritesModels);
     }
 }
 
