@@ -9,18 +9,19 @@ const initialState = {
 
 export default function landingBeerList(state = initialState, {type, payload}) {
     switch(type) {
+        case actionTypes.SET_LANDING_REQUEST:
+            return {...state,
+                isAllFetched: false
+            };
         case actionTypes.REQUEST_LANDING_BEERS:
+            return {...initialState,
+                loading: true
+            };
+        case actionTypes.REQUEST_MORE_LANDING_BEERS:
             return {...state, 
                 loading: true
             };
         case actionTypes.LANDING_BEERS_FETCHED: 
-            return {  
-                beers: [...payload], 
-                loading: false, 
-                isAllFetched: payload.length === 0,
-                error: null
-            };
-        case actionTypes.LANDING_BEERS_MORE_FETCHED: 
             return {  
                 beers: [...state.beers, ...payload], 
                 loading: false, 
@@ -32,8 +33,6 @@ export default function landingBeerList(state = initialState, {type, payload}) {
                 ...initialState, 
                 error: payload
             };
-        case actionTypes.RESET_LANDING_BEERS:
-            return {...initialState};
         default:
             return state;
     }

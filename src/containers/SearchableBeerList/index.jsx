@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Searchbar, Filter, Message, InfiniteBeerList} from '../../components';
 
 import {fetchBeers, fetchMoreBeers} from '../../actions/actionCreators/landingBeerList';
-import {setRequest} from '../../actions/actionCreators/landingRequest';
+import {setRequest, setDefaultRequest} from '../../actions/actionCreators/landingRequest';
 
 import {mapToLandingModels} from '../../utils/beers-filters';
 
@@ -22,7 +22,8 @@ class SearchableBeerList extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchBeers(mapToLandingModels);
+        this.setDefaultRequest();
+        this.fetchData();
     }
 
     render() {
@@ -36,18 +37,30 @@ class SearchableBeerList extends Component {
     }
 
     handleSearch = (beerName) => {
-        this.props.setRequest({
-            urlParams: {
-                page: 1,
-                name: beerName,
-                filter: this.filter && this.filter.value
-            }
-        });
-        this.props.fetchBeers(mapToLandingModels);
+        this.setDefaultRequest();
+        this.updateRequest(beerName);
+        this.fetchData();
         
         if(!this.state.isFilterOpened) {
             this.setState({isFilterOpened: true});
         }      
+    }
+
+    setDefaultRequest() {
+        this.props.setDefaultRequest();
+    }
+
+    updateRequest(beerName) {
+        this.props.setRequest({
+            urlParams: {
+                name: beerName,
+                filter: this.filter && this.filter.value,
+            }
+        });
+    }
+
+    fetchData() {
+        this.props.fetchBeers(mapToLandingModels);
     }
 
     getSearchResult() {
@@ -75,6 +88,11 @@ class SearchableBeerList extends Component {
     }
 }
 
-SearchableBeerList = connect(mapStateToProps, { fetchBeers, fetchMoreBeers, setRequest })(SearchableBeerList);
+SearchableBeerList = connect(mapStateToProps,  { 
+    fetchBeers, 
+    fetchMoreBeers, 
+    setRequest, 
+    setDefaultRequest 
+})(SearchableBeerList);
 
 export default SearchableBeerList;

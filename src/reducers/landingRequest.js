@@ -9,22 +9,11 @@ const initialState = {
     }
 };
 
-export default function request(state = initialState, action) {
+export default function landingRequest(state = initialState, action) {
     switch(action.type) {
-        case actionTypes.LANDING_BEERS_RESET: 
-            return {...state, 
-                urlParams: {
-                    ...state.urlParams, 
-                    page: 1
-                }
-            };
-        case actionTypes.LANDING_BEERS_MORE_FETCHED:
-        case actionTypes.LANDING_BEERS_FETCHED: 
-            return {...state, 
-                urlParams: {
-                    ...state.urlParams, 
-                    page: state.urlParams.page + 1
-                }
+        case actionTypes.SET_LANDING_DAFAULT_REQUEST:
+            return {
+                ...initialState
             };
         case actionTypes.SET_LANDING_REQUEST: 
             return {
@@ -32,6 +21,14 @@ export default function request(state = initialState, action) {
                 urlParams: {
                     ...state.urlParams,
                     ...action.payload.urlParams
+                }
+            };
+        case actionTypes.LANDING_BEERS_FETCHED:
+            return {
+                ...state,
+                urlParams: {
+                    ...state.urlParams,
+                    page: state.urlParams.page + 1
                 }
             };
         default:
