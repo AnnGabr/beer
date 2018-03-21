@@ -9,8 +9,7 @@ const initialState = {
 export default function favoritesBeerList(state = initialState, {type, payload}) {
     switch(type) {
         case actionTypes.REQUEST_FAVORITES_BEERS:
-            return {...state,
-                beers: [], 
+            return {...initialState,
                 loading: true
             };
         case actionTypes.FAVORITES_BEERS_FETCHED: 

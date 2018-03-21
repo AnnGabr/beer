@@ -1,6 +1,6 @@
 import { actionTypes } from '../actionTypes';
 import * as api from '../../utils/api';
-import { isFetching} from '../../reducers/favoritesBeerList';
+import { isFetching } from '../../reducers/favoritesBeerList';
 
 export const fetchBeers = (onSuccess) => (dispatch, getState) => {
     const state = getState();
