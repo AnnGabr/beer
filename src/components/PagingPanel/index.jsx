@@ -37,16 +37,23 @@ export default class PagingPanel extends Component {
         );
     }
 
-    getLeftArrow = () => (
-        this.props.totalPagesCount > 5 
-            && (
+    getLeftArrow = () => {
+        const needLeftArrow = (
+            this.state.visibleStartPageNumber >= this.interval + this.startPageNumber
+        );
+
+        return(
+            needLeftArrow
+            ? (
                 <button
                     className="button" 
                     onClick={this.handlePreviousPagesClick}>
                     <i className="material-icon" aria-hidden="true">chevron_left</i>
                 </button>
             )
-    )
+            :null
+        );
+    }
 
     handlePreviousPagesClick = () => {
         let newVisibleStartPageNumber = this.state.visibleStartPageNumber - this.interval;

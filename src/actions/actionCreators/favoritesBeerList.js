@@ -1,8 +1,9 @@
 import { actionTypes } from '../actionTypes';
 import * as api from '../../utils/api';
 import { isFetching } from '../../reducers/favoritesBeerList';
+import { mapToFavoritesModels } from '../../utils/beers-filters';
 
-export const fetchBeers = (onSuccess) => (dispatch, getState) => {
+export const fetchBeers = (onSuccess = mapToFavoritesModels) => (dispatch, getState) => {
     const state = getState();
 
     if(isFetching(state)) {

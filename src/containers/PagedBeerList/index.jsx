@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { fetchBeers } from '../../actions/actionCreators/favoritesBeerList';
 import { setRequest } from '../../actions/actionCreators/favoritesRequest';
 
-import { mapToFavoritesModels } from '../../utils/beers-filters';
-
 import { BeerList, Loader, PagingPanel } from '../../components';
 
 import './paged-list.css';
@@ -79,7 +77,7 @@ class PagedBeerList extends Component {
     }
 
     fetchData() {
-        this.props.fetchBeers(mapToFavoritesModels);
+        this.props.fetchBeers();
     }
 }
 
