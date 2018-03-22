@@ -1,6 +1,7 @@
 import { actionTypes } from '../actionTypes';
 import * as api from '../../utils/api';
 import { isFetching, isAllFetched } from '../../reducers/landingBeerList';
+import { mapToLandingModels } from '../../utils/beers-filters';
 
 export const fetchBeers = (onSuccess, beforeFetchAction = requestBeers) => (dispatch, getState) => 
     fetch(onSuccess, beforeFetchAction, dispatch, getState);
@@ -8,7 +9,7 @@ export const fetchBeers = (onSuccess, beforeFetchAction = requestBeers) => (disp
 export const fetchMoreBeers = (onSuccess, beforeFetchAction = requestMoreBeers) => (dispatch, getState) => 
     fetch(onSuccess, beforeFetchAction, dispatch, getState);
 
-const fetch = (onSuccess, beforeFetchAction, dispatch, getState) => {
+const fetch = (onSuccess = mapToLandingModels, beforeFetchAction, dispatch, getState) => {
     const state = getState();
     if(isFetching(state) || isAllFetched(state)) {
         return;

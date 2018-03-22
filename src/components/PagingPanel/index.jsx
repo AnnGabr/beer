@@ -42,8 +42,8 @@ export default class PagingPanel extends Component {
             this.state.visibleStartPageNumber >= this.interval + this.startPageNumber
         );
 
-        return(
-            needLeftArrow
+        return (
+            needLeftArrow 
             ? (
                 <button
                     className="button" 

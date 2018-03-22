@@ -6,8 +6,6 @@ import {Searchbar, Filter, Message, InfiniteBeerList} from '../../components';
 import {fetchBeers, fetchMoreBeers} from '../../actions/actionCreators/landingBeerList';
 import {setRequest, setDefaultRequest} from '../../actions/actionCreators/landingRequest';
 
-import {mapToLandingModels} from '../../utils/beers-filters';
-
 import {SEARCH_FAIL_MESSAGE, FETCH_FAIL_MESSAGE} from '../../constants';
 
 const mapStateToProps = state => ({
@@ -21,16 +19,20 @@ class SearchableBeerList extends Component {
         this.state = {isFilterOpened: false};
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.setDefaultRequest();
         this.fetchData();
     }
 
     render() {
+        const filter = this.state.isFilterOpened
+            ? <Filter ref={node => this.filter = node}/>
+            :null;
+
         return (
             <section className="section container">
                 <Searchbar onSearch={this.handleSearch}/>
-                {this.state.isFilterOpened && <Filter ref={node => this.filter = node}/>}
+                {filter}
                 {this.getSearchResult()}
             </section>
         )
@@ -60,7 +62,7 @@ class SearchableBeerList extends Component {
     }
 
     fetchData() {
-        this.props.fetchBeers(mapToLandingModels);
+        this.props.fetchBeers();
     }
 
     getSearchResult() {
@@ -84,7 +86,11 @@ class SearchableBeerList extends Component {
     }
 
     handleEndAchive = () => {
-        this.props.fetchMoreBeers(mapToLandingModels);
+        this.fetchMoreData();
+    }
+
+    fetchMoreData() {
+        this.props.fetchMoreBeers();
     }
 }
 

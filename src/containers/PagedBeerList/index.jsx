@@ -19,15 +19,15 @@ class PagedBeerList extends Component {
         super(props);
 
         this.currentPageNumber = props.activePageNumber || 1;
-        this.linksPerPage = props.linksPerPage || 5;  
-        this.totalPagesCount = Math.ceil(props.beerCount/this.linksPerPage);
+        this.beersPerPageCount = props.beersPerPageCount || 5;  
+        this.totalPagesCount = Math.ceil(props.beerCount/this.beersPerPageCount);
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.props.setRequest({
             urlParams: {
                 page: this.currentPageNumber,
-                perPage: this.linksPerPage,
+                perPage: this.beersPerPageCount,
                 ids: this.props.beerIds
             }
         });
@@ -35,6 +35,8 @@ class PagedBeerList extends Component {
     }
 
     render() {
+        const loader = this.props.loading ? <Loader /> : null;
+
         return (
             <section className="section container paged-list">
                 <header className="title is-2 paged-list__title">
@@ -43,16 +45,16 @@ class PagedBeerList extends Component {
                 <main className="paged-list__list">
                     <BeerList 
                         beers={this.props.beers} 
-                        isColumnList={true}
-                        isExpanded={true}
+                        isColumnList
+                        isExpanded
                     />
-                    {this.props.loading && <Loader />}
+                    {loader}
                 </main>
                 <footer className="paged-list__footer">
                     <PagingPanel 
                         totalPagesCount={this.totalPagesCount}
                         onClick={this.handlePageClick} 
-                        interval={this.linksPerPage}
+                        interval={this.beersPerPageCount}
                         activePageNumber={this.currentPageNumber}
                     />
                 </footer>
