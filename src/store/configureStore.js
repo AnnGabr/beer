@@ -2,9 +2,8 @@ import { rootReducer } from '../reducers';
 import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
-import * as localStorage from '../api/localStorageApi';
 
-export const STATE_KEY = 'state';
+import { loadFavorites } from '../api/favoritesService';;
 
 export const configureStore = () => {
     const middlewares = [thunk];
@@ -12,11 +11,13 @@ export const configureStore = () => {
         middlewares.push(logger);
     }
 
-    const persistedState = localStorage.getItem(STATE_KEY);
+    const initialState = {
+        favorites: loadFavorites() || undefined
+    };
 
     const store = createStore(
         rootReducer, 
-        persistedState,
+        initialState,
         applyMiddleware(...middlewares)
     );
 

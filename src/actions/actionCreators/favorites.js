@@ -1,35 +1,31 @@
 import {actionTypes} from '../actionTypes';
 
-import * as localStorage from '../../api/localStorageApi';
-import { STATE_KEY } from '../../store/configureStore';
+import * as favoritesService from '../../api/favoritesService';
 
-export const saveFavoriteChange = (id, isFavorite) => (dispatch, getState) => {
+export const saveFavoriteChange = (id, isMarkedAsFavorite) => (dispatch, getState) => {
    const { favorites } = getState();
 
-   const includes = favorites.beerIds.includes(id);
-   if(includes && !isFavorite) {
-        const newFavorites = removeBeerId(favorites.beerIds, id);
-        saveFavorites(newFavorites, dispatch);    
-   }else if(!includes && isFavorite){
-        const newFavorites = addBeerId(favorites.beerIds, id);
-        saveFavorites(newFavorites, dispatch);
+   const isInFavorites = favorites.beerIds.includes(id);
+   if(isInFavorites && !isMarkedAsFavorite) {
+        const newFavoriteBeerIds = removeBeerId(favorites.beerIds, id);
+        saveFavorites(newFavoriteBeerIds, dispatch);    
+   }else if(!isInFavorites &&  isMarkedAsFavorite){
+        const newFavoriteBeerIds = addBeerId(favorites.beerIds, id);
+        saveFavorites(newFavoriteBeerIds, dispatch);
    }
 }; 
 
-function saveFavorites(newFavorites, dispatch) {
-    localStorage.setItem(STATE_KEY, {
-        favorites: {
-            beerIds: newFavorites
-        }
-    });
-    dispatch(changeFavorites(newFavorites));
+function saveFavorites(newFavoriteBeerIds, dispatch) {
+    favoritesService.saveFavorites(newFavoriteBeerIds);
+    
+    dispatch(changeFavorites(newFavoriteBeerIds));
 }
 
-const addBeerId = (beerIds, id) => beerIds.concat(id);
+const addBeerId = (beerIds, idToAdd) => beerIds.concat(idToAdd);
 
 const removeBeerId = (beerIds, idToRemove) => beerIds.filter((id) => id !== idToRemove);
 
-const changeFavorites = (newFavorites) => ({
+const changeFavorites = (newFavoriteBeerIds) => ({
     type: actionTypes.FAVORITES_CHANGED,
-    payload: newFavorites
+    payload: newFavoriteBeerIds
 });
