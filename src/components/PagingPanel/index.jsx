@@ -7,93 +7,107 @@ export default class PagingPanel extends Component {
     constructor(props) {
         super(props);
 
-        console.log('here');
-        this.gap = props.gap || 5;
-        this.startPage = props.startPage || 1;
+        this.interval = props.interval || 5;
+        this.startPageNumber = props.startPageNumber || 1;
         this.state = {
-            active: props.active || 1,
-            visibleStartPage: this.getVisibleStartPage()
+            active: props.activePageNumber || 1,
+            visibleStartPageNumber: this.getVisibleStartPageNumber()
         };
-        console.log(this.state);
     }
 
-    getVisibleStartPage() {
-        const {gap, startPage} = this;
-        const active = this.props.active;
+    getVisibleStartPageNumber() {
+        const {interval, startPageNumber} = this;
+        const activePageNumber = this.props.activePageNumber;
 
-        let visibleStartPage = startPage;
-        while(visibleStartPage + gap < active) {
-            visibleStartPage += gap;
+        let visibleStartPageNumber = startPageNumber;
+        while(visibleStartPageNumber + interval < activePageNumber) {
+            visibleStartPageNumber += interval;
         }
 
-        return visibleStartPage;
+        return visibleStartPageNumber;
     }
 
     render() {
         return (
             <div className="buttons has-addons is-centered">
-                {this.getArrowLeft()}
-                {this.getPagesGroup()}
-                {this.getArrowRight()}
+                {this.getLeftArrow()}
+                {this.getPagesLinks()}
+                {this.getRightArrow()}
             </div>
         );
     }
 
-    getArrowLeft = () => this.props.count > 5 && (
-        <button
-            className="button" 
-            onClick={this.handlePreviousPagesClick}>
-            <i className="material-icon" aria-hidden="true">chevron_left</i>
-        </button>
+    getLeftArrow = () => (
+        this.props.totalPagesCount > 5 
+            && (
+                <button
+                    className="button" 
+                    onClick={this.handlePreviousPagesClick}>
+                    <i className="material-icon" aria-hidden="true">chevron_left</i>
+                </button>
+            )
     )
 
     handlePreviousPagesClick = () => {
-        let newVisibleStartPage = this.state.visibleStartPage - this.gap;
-        newVisibleStartPage = newVisibleStartPage > this.startPage
-            ? newVisibleStartPage
-            : this.startPage;
+        let newVisibleStartPageNumber = this.state.visibleStartPageNumber - this.interval;
+        newVisibleStartPageNumber = newVisibleStartPageNumber > this.startPageNumber
+            ? newVisibleStartPageNumber
+            : this.startPageNumber;
 
-        this.setState({visibleStartPage: newVisibleStartPage});
+        this.setState({visibleStartPageNumber: newVisibleStartPageNumber});
     }
 
-    getPagesGroup() {
-        const pagesCount = this.props.count;
+    getPagesLinks() {
+        const totalPagesCount = this.props.totalPagesCount;
 
-        if(pagesCount < 2) return;
+        if(totalPagesCount < 2) { return; }
 
-        const {visibleStartPage, active} = this.state;
+        const {visibleStartPageNumber, activePageNumber} = this.state;
 
-        let group = []; 
-        for(let i = visibleStartPage; (i < visibleStartPage + this.gap) && i <= pagesCount ; i++) {
-            const buttonClass = classNames('button', {'is-info': i === active});
-            group.push(
+        const visibleEndPageNumber = visibleStartPageNumber + this.interval - 1;
+        let links = []; 
+        for(let i = visibleStartPageNumber; i <= visibleEndPageNumber && i <= totalPagesCount ; i++) {
+            const buttonClass = classNames('button', {'is-info': i === activePageNumber});
+            links.push(
                 <Link to={`/favorites/page=${i}`}
                     key={i} 
                     className={buttonClass}
-                    onClick={this.handleOnPageClick}>
+                    onClick={this.handleOnPageLinkClick.bind(this, i)}>
                     {i}
                 </Link>
             );
         }
 
-        return group;
+        return links;
     }
 
-    handleOnPageClick = (event) => {
-        this.setState({active: Number(event.target.textContent)});
+    handleOnPageLinkClick = (pageNumber) => {
+        this.setState({activePageNumber: pageNumber});
 
-        this.props.onClick(Number(event.target.textContent));
+        this.props.onClick(pageNumber);
     }
 
-    getArrowRight = () => this.props.count - this.gap >= this.state.visibleStartPage && (
-        <button
-            className="button" 
-            onClick={this.handleNextPagesClick}>
-            <i className="material-icon" aria-hidden="true">chevron_right</i>
-        </button>
-    )
+    getRightArrow = () => {
+        const needRightArrow = (
+            this.props.totalPagesCount - this.interval >= this.state.visibleStartPageNumber 
+        );
+         
+        return ( 
+            needRightArrow
+            ? (                
+                <button
+                    className="button" 
+                    onClick={this.handleNextPagesClick}>
+                    <i className="material-icon" aria-hidden="true">chevron_right</i>
+                </button>
+            )
+            :null
+        );
+    }
 
     handleNextPagesClick = () => {
-        this.setState({visibleStartPage: this.state.visibleStartPage + this.gap});
+        this.setState({
+            visibleStartPageNumber: this.state.visibleStartPageNumber + this.interval
+        });
     }
 }

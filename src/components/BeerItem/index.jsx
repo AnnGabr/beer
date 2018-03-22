@@ -32,6 +32,11 @@ class BeerItem extends Component {
             'beer__image',
             {'beer__image--expanded': this.props.isExpanded}
         );
+        const description = this.props.isExpanded && (
+            <p className="beer__description">
+                {this.props.description}
+            </p>
+        );
 
         return (
             <div className='box' >
@@ -46,7 +51,7 @@ class BeerItem extends Component {
                         <p className={taglineClass}>
                             {this.props.tagline}
                         </p>
-                        { this.props.isExpanded && <p>{this.props.description}</p> }
+                        {description}
                         <div className="field is-grouped is-grouped-multiline beer__buttons">
                             <div className="control">
                                 <button className="button is-outlined is-link">Open</button>

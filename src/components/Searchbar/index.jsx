@@ -9,7 +9,10 @@ export default class Searchbar extends Component {
                 <span className="control is-expanded">
                     <input 
                         ref={node => { this.input = node }} 
-                        className="input" type="text" placeholder="Search beers..." />
+                        className="input" 
+                        type="text" 
+                        placeholder="Search beers..." 
+                    />
                 </span>
                 <span className="control">
                     <button 
@@ -26,10 +29,10 @@ export default class Searchbar extends Component {
     handleSearch = (event) => {
         event.preventDefault();
 
-        let beerName = null;
+        let enteredBeerName = null;
         if(this.input.value.trim() !== '') {
-            beerName = this.input.value;
+            enteredBeerName = this.input.value;
         }
-        this.props.onSearch(beerName);
+        this.props.onSearch(enteredBeerName);
     }
 }

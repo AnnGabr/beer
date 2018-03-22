@@ -14,10 +14,14 @@ export default class InfiniteBeerList extends Component {
     }
 
     render() {
+        const loader = (
+            this.props.loading ? <Loader /> : null
+        );
+
         return (
             <div className="beer-list-wrapper">
                 <BeerList beers={this.props.beers} />
-                <Loader loading={this.props.loading}/>
+                {loader}
             </div>
         )    
     }

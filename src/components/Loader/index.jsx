@@ -2,9 +2,14 @@ import React from 'react';
 
 import './loader.css';
 
-const Loader = ({loading}) => loading && (
+const Loader = () => (
     <div className="loader-wrapper">
         <div className="list-loader" />
-    </div>)
+    </div>
+);
 
 export default Loader;
+
+
+
+

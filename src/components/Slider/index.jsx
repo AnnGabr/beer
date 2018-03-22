@@ -10,7 +10,7 @@ export default class Slider extends Component {
     }
 
     render(){
-        const {onChange, sliderRef, ...sliderParams} = this.props;
+        const {onChange, sliderRef, ...sliderRestParams} = this.props;
         return (
             <div className="slider">
                 <div className="slider__value">
@@ -21,7 +21,7 @@ export default class Slider extends Component {
                     value={this.state.value}
                     ref={sliderRef}
                     onChange={this.handleOnChange}
-                    {...sliderParams}     
+                    {...sliderRestParams}     
                 />
             </div>
         );
@@ -29,6 +29,7 @@ export default class Slider extends Component {
 
     handleOnChange = (event) => {
         this.setState({value: event.target.value});
+        
         this.props.onChange(this.state.value)
     }
 }

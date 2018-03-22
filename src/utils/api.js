@@ -27,8 +27,8 @@ const fetchBeersByName = ({page, perPage, name, filter}) => {
         beerInfoUrlPart += '&beer_name=' + name.trim().replace(/\s+/ig, '_');
     } 
     if(filter) {
-        const { alcoholVolum, internationalBitternessUnits, colorEBC } = filter;
-        beerInfoUrlPart += `&abv_lt=${alcoholVolum}&ibu_lt=${internationalBitternessUnits}&ebc_lt=${colorEBC}`;
+        const { alcoholVolume, internationalBitternessUnits, colorEbc } = filter;
+        beerInfoUrlPart += `&abv_lt=${alcoholVolume}&ibu_lt=${internationalBitternessUnits}&ebc_lt=${colorEbc}`;
     }
     return fetchBeersByUrl(getUrlByPage(page, perPage) + beerInfoUrlPart);
 }

@@ -15,13 +15,38 @@ export default class Filter extends Component {
 
     updateFilter() {
         this.value = {
-            alcoholVolum: this.alcVolume.value,
-            internationalBitternessUnits: this.internBitUnits.value,
-            colorEBC: this.colorEbc.value
+            alcoholVolume: this.alcoholVolume.value,
+            internationalBitternessUnits: this.internationalBitternessUnits.value,
+            colorEbc: this.colorEbc.value
         };
     }
 
     render() {
+        const alcoholVolumeSlider = (
+            <Slider                  
+                min="2"
+                max="14"
+                sliderRef={range => this.alcoholVolume = range}
+                onChange={this.handleFilterChange}
+            />
+        );
+        const internationalBitternessUnitsSlider = (
+            <Slider                  
+                min="0"
+                max="120"
+                sliderRef={range => this.internationalBitternessUnits = range} 
+                onChange={this.handleFilterChange}
+            />
+        );
+        const colorEbcSlider = (
+            <Slider 
+                min="4"
+                max="80"
+                sliderRef={range => this.colorEbc = range}
+                onChange={this.handleFilterChange}
+            />
+        );
+
         return (
             <div className="filters">
                 <div className="filters__header title is-6">Filter results</div>
@@ -39,28 +64,13 @@ export default class Filter extends Component {
                     </ul>
                     <ul className="filters__list">
                         <li className="filters__list-item">
-                            <Slider                  
-                                min="2"
-                                max="14"
-                                sliderRef={range => this.alcVolume = range}
-                                onChange={this.handleFilterChange}
-                            />
+                            {alcoholVolumeSlider}
                         </li>
                         <li className="filters__list-item">
-                            <Slider                  
-                                min="0"
-                                max="120"
-                                sliderRef={range => this.internBitUnits = range} 
-                                onChange={this.handleFilterChange}
-                            />
+                            {internationalBitternessUnitsSlider}
                         </li>
                         <li className="filters__list-item">
-                            <Slider 
-                                min="4"
-                                max="80"
-                                sliderRef={range => this.colorEbc = range}
-                                onChange={this.handleFilterChange}
-                            />
+                            {colorEbcSlider}
                         </li>
                     </ul>
                 </div>

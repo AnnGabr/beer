@@ -13,9 +13,15 @@ export default class App extends Component {
   }
 
   render() {
+    const drawer = this.state.isDrawerOpened 
+      ? ( 
+          <Drawer onClick={this.toggleDrawer}/> 
+        )
+      : null;
+
     return (
       <div className="layout">
-        {this.state.isDrawerOpened && <Drawer onClick={this.toggleDrawer}/>}
+        {drawer}
         <Header onHamburgerClick={this.toggleDrawer}/>
         <Router />
       </div>

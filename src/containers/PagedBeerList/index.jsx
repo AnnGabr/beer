@@ -20,16 +20,16 @@ class PagedBeerList extends Component {
     constructor(props) {
         super(props);
 
-        this.currentPage = props.active || 1;
-        this.perPage = props.perPage || 5;  
-        this.pagesCount = Math.ceil(props.beerCount/this.perPage);
+        this.currentPageNumber = props.activePageNumber || 1;
+        this.linksPerPage = props.linksPerPage || 5;  
+        this.totalPagesCount = Math.ceil(props.beerCount/this.linksPerPage);
     }
 
     componentDidMount() {
         this.props.setRequest({
             urlParams: {
-                page: this.currentPage,
-                perPage: this.perPage,
+                page: this.currentPageNumber,
+                perPage: this.linksPerPage,
                 ids: this.props.beerIds
             }
         });
@@ -48,32 +48,32 @@ class PagedBeerList extends Component {
                         isColumnList={true}
                         isExpanded={true}
                     />
-                    <Loader loading={this.props.loading}/>
+                    {this.props.loading && <Loader />}
                 </main>
                 <footer className="paged-list__footer">
                     <PagingPanel 
-                        count={this.pagesCount}
+                        totalPagesCount={this.totalPagesCount}
                         onClick={this.handlePageClick} 
-                        gap={this.perPage}
-                        active={this.currentPage}
+                        interval={this.linksPerPage}
+                        activePageNumber={this.currentPageNumber}
                     />
                 </footer>
             </section>
         )  
     }
 
-    handlePageClick = (newPage) => {  
-        if(newPage !== this.currentPage) {
-            this.updateRequest(newPage);
+    handlePageClick = (newPageNumber) => {  
+        if(newPageNumber !== this.currentPageNumber) {
+            this.updateRequest(newPageNumber);
             this.fetchData();
-            this.currentPage = newPage;
+            this.currentPageNumber = newPageNumber;
         }
     } 
 
-    updateRequest(newPage) {
+    updateRequest(newPageNumber) {
         this.props.setRequest({
             urlParams:{
-                page: newPage
+                page: newPageNumber
             }
         }); 
     }
