@@ -15,14 +15,8 @@ export default class App extends Component {
   render() {
     return (
       <div className="layout">
-        <Drawer 
-          isOpened={this.state.isDrawerOpened} 
-          closeDrawer={this.toggleDrawer} 
-        />
-        <Header 
-          isHamburgerActive={this.state.isDrawerOpened} 
-          onHamburgerClick={this.toggleDrawer} 
-        />
+        {this.state.isDrawerOpened && <Drawer onClick={this.toggleDrawer}/>}
+        <Header onHamburgerClick={this.toggleDrawer}/>
         <Router />
       </div>
     );

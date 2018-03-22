@@ -28,4 +28,4 @@ export default function favoritesBeerList(state = initialState, {type, payload})
     }
 }
 
-export const isFetching = ({ landingBeerList }) => favoritesBeerList.loading;
+export const isFetching = ({ favoritesBeerList }) => favoritesBeerList.loading;

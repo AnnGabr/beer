@@ -39,7 +39,7 @@ const requestMoreBeers = () => ({
 });
 
 const receiveBeersFailure = (error) => ({
-    type: actionTypes.FETCH_BEERS_FAILED,
+    type: actionTypes.LANDING_BEERS_FETCH_FAILED,
     payload: error
 });
 

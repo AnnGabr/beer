@@ -3,13 +3,10 @@ import Hamburger from './hamburger';
 
 import './header.css';
 
-const Header = ({onHamburgerClick, isHamburgerActive}) => (
+const Header = ({onHamburgerClick}) => (
     <div className="navbar header is-primary">
         <div className="navbar-item">
-            <Hamburger 
-                onClick={onHamburgerClick} 
-                isActive={isHamburgerActive} 
-            />
+            <Hamburger onClick={onHamburgerClick}/>
         </div>
         <div className="navbar-item">
             <h1 className="header__site-name">Beer Catalog</h1>

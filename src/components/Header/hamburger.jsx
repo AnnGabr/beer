@@ -3,13 +3,12 @@ import classNames from 'classnames/dedupe';
 
 import 'hamburgers/dist/hamburgers.min.css';
 
-const Hamburger = ({onClick, isActive}) => {
+const Hamburger = ({onClick}) => {
     let hamburgerClass = classNames(
         'hamburger', 
         'is-block', 
         'is-paddingless', 
-        'hamburger--spring', 
-        {'is-active': isActive}
+        'hamburger--spring'
     );
 
     return(

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import classNames from 'classnames';
-import uuid from 'random-uuid-v4';
 
 export default class PagingPanel extends Component {
     constructor(props) {
@@ -50,8 +49,9 @@ export default class PagingPanel extends Component {
 
     handlePreviousPagesClick = () => {
         let newVisibleStartPage = this.state.visibleStartPage - this.gap;
-        newVisibleStartPage = newVisibleStartPage > this.startPage ? 
-                                    newVisibleStartPage : this.startPage;
+        newVisibleStartPage = newVisibleStartPage > this.startPage
+            ? newVisibleStartPage
+            : this.startPage;
 
         this.setState({visibleStartPage: newVisibleStartPage});
     }
@@ -67,8 +67,8 @@ export default class PagingPanel extends Component {
         for(let i = visibleStartPage; (i < visibleStartPage + this.gap) && i <= pagesCount ; i++) {
             const buttonClass = classNames('button', {'is-info': i === active});
             group.push(
-                <Link to={`page=${i}`}
-                    key={(i === active) ? uuid() : i} 
+                <Link to={`/favorites/page=${i}`}
+                    key={i} 
                     className={buttonClass}
                     onClick={this.handleOnPageClick}>
                     {i}
@@ -80,9 +80,9 @@ export default class PagingPanel extends Component {
     }
 
     handleOnPageClick = (event) => {
-        this.setState({active: +event.target.textContent});
+        this.setState({active: Number(event.target.textContent)});
 
-        this.props.onClick(+event.target.textContent);
+        this.props.onClick(Number(event.target.textContent));
     }
 
     getArrowRight = () => this.props.count - this.gap >= this.state.visibleStartPage && (
