@@ -9,7 +9,9 @@ const Header = ({onHamburgerClick}) => (
             <Hamburger onClick={onHamburgerClick}/>
         </div>
         <div className="navbar-item">
-            <h1 className="header__site-name">Beer Catalog</h1>
+            <h1 className="header__site-name">
+                Beer Catalog
+            </h1>
         </div>
     </div>
 );

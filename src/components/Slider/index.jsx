@@ -6,6 +6,7 @@ import './slider.css';
 export default class Slider extends Component { 
     constructor(props) {
         super(props);
+        
         this.state = {value: this.props.min};
     }
 
@@ -28,8 +29,9 @@ export default class Slider extends Component {
     }
 
     handleOnChange = (event) => {
+        console.log('good');
         this.setState({value: event.target.value});
         
-        this.props.onChange(this.state.value)
+        this.props.onChange(Number(event.target.value));
     }
 }

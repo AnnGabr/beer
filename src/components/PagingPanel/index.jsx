@@ -10,7 +10,7 @@ export default class PagingPanel extends Component {
         this.interval = props.interval || 5;
         this.startPageNumber = props.startPageNumber || 1;
         this.state = {
-            active: props.activePageNumber || 1,
+            activePageNumber: props.activePageNumber || 1,
             visibleStartPageNumber: this.getVisibleStartPageNumber()
         };
     }
@@ -31,7 +31,7 @@ export default class PagingPanel extends Component {
         return (
             <div className="buttons has-addons is-centered">
                 {this.getLeftArrow()}
-                {this.getPagesLinks()}
+                {this.getPageLinks()}
                 {this.getRightArrow()}
             </div>
         );
@@ -57,9 +57,8 @@ export default class PagingPanel extends Component {
         this.setState({visibleStartPageNumber: newVisibleStartPageNumber});
     }
 
-    getPagesLinks() {
+    getPageLinks() {
         const totalPagesCount = this.props.totalPagesCount;
-
         if(totalPagesCount < 2) { return; }
 
         const {visibleStartPageNumber, activePageNumber} = this.state;
@@ -67,7 +66,10 @@ export default class PagingPanel extends Component {
         const visibleEndPageNumber = visibleStartPageNumber + this.interval - 1;
         let links = []; 
         for(let i = visibleStartPageNumber; i <= visibleEndPageNumber && i <= totalPagesCount ; i++) {
-            const buttonClass = classNames('button', {'is-info': i === activePageNumber});
+            const buttonClass = classNames(
+                'button', 
+                {'is-info': i === activePageNumber}
+            );
             links.push(
                 <Link to={`/favorites/page=${i}`}
                     key={i} 

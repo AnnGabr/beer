@@ -21,7 +21,7 @@ class BeerItem extends Component {
             'beer',
             {'beer--expanded': this.props.isExpanded}
         );
-        const buttonFavoriteClass = classNames(
+        const favoriteButtonClass = classNames(
             'button',
             this.state.isFavorite ? 'is-primary' : 'is-light'
         );
@@ -32,17 +32,28 @@ class BeerItem extends Component {
             'beer__image',
             {'beer__image--expanded': this.props.isExpanded}
         );
-        const description = this.props.isExpanded && (
-            <p className="beer__description">
-                {this.props.description}
-            </p>
+
+        const favoriteButtonContent = this.state.isFavorite ? 'Remove Favorite': 'Favorite';
+        
+        const description = (
+            this.props.isExpanded 
+            ? (
+                <p className="beer__description">
+                    {this.props.description}
+                </p>
+            )
+            :null
         );
 
         return (
             <div className='box' >
                 <article className={beerClass}>
                     <figure className="beer__image-container">
-                        <img className={imageClass} src={this.props.image_url} alt="beer" />
+                        <img 
+                            className={imageClass} 
+                            src={this.props.image_url} 
+                            alt="beer" 
+                        />
                     </figure>
                     <div className="beer__about">
                         <div className="title is-4 beer__name">
@@ -58,9 +69,9 @@ class BeerItem extends Component {
                             </div>
                             <div className="control">
                                 <button 
-                                    className={buttonFavoriteClass}
-                                    onClick={this.handleFavoriteClick}>
-                                    {this.state.isFavorite ? 'Remove Favorite': 'Favorite'}
+                                    className={favoriteButtonClass}
+                                    onClick={this.handleFavoriteButtonClick}>
+                                    {favoriteButtonContent}
                                 </button> 
                             </div>
                         </div>
@@ -70,7 +81,7 @@ class BeerItem extends Component {
         )
     }
 
-    handleFavoriteClick = () => {
+    handleFavoriteButtonClick = () => {
         this.setState({isFavorite: !this.state.isFavorite});
     }
 }
