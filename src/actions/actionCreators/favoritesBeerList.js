@@ -1,7 +1,7 @@
 import { actionTypes } from '../actionTypes';
-import * as api from '../../utils/api';
+import * as beerApi from '../../api/beerApi/fetchApi';
 import { isFetching } from '../../reducers/favoritesBeerList';
-import { mapToFavoritesModels } from '../../utils/beers-filters';
+import { mapToFavoritesModels } from '../../utils/beerFilters';
 
 export const fetchBeers = (onSuccess = mapToFavoritesModels) => (dispatch, getState) => {
     const state = getState();
@@ -14,7 +14,7 @@ export const fetchBeers = (onSuccess = mapToFavoritesModels) => (dispatch, getSt
 
     const { favoritesRequest, favorites } = state;
 
-    return api.fetchBeers(favoritesRequest).then(response => 
+    return beerApi.fetchBeers(favoritesRequest).then(response => 
         dispatch(receiveBeers(onSuccess(response, favorites.beerIds)))
     ).catch(error => 
         dispatch(receiveBeersFailure(error))

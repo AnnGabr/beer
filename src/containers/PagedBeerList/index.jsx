@@ -25,11 +25,9 @@ class PagedBeerList extends Component {
 
     componentWillMount() {
         this.props.setRequest({
-            urlParams: {
-                page: this.currentPageNumber,
-                perPage: this.beersPerPageCount,
-                ids: this.props.beerIds
-            }
+            pageNumber: this.currentPageNumber,
+            beersPerPageCount: this.beersPerPageCount,
+            beerIds: this.props.beerIds
         });
         this.fetchData();      
     }
@@ -72,9 +70,7 @@ class PagedBeerList extends Component {
 
     updateRequest(newPageNumber) {
         this.props.setRequest({
-            urlParams:{
-                page: newPageNumber
-            }
+            pageNumber: newPageNumber
         }); 
     }
 

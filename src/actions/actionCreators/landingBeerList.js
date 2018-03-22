@@ -1,7 +1,7 @@
 import { actionTypes } from '../actionTypes';
 import * as api from '../../utils/api';
 import { isFetching, isAllFetched } from '../../reducers/landingBeerList';
-import { mapToLandingModels } from '../../utils/beers-filters';
+import { mapToLandingModels } from '../../utils/beerFilters';
 
 export const fetchBeers = (onSuccess, beforeFetchAction = requestBeers) => (dispatch, getState) => 
     fetch(onSuccess, beforeFetchAction, dispatch, getState);
