@@ -1,6 +1,7 @@
 import {actionTypes} from '../actionTypes';
 
-import * as localStorage from '../../store/localStorage';
+import * as localStorage from '../../api/localStorageApi';
+import { STATE_KEY } from '../../store/configureStore';
 
 export const saveFavoriteChange = (id, isFavorite) => (dispatch, getState) => {
    const { favorites } = getState();
@@ -16,7 +17,7 @@ export const saveFavoriteChange = (id, isFavorite) => (dispatch, getState) => {
 }; 
 
 function saveFavorites(newFavorites, dispatch) {
-    localStorage.saveState({
+    localStorage.setItem(STATE_KEY, {
         favorites: {
             beerIds: newFavorites
         }
