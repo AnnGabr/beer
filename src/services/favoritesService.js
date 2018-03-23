@@ -1,4 +1,4 @@
-import * as localStorage from '../api/localStorageService';
+import * as localStorage from './localStorageService';
 
 const FAVORITES_KEY = 'favorites';
 

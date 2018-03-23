@@ -1,15 +1,15 @@
 import { actionTypes } from '../actionTypes';
-import * as api from '../../utils/api';
+import * as beerApi from '../../api/beerFetchApi';
 import { isFetching, isAllFetched } from '../../reducers/landingBeerList';
 import { mapToLandingModels } from '../../utils/beerFilters';
 
-export const fetchBeers = (onSuccess, beforeFetchAction = requestBeers) => (dispatch, getState) => 
-    fetch(onSuccess, beforeFetchAction, dispatch, getState);
+export const fetchBeers = (beforeFetchAction = requestBeers) => (dispatch, getState) => 
+    fetch(beforeFetchAction, dispatch, getState);
 
-export const fetchMoreBeers = (onSuccess, beforeFetchAction = requestMoreBeers) => (dispatch, getState) => 
-    fetch(onSuccess, beforeFetchAction, dispatch, getState);
+export const fetchMoreBeers = (beforeFetchAction = requestMoreBeers) => (dispatch, getState) => 
+    fetch(beforeFetchAction, dispatch, getState);
 
-const fetch = (onSuccess = mapToLandingModels, beforeFetchAction, dispatch, getState) => {
+const fetch = (beforeFetchAction, dispatch, getState, onSuccess = mapToLandingModels) => {
     const state = getState();
     if(isFetching(state) || isAllFetched(state)) {
         return;
@@ -19,7 +19,7 @@ const fetch = (onSuccess = mapToLandingModels, beforeFetchAction, dispatch, getS
 
     dispatch(beforeFetchAction());
 
-    return api.fetchBeers(landingRequest).then(response => {
+    return beerApi.fetchBeers(landingRequest).then(response => {
         dispatch(receiveBeers(onSuccess(response, favorites.beerIds)))
     }).catch(error => 
         dispatch(receiveBeersFailure(error))

@@ -62,13 +62,13 @@ class PagedBeerList extends Component {
 
     handlePageClick = (newPageNumber) => {  
         if(newPageNumber !== this.currentPageNumber) {
-            this.updateRequest(newPageNumber);
+            this.updateFetchParams(newPageNumber);
             this.fetchData();
             this.currentPageNumber = newPageNumber;
         }
     } 
 
-    updateRequest(newPageNumber) {
+    updateFetchParams(newPageNumber) {
         this.props.setRequest({
             pageNumber: newPageNumber
         }); 

@@ -40,7 +40,7 @@ class SearchableBeerList extends Component {
 
     handleSearch = (beerName) => {
         this.setDefaultRequest();
-        this.updateRequest(beerName);
+        this.updateFetchParams(beerName);
         this.fetchData();
         
         if(!this.state.isFilterOpened) {
@@ -52,12 +52,10 @@ class SearchableBeerList extends Component {
         this.props.setDefaultRequest();
     }
 
-    updateRequest(beerName) {
+    updateFetchParams(beerName) {
         this.props.setRequest({
-            urlParams: {
-                name: beerName,
-                filter: this.filter && this.filter.value,
-            }
+            beerName: beerName,
+            filter: this.filter && this.filter.value,
         });
     }
 

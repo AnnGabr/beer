@@ -3,7 +3,7 @@ import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 
-import { loadFavorites } from '../api/favoritesService';;
+import { loadFavorites } from '../services/favoritesService';
 
 export const configureStore = () => {
     const middlewares = [thunk];

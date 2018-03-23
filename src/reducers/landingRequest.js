@@ -1,12 +1,8 @@
 import { actionTypes } from '../actions/actionTypes';
-import { requestTypes } from '../utils/api';
 
 const initialState = {
-    type: requestTypes.GET_BY_NAME,
-    urlParams: {
-        page: 1,
-        perPage: 9
-    }
+    pageNumber: 1,
+    beersPerPageCount: 9
 };
 
 export default function landingRequest(state = initialState, action) {
@@ -18,18 +14,12 @@ export default function landingRequest(state = initialState, action) {
         case actionTypes.SET_LANDING_REQUEST: 
             return {
                 ...state,
-                urlParams: {
-                    ...state.urlParams,
-                    ...action.payload.urlParams
-                }
+                ...action.payload
             };
         case actionTypes.LANDING_BEERS_FETCHED:
             return {
                 ...state,
-                urlParams: {
-                    ...state.urlParams,
-                    page: state.urlParams.page + 1
-                }
+                pageNumber: state.pageNumber + 1
             };
         default:
             return state;

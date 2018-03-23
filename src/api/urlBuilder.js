@@ -2,7 +2,7 @@ const ROOT_URL = 'https://api.punkapi.com/v2/beers';
 
 export const urlParamsNames = {
     pageNumber: 'pageNumber',
-    beersPerPage: 'beersPerPage',
+    beersPerPageCount: 'beersPerPageCount',
     beerName: 'beerName',
     alcoholVolume: 'alcoholVolume',
     internationalBitternessUnits: 'internationalBitternessUnits',

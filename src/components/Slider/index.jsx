@@ -29,7 +29,6 @@ export default class Slider extends Component {
     }
 
     handleOnChange = (event) => {
-        console.log('good');
         this.setState({value: event.target.value});
         
         this.props.onChange(Number(event.target.value));

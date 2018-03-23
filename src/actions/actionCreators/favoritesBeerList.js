@@ -1,5 +1,5 @@
 import { actionTypes } from '../actionTypes';
-import * as beerApi from '../../api/beerApi/fetchApi';
+import * as beerApi from '../../api/beerFetchApi';
 import { isFetching } from '../../reducers/favoritesBeerList';
 import { mapToFavoritesModels } from '../../utils/beerFilters';
 

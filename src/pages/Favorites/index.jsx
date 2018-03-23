@@ -4,7 +4,7 @@ import { PagedBeerList } from '../../containers';
 
 const Favorites = ({match}) => (
     <main className="layout has-scroll">
-        <PagedBeerList active={parseInt(match.params.pageNumber, 10)}/>
+        <PagedBeerList activePageNumber={parseInt(match.params.pageNumber, 10)}/>
     </main>      
 );
 

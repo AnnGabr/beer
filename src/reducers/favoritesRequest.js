@@ -9,8 +9,8 @@ export default function favoritesRequest(state = initialState, action) {
     switch(action.type) {
         case actionTypes.SET_FAVORITES_REQUEST: 
             return {
-                    ...state,
-                    ...action.payload
+                ...state,
+                ...action.payload
             };
         default:
             return state;

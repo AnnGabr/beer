@@ -1,4 +1,4 @@
-import { fetch } from '../fetchApi';
+import { fetch } from './fetchApi';
 import { buildUrl } from './urlBuilder';
 
 export const fetchBeers = (urlParams) => {

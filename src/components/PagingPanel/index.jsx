@@ -72,17 +72,20 @@ export default class PagingPanel extends Component {
 
         const visibleEndPageNumber = visibleStartPageNumber + this.interval - 1;
         let links = []; 
-        for(let i = visibleStartPageNumber; i <= visibleEndPageNumber && i <= totalPagesCount ; i++) {
+        for(let pageNumber = visibleStartPageNumber
+            ; pageNumber <= visibleEndPageNumber && pageNumber <= totalPagesCount 
+            ; pageNumber++
+        ) {
             const buttonClass = classNames(
                 'button', 
-                {'is-info': i === activePageNumber}
+                {'is-info': pageNumber === activePageNumber}
             );
             links.push(
-                <Link to={`/favorites/page=${i}`}
-                    key={i} 
+                <Link to={`/favorites/page=${pageNumber}`}
+                    key={pageNumber} 
                     className={buttonClass}
-                    onClick={this.handleOnPageLinkClick.bind(this, i)}>
-                    {i}
+                    onClick={this.handleOnPageLinkClick.bind(this, pageNumber)}>
+                    {pageNumber}
                 </Link>
             );
         }
