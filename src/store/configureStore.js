@@ -3,7 +3,7 @@ import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 
-import { loadFavorites } from '../services/favoritesService';
+import favoritesService from '../services/favoritesService';
 
 export const configureStore = () => {
     const middlewares = [thunk];
@@ -12,7 +12,7 @@ export const configureStore = () => {
     }
 
     const initialState = {
-        favorites: loadFavorites() || undefined
+        favorites: favoritesService.get() || undefined
     };
 
     const store = createStore(
