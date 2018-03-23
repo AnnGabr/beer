@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import { fetchBeers } from '../../actions/actionCreators/favoritesBeerList';
 import { setRequest } from '../../actions/actionCreators/favoritesRequest';
@@ -79,6 +80,6 @@ class PagedBeerList extends Component {
     }
 }
 
-PagedBeerList = connect(mapStateToProps, { fetchBeers, setRequest })(PagedBeerList);
+PagedBeerList = withRouter(connect(mapStateToProps, { fetchBeers, setRequest })(PagedBeerList));
 
 export default PagedBeerList;

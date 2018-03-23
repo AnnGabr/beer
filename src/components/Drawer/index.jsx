@@ -20,11 +20,11 @@ const Drawer = ({onClick}) =>  {
                 </header> 
                 <nav className="primary-navigation drawer__content">
                     <Link to='/' className="primary-navigation-item">
-                        <i className="material-icon primary-navigation__icon" aria-hidden="true">inbox</i>
+                        <span className="material-icon primary-navigation__icon" aria-hidden="true">inbox</span>
                         <span>Home</span>
                     </Link>
                     <Link to='/favorites/page=1' className="primary-navigation-item">
-                        <i className="material-icon primary-navigation__icon" aria-hidden="true">star</i>
+                        <span className="material-icon primary-navigation__icon" aria-hidden="true">star</span>
                         <span>Favorites</span>
                     </Link>
                 </nav>

@@ -53,7 +53,7 @@ export default class Filter extends Component {
                 <div className="filters__content">
                     <ul className="filters__list">
                         <li className="filters__list-item">
-                            Alcohol by volum
+                            Alcohol by volume
                         </li>
                         <li className="filters__list-item">
                             International Bitterness units
