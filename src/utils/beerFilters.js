@@ -32,7 +32,7 @@ export function mapToFavoritesModels(serverResponse, favorites){
 
 const getMainInfo = (beer, favorites) => ({
     id: beer.id,
-    image_url: beer.image_url,
+    imageUrl: beer.image_url,
     name: beer.name,
     tagline: beer.tagline,
     isFavorite: favorites.includes(beer.id)

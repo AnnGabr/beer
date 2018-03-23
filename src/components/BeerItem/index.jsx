@@ -51,7 +51,7 @@ class BeerItem extends Component {
                     <figure className="beer__image-container">
                         <img 
                             className={imageClass} 
-                            src={this.props.image_url} 
+                            src={this.props.imageUrl} 
                             alt="beer" 
                         />
                     </figure>

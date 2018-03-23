@@ -15,7 +15,15 @@ export default class BeerList extends Component {
             <ul className="columns is-multiline beer-list">
                 {beers.map((beer) => (
                     <li key={beer.id} className={listItemClass}>
-                        <BeerItem {...beer} isExpanded={isExpanded}/>
+                        <BeerItem
+                            id={beer.id}
+                            imageUrl={beer.imageUrl}
+                            name={beer.name}
+                            tagline={beer.tagline}
+                            description={beer.description}
+                            isFavorite={beer.isFavorite}
+                            isExpanded={isExpanded}
+                        />
                     </li>
                 ))}
             </ul>
