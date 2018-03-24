@@ -1,47 +1,69 @@
 import { actionTypes } from '../actionTypes';
+import createAction from './actionCreator';
+
 import * as beerApi from '../../api/beerFetchApi';
 import { isFetching, isAllFetched } from '../../reducers/landingBeerList';
 import { mapToLandingModels } from '../../utils/beerFilters';
 
-export const fetchBeers = (beforeFetchAction = requestBeers) => (dispatch, getState) => 
-    fetch(beforeFetchAction, dispatch, getState);
+export const fetchSearchResult = (searchParams) => (dispatch) => {
+    if(searchParams) {
+        dispatch(startSearch(searchParams));
+        dispatch(fetchBeers());
+    } else {
+        dispatch(fetchMoreBeers());
+    }
+}
 
-export const fetchMoreBeers = (beforeFetchAction = requestMoreBeers) => (dispatch, getState) => 
-    fetch(beforeFetchAction, dispatch, getState);
+const startSearch = ({beerName, filter}) => {
+    let searchParams = {};
+    if(filter) {
+        searchParams = {
+            alcoholVolume: filter.alcoholVolume,
+            internationalBitternessUnits: filter.internationalBitternessUnits,
+            colorEbc: filter.colorEbc   
+        }
+    }
+    searchParams.beerName = beerName;
 
-const fetch = (beforeFetchAction, dispatch, getState, onSuccess = mapToLandingModels) => {
+    return createAction(actionTypes.SEARCH_STARTED, searchParams);
+}
+
+export const fetchBeers = (actionBeforeFetch = requestBeers) => (dispatch, getState) => {
+    fetch(actionBeforeFetch, dispatch, getState);
+}
+
+const requestBeers = createAction(actionTypes.REQUEST_LANDING_BEERS);
+
+export const fetchMoreBeers = (actionBeforeFetch = requestMoreBeers) => (dispatch, getState) => {
+    fetch(actionBeforeFetch, dispatch, getState);
+}
+
+const requestMoreBeers = createAction(actionTypes.REQUEST_MORE_LANDING_BEERS);
+
+const fetch = (
+    actionBeforeFetch, 
+    dispatch, 
+    getState, 
+    onSuccess = mapToLandingModels
+) => {
     const state = getState();
     if(isFetching(state) || isAllFetched(state)) {
         return;
     }
 
-    const { landingRequest, favorites } = state;
+    const { landingSearch, favorites } = state;
 
-    dispatch(beforeFetchAction());
+    dispatch(actionBeforeFetch);
 
-    return beerApi.fetchBeers(landingRequest).then(response => {
-        dispatch(receiveBeers(onSuccess(response, favorites.beerIds)))
+    return beerApi.fetchBeers(landingSearch).then(response => {
+        dispatch(createAction(
+            actionTypes.LANDING_BEERS_FETCHED, 
+            onSuccess(response, favorites.beerIds)
+        ));
     }).catch(error => 
-        dispatch(receiveBeersFailure(error))
+        dispatch(createAction(actionTypes.LANDING_BEERS_FETCH_FAILED, error))
     );
 }
 
-const receiveBeers = (beers) => ({
-    type: actionTypes.LANDING_BEERS_FETCHED,
-    payload: beers
-});
-
-const requestBeers = () => ({
-    type: actionTypes.REQUEST_LANDING_BEERS
-});
-
-const requestMoreBeers = () => ({
-    type: actionTypes.REQUEST_MORE_LANDING_BEERS
-});
-
-const receiveBeersFailure = (error) => ({
-    type: actionTypes.LANDING_BEERS_FETCH_FAILED,
-    payload: error
-});
 
 

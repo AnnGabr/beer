@@ -3,8 +3,7 @@ import {connect} from 'react-redux';
 
 import {Searchbar, Filter, Message, InfiniteBeerList} from '../../components';
 
-import {fetchBeers, fetchMoreBeers} from '../../actions/actionCreators/landingBeerList';
-import {setRequest, setDefaultRequest} from '../../actions/actionCreators/landingRequest';
+import {fetchSearchResult} from '../../actions/actionCreators/landingBeerList';
 
 import {SEARCH_FAIL_MESSAGE, FETCH_FAIL_MESSAGE} from '../../constants';
 
@@ -20,8 +19,11 @@ class SearchableBeerList extends Component {
     }
 
     componentWillMount() {
-        this.setDefaultRequest();
-        this.fetchData();
+        this.fetchDefaultData();
+    }
+
+    fetchDefaultData() {
+        this.props.fetchSearchResult({});
     }
 
     render() {
@@ -39,30 +41,16 @@ class SearchableBeerList extends Component {
     }
 
     handleSearch = (beerName) => {
-        this.setDefaultRequest();
-        this.updateFetchParams(beerName);
-        this.fetchData();
+        this.props.fetchSearchResult({
+            beerName: beerName,
+            filter: this.filter && this.filter.value
+        })
         
         if(!this.state.isFilterOpened) {
             this.setState({isFilterOpened: true});
         }      
     }
-
-    setDefaultRequest() {
-        this.props.setDefaultRequest();
-    }
-
-    updateFetchParams(beerName) {
-        this.props.setRequest({
-            beerName: beerName,
-            filter: this.filter && this.filter.value,
-        });
-    }
-
-    fetchData() {
-        this.props.fetchBeers();
-    }
-
+    
     getSearchResult() {
         let searchReasult = (
             <InfiniteBeerList 
@@ -88,15 +76,10 @@ class SearchableBeerList extends Component {
     }
 
     fetchMoreData() {
-        this.props.fetchMoreBeers();
+        this.props.fetchSearchResult(null);
     }
 }
 
-SearchableBeerList = connect(mapStateToProps,  { 
-    fetchBeers, 
-    fetchMoreBeers, 
-    setRequest, 
-    setDefaultRequest 
-})(SearchableBeerList);
+SearchableBeerList = connect(mapStateToProps, { fetchSearchResult })(SearchableBeerList);
 
 export default SearchableBeerList;

@@ -9,7 +9,7 @@ const initialState = {
 
 export default function landingBeerList(state = initialState, {type, payload}) {
     switch(type) {
-        case actionTypes.SET_LANDING_REQUEST:
+        case actionTypes.SEARCH_STARTED:
             return {...state,
                 isAllFetched: false
             };

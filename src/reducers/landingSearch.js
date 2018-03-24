@@ -5,16 +5,13 @@ const initialState = {
     beersPerPageCount: 9
 };
 
-export default function landingRequest(state = initialState, action) {
+export default function landingSearch(state = initialState, action) {
     switch(action.type) {
-        case actionTypes.SET_LANDING_DAFAULT_REQUEST:
-            return {
-                ...initialState
-            };
-        case actionTypes.SET_LANDING_REQUEST: 
+        case actionTypes.SEARCH_STARTED:
             return {
                 ...state,
-                ...action.payload
+                ...action.payload,
+                pageNumber: 1
             };
         case actionTypes.LANDING_BEERS_FETCHED:
             return {
