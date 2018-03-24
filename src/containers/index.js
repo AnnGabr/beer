@@ -1,4 +1,5 @@
-import SearchableBeerList from './SearchableBeerList';
 import PagedBeerList from './PagedBeerList';
+import LandingSearch from './LandingSearch';
+import LandingBeerList from './LandingBeerList';
 
-export { SearchableBeerList, PagedBeerList };
+export { PagedBeerList, LandingSearch, LandingBeerList };

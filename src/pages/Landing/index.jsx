@@ -1,12 +1,15 @@
 import React from 'react';
 
-import { SearchableBeerList } from '../../containers';
+import { LandingSearch, LandingBeerList } from '../../containers';
 
 import { MAIN_CONTENT } from '../../constants';
 
 const Landing = (props) =>  (
     <main id={MAIN_CONTENT} className="layout has-scroll">
-        <SearchableBeerList scrollableComponent={MAIN_CONTENT}/>
+        <section className="section container">
+            <LandingSearch />
+            <LandingBeerList scrollableComponent={MAIN_CONTENT}/>
+        </section>
     </main>      
 );
 

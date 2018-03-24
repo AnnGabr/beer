@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {Searchbar, Filter, Message, InfiniteBeerList} from '../../components';
+import {Message, InfiniteBeerList} from '../../components';
 
 import {fetchSearchResult} from '../../actions/actionCreators/landingSearch';
 
@@ -11,13 +11,7 @@ const mapStateToProps = state => ({
     ...state.landingBeerList
 });
 
-class SearchableBeerList extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {isFilterOpened: false};
-    }
-
+class LandingBeerList extends Component {
     componentWillMount() {
         this.fetchDefaultData();
     }
@@ -27,31 +21,6 @@ class SearchableBeerList extends Component {
     }
 
     render() {
-        const filter = this.state.isFilterOpened
-            ? <Filter ref={node => this.filter = node}/>
-            :null;
-
-        return (
-            <section className="section container">
-                <Searchbar onSearch={this.handleSearch}/>
-                {filter}
-                {this.getSearchResult()}
-            </section>
-        )
-    }
-
-    handleSearch = (beerName) => {
-        this.props.fetchSearchResult({
-            beerName: beerName,
-            filter: this.filter && this.filter.value
-        })
-        
-        if(!this.state.isFilterOpened) {
-            this.setState({isFilterOpened: true});
-        }      
-    }
-    
-    getSearchResult() {
         let searchReasult = (
             <InfiniteBeerList 
                 scrollableComponent={this.props.scrollableComponent}
@@ -80,6 +49,6 @@ class SearchableBeerList extends Component {
     }
 }
 
-SearchableBeerList = connect(mapStateToProps, { fetchSearchResult })(SearchableBeerList);
+LandingBeerList = connect(mapStateToProps, { fetchSearchResult })(LandingBeerList);
 
-export default SearchableBeerList;
+export default LandingBeerList;
