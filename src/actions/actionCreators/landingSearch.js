@@ -32,13 +32,13 @@ export const fetchBeers = (actionBeforeFetch = requestBeers) => (dispatch, getSt
     fetch(actionBeforeFetch, dispatch, getState);
 }
 
-const requestBeers = createAction(actionTypes.REQUEST_LANDING_BEERS);
+const requestBeers = createAction(actionTypes.FETCH_LANDING_BEERS);
 
 export const fetchMoreBeers = (actionBeforeFetch = requestMoreBeers) => (dispatch, getState) => {
     fetch(actionBeforeFetch, dispatch, getState);
 }
 
-const requestMoreBeers = createAction(actionTypes.REQUEST_MORE_LANDING_BEERS);
+const requestMoreBeers = createAction(actionTypes.FETCH_MORE_LANDING_BEERS);
 
 const fetch = (
     actionBeforeFetch, 
@@ -57,7 +57,7 @@ const fetch = (
 
     return beerApi.fetchBeers(landingSearch).then(response => {
         dispatch(createAction(
-            actionTypes.LANDING_BEERS_FETCHED, 
+            actionTypes.LANDING_BEERS_FETCHED_SUCCEEDED, 
             onSuccess(response, favorites.beerIds)
         ));
     }).catch(error => 

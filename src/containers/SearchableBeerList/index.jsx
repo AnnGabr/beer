@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import {Searchbar, Filter, Message, InfiniteBeerList} from '../../components';
 
-import {fetchSearchResult} from '../../actions/actionCreators/landingBeerList';
+import {fetchSearchResult} from '../../actions/actionCreators/landingSearch';
 
 import {SEARCH_FAIL_MESSAGE, FETCH_FAIL_MESSAGE} from '../../constants';
 

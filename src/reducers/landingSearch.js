@@ -9,11 +9,10 @@ export default function landingSearch(state = initialState, action) {
     switch(action.type) {
         case actionTypes.SEARCH_STARTED:
             return {
-                ...state,
-                ...action.payload,
-                pageNumber: 1
+                ...initialState,
+                ...action.payload
             };
-        case actionTypes.LANDING_BEERS_FETCHED:
+        case actionTypes.LANDING_BEERS_FETCHED_SUCCEEDED:
             return {
                 ...state,
                 pageNumber: state.pageNumber + 1

@@ -13,15 +13,15 @@ export default function landingBeerList(state = initialState, {type, payload}) {
             return {...state,
                 isAllFetched: false
             };
-        case actionTypes.REQUEST_LANDING_BEERS:
+        case actionTypes.FETCH_LANDING_BEERS:
             return {...initialState,
                 loading: true
             };
-        case actionTypes.REQUEST_MORE_LANDING_BEERS:
+        case actionTypes.FETCH_MORE_LANDING_BEERS:
             return {...state, 
                 loading: true
             };
-        case actionTypes.LANDING_BEERS_FETCHED: 
+        case actionTypes.LANDING_BEERS_FETCHED_SUCCEEDED: 
             return {  
                 beers: [...state.beers, ...payload], 
                 loading: false, 

@@ -22,12 +22,12 @@ export const fetchBeers = (onSuccess = mapToFavoritesModels) => (dispatch, getSt
 }
 
 const receiveBeers = (beers) => ({
-    type: actionTypes.FAVORITES_BEERS_FETCHED,
+    type: actionTypes.FAVORITES_BEERS_FETCHED_SUCCEEDED,
     payload: beers
 });
 
 const requestBeers = () => ({
-    type: actionTypes.REQUEST_FAVORITES_BEERS
+    type: actionTypes.FETCH_FAVORITES_BEERS
 });
 
 const receiveBeersFailure = (error) => ({
