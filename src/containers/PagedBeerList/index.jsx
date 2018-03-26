@@ -34,8 +34,6 @@ class PagedBeerList extends Component {
     }
 
     render() {
-        const loader = this.props.loading ? <Loader /> : null;
-
         return (
             <section className="section container paged-list">
                 <header className="title is-2 paged-list__title">
@@ -47,19 +45,31 @@ class PagedBeerList extends Component {
                         isColumnList
                         isExpanded
                     />
-                    {loader}
+                    {this.getLoader()}
                 </main>
                 <footer className="paged-list__footer">
-                    <PagingPanel 
-                        totalPagesCount={this.totalPagesCount}
-                        onClick={this.handlePageClick} 
-                        interval={this.beersPerPageCount}
-                        activePageNumber={this.currentPageNumber}
-                    />
+                    {this.getPagingPanel()}
                 </footer>
             </section>
         )  
     }
+
+    getLoader = () => (
+        this.props.loading ? <Loader /> : null
+    )
+
+    getPagingPanel = () => (
+        this.props.loading 
+            ? null
+            : (
+                <PagingPanel 
+                    totalPagesCount={this.totalPagesCount}
+                    onClick={this.handlePageClick} 
+                    interval={this.beersPerPageCount}
+                    activePageNumber={this.currentPageNumber}
+                />
+            )
+    )
 
     handlePageClick = (newPageNumber) => {  
         if(newPageNumber !== this.currentPageNumber) {
