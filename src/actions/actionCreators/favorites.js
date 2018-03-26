@@ -7,20 +7,20 @@ export const saveFavoriteChange = (id, isMarkedAsFavorite) => (dispatch, getStat
 
    const isInFavorites = favorites.beerIds.includes(id);
    if(isInFavorites && !isMarkedAsFavorite) {
-        const newFavoriteBeerIds = removeBeerId(favorites.beerIds, id);
-        saveFavorites(newFavoriteBeerIds, dispatch);    
+        const newFavoriteBeersIds = removeBeerId(favorites.beerIds, id);
+        saveFavorites(newFavoriteBeersIds, dispatch);    
    }else if(!isInFavorites &&  isMarkedAsFavorite){
-        const newFavoriteBeerIds = addBeerId(favorites.beerIds, id);
-        saveFavorites(newFavoriteBeerIds, dispatch);
+        const newFavoriteBeersIds = addBeerId(favorites.beerIds, id);
+        saveFavorites(newFavoriteBeersIds, dispatch);
    }
 }; 
 
-function saveFavorites(newFavoriteBeerIds, dispatch) {
-    favoritesService.set(newFavoriteBeerIds);
+function saveFavorites(newFavoriteBeersIds, dispatch) {
+    favoritesService.set(newFavoriteBeersIds);
     
     dispatch(createAction(
         actionTypes.FAVORITES_CHANGED,
-        newFavoriteBeerIds
+        newFavoriteBeersIds
     ));
 }
 

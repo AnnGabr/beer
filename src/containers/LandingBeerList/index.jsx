@@ -21,6 +21,10 @@ class LandingBeerList extends Component {
     }
 
     render() {
+        return this.getSearchResult();
+    }
+
+    getSearchResult() {
         let searchReasult = (
             <InfiniteList 
                 scrollableComponent={this.props.scrollableComponent}

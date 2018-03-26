@@ -1,24 +1,26 @@
 import { actionTypes } from '../actionTypes';
+import createAction from './actionCreator';
 import * as beerApi from '../../api/beerFetchApi';
-import { isFetching } from '../../reducers/favoritesBeerList';
 import { mapToFavoritesModels } from '../../utils/beerFilters';
 
 export const fetchBeers = (onSuccess = mapToFavoritesModels) => (dispatch, getState) => {
-    const state = getState();
+    dispatch(createAction(
+        actionTypes.FETCH_FAVORITE_BEERS
+    ));
 
-    if(isFetching(state)) {
-        return;
-    }
+    const { favoritesRequest, favorites } = getState();
 
-    dispatch(requestBeers());
-
-    const { favoritesRequest, favorites } = state;
-
-    return beerApi.fetchBeers(getUrlParams(favoritesRequest)).then(response => 
-        dispatch(receiveBeers(onSuccess(response, favorites.beerIds)))
-    ).catch(error => 
-        dispatch(receiveBeersFailure(error))
-    );
+    return beerApi.fetchBeers(getUrlParams(favoritesRequest)).then(response => {
+        dispatch(createAction(
+            actionTypes.FAVORITE_BEERS_FETCH_SUCCEEDED,
+            onSuccess(response, favorites.beerIds)
+        ));
+    }).catch(error => {
+        dispatch(createAction(
+            actionTypes.FAVORITE_BEERS_FETCH_FAILED,
+            error
+        ));
+    });
 }
 
 const getUrlParams = ({
@@ -33,17 +35,3 @@ const getUrlParams = ({
         beerIds: beerIds.slice(startIndex, endIndex)
     };
 }
-
-const receiveBeers = (beers) => ({
-    type: actionTypes.FAVORITES_BEERS_FETCHED_SUCCEEDED,
-    payload: beers
-});
-
-const requestBeers = () => ({
-    type: actionTypes.FETCH_FAVORITES_BEERS
-});
-
-const receiveBeersFailure = (error) => ({
-    type: actionTypes.FAVORITES_BEERS_FETCH_FAILED,
-    payload: error
-});
