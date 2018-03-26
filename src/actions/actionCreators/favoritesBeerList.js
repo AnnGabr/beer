@@ -14,11 +14,24 @@ export const fetchBeers = (onSuccess = mapToFavoritesModels) => (dispatch, getSt
 
     const { favoritesRequest, favorites } = state;
 
-    return beerApi.fetchBeers(favoritesRequest).then(response => 
+    return beerApi.fetchBeers(getUrlParams(favoritesRequest)).then(response => 
         dispatch(receiveBeers(onSuccess(response, favorites.beerIds)))
     ).catch(error => 
         dispatch(receiveBeersFailure(error))
     );
+}
+
+const getUrlParams = ({
+    pageNumber, 
+    beersPerPageCount, 
+    beerIds
+}) => {
+    const startIndex = (pageNumber - 1) * beersPerPageCount;
+    const endIndex = startIndex + beersPerPageCount;
+    
+    return {
+        beerIds: beerIds.slice(startIndex, endIndex)
+    };
 }
 
 const receiveBeers = (beers) => ({
