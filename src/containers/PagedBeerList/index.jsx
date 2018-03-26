@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { fetchBeers } from '../../actions/actionCreators/favoritesBeerList';
-import { setRequest } from '../../actions/actionCreators/favoritesRequest';
+import { fetchBeers } from '../../actions/actionCreators/favoriteBeersList';
 
 import { BeerList, Loader, PagingPanel } from '../../components';
 
@@ -11,8 +10,8 @@ import './paged-list.css';
 
 const mapStateToProps = (state, ownProps) => ({
     ...state.favoritesBeerList,
-    ...state.favorites,
-    beerCount: state.favorites.beerIds.length
+    favoriteBeersIds: state.favorites.beerIds,
+    beersCount: state.favorites.beerIds.length
 });
 
 class PagedBeerList extends Component {
@@ -21,15 +20,12 @@ class PagedBeerList extends Component {
 
         this.currentPageNumber = props.activePageNumber || 1;
         this.beersPerPageCount = props.beersPerPageCount || 5;  
-        this.totalPagesCount = Math.ceil(props.beerCount/this.beersPerPageCount);
+        this.totalPagesCount = Math.ceil(props.beersCount/this.beersPerPageCount);
     }
 
     componentWillMount() {
-        this.props.setRequest({
-            pageNumber: this.currentPageNumber,
-            beersPerPageCount: this.beersPerPageCount,
-            beerIds: this.props.beerIds
-        });
+        this.favoriteBeersIds = this.props.favoriteBeersIds;
+
         this.fetchData();      
     }
 
@@ -73,23 +69,26 @@ class PagedBeerList extends Component {
 
     handlePageClick = (newPageNumber) => {  
         if(newPageNumber !== this.currentPageNumber) {
-            this.updateFetchParams(newPageNumber);
-            this.fetchData();
             this.currentPageNumber = newPageNumber;
+
+            this.fetchData();
         }
     } 
 
-    updateFetchParams(newPageNumber) {
-        this.props.setRequest({
-            pageNumber: newPageNumber
-        }); 
+    fetchData() {
+        this.props.fetchBeers({
+            favoriteBeersIds: this.getCurrentPageBeersIds()
+        });
     }
 
-    fetchData() {
-        this.props.fetchBeers();
+    getCurrentPageBeersIds() {
+        const startIndex = (this.currentPageNumber - 1) * this.beersPerPageCount;
+        const endIndex = startIndex + this.beersPerPageCount;
+
+        return this.favoriteBeersIds.slice(startIndex, endIndex);
     }
 }
 
-PagedBeerList = withRouter(connect(mapStateToProps, { fetchBeers, setRequest })(PagedBeerList));
+PagedBeerList = withRouter(connect(mapStateToProps, { fetchBeers })(PagedBeerList));
 
 export default PagedBeerList;
