@@ -1,5 +1,5 @@
 import PagedBeerList from './PagedBeerList';
-import LandingSearch from './LandingSearch';
+import LandingSearchPanel from './LandingSearchPanel';
 import LandingBeerList from './LandingBeerList';
 
-export { PagedBeerList, LandingSearch, LandingBeerList };
+export { PagedBeerList, LandingSearchPanel, LandingBeerList };

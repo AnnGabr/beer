@@ -9,7 +9,7 @@ const mapStateToProps = (state) => ({
     isSearchDisabled: state.landingBeerList.loading
 });
 
-class LandingSearch extends Component {
+class LandingSearchPanel extends Component {
     constructor(props) {
         super(props);
 
@@ -46,6 +46,6 @@ class LandingSearch extends Component {
     )
 }
 
-LandingSearch = connect(mapStateToProps, { fetchSearchResult })(LandingSearch);
+LandingSearchPanel = connect(mapStateToProps, { fetchSearchResult })(LandingSearchPanel);
 
-export default LandingSearch;
+export default LandingSearchPanel;
