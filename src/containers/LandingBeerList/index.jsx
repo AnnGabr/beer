@@ -5,7 +5,7 @@ import {Message, InfiniteList, BeerList} from '../../components';
 
 import {fetchSearchResult} from '../../actions/actionCreators/landingSearch';
 
-import {SEARCH_FAIL_MESSAGE, FETCH_FAIL_MESSAGE} from '../../constants';
+import {NO_SEARCH_RESULTS_MESSAGE, FETCH_FAIL_MESSAGE} from '../../constants';
 
 const mapStateToProps = state => ({
     ...state.landingBeerList
@@ -34,7 +34,7 @@ class LandingBeerList extends Component {
             searchReasult = <Message text={FETCH_FAIL_MESSAGE}/>;
         } else if(this.props.isAllFetched) {
             if(this.props.beers.length === 0) {
-                searchReasult = <Message text={SEARCH_FAIL_MESSAGE}/>;
+                searchReasult = <Message text={NO_SEARCH_RESULTS_MESSAGE}/>;
             }
         }
 
