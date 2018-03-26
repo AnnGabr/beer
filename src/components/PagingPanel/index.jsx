@@ -51,7 +51,7 @@ export default class PagingPanel extends Component {
                     <i className="material-icon" aria-hidden="true">chevron_left</i>
                 </button>
             )
-            :null
+            : null
         );
     }
 

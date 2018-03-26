@@ -6,10 +6,10 @@ export const saveFavoriteChange = (id, isMarkedAsFavorite) => (dispatch, getStat
    const { favorites } = getState();
 
    const isInFavorites = favorites.beerIds.includes(id);
-   if(isInFavorites && !isMarkedAsFavorite) {
+   if (isInFavorites && !isMarkedAsFavorite) {
         const newFavoriteBeersIds = removeBeerId(favorites.beerIds, id);
         saveFavorites(newFavoriteBeersIds, dispatch);    
-   }else if(!isInFavorites &&  isMarkedAsFavorite){
+   }else if (!isInFavorites &&  isMarkedAsFavorite) {
         const newFavoriteBeersIds = addBeerId(favorites.beerIds, id);
         saveFavorites(newFavoriteBeersIds, dispatch);
    }

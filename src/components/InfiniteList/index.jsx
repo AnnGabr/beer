@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
 import { Loader } from '../../components';
 
@@ -6,6 +7,7 @@ import './infinite-list-wrapper.css';
 
 export default class InfiniteBeerList extends Component {
     componentDidMount() {
+        this.scrollableDOMElement = ReactDOM.findDOMNode(this.props.scrollableComponent);
         this.addScrollListener();
     }
 
@@ -27,28 +29,25 @@ export default class InfiniteBeerList extends Component {
     )
 
     addScrollListener = () => {
-        const scrollableComponent = document.getElementById(this.props.scrollableComponent);
-        if(scrollableComponent) {
-            scrollableComponent.addEventListener('scroll', this.handleScroll);
+        if(this.scrollableDOMElement) {
+            this.scrollableDOMElement.addEventListener('scroll', this.handleScroll);
         }
     }
 
     removeScrollListener = () => {
-        const scrollableComponent = document.getElementById(this.props.scrollableComponent);
-        if(scrollableComponent) {
-            scrollableComponent.removeEventListener('scroll', this.handleScroll);
+        if(this.scrollableDOMElement) {
+            this.scrollableDOMElement.removeEventListener('scroll', this.handleScroll);
         }
     }
 
     handleScroll = (event) => {
-        const scrollableComponent = document.getElementById(this.props.scrollableComponent);
-        if (!scrollableComponent) {
+        if (!this.scrollableDOMElement) {
             return;
         }
         
         const isAtEnd = (
-            scrollableComponent.clientHeight +  scrollableComponent.scrollTop 
-                >= scrollableComponent.scrollHeight - 10
+            this.scrollableDOMElement.clientHeight +  this.scrollableDOMElement.scrollTop 
+                >= this.scrollableDOMElement.scrollHeight - 10
         );
         if (isAtEnd) {
             this.props.onEndAchive();
