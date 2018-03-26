@@ -6,7 +6,7 @@ import BeerList from './BeerList';
 import Loader from './Loader';
 import PagingPanel from './PagingPanel';
 import Message from './Message';
-import InfiniteBeerList from './InfiniteBeerList';
+import InfiniteList from './InfiniteList';
 
 export {
     Drawer, 
@@ -17,5 +17,5 @@ export {
     Loader, 
     PagingPanel, 
     Message, 
-    InfiniteBeerList
+    InfiniteList
 };

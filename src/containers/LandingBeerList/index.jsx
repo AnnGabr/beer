@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {Message, InfiniteBeerList} from '../../components';
+import {Message, InfiniteList, BeerList} from '../../components';
 
 import {fetchSearchResult} from '../../actions/actionCreators/landingSearch';
 
@@ -22,12 +22,13 @@ class LandingBeerList extends Component {
 
     render() {
         let searchReasult = (
-            <InfiniteBeerList 
+            <InfiniteList 
                 scrollableComponent={this.props.scrollableComponent}
                 onEndAchive={this.fetchMoreData}
-                loading={this.props.loading}
-                beers={this.props.beers}
-            />
+                loading={this.props.loading}    
+            >
+                <BeerList beers={this.props.beers} />
+            </InfiniteList>
         );
         if(this.props.error) {
             searchReasult = <Message text={FETCH_FAIL_MESSAGE}/>;

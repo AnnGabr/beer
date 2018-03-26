@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import { BeerList, Loader } from '../../components';
+import { Loader } from '../../components';
 
-import './beer-list-wrapper.css';
+import './infinite-list-wrapper.css';
 
 export default class InfiniteBeerList extends Component {
     componentDidMount() {
@@ -14,33 +14,33 @@ export default class InfiniteBeerList extends Component {
     }
 
     render() {
-        const loader = (
-            this.props.loading ? <Loader /> : null
-        );
-
         return (
-            <div className="beer-list-wrapper">
-                <BeerList beers={this.props.beers} />
-                {loader}
+            <div className="infinite-list-wrapper">
+                {this.props.children}
+                {this.getLoader()}
             </div>
         )    
     }
 
+    getLoader = () => (
+        this.props.loading ? <Loader /> : null
+    )
+
     addScrollListener = () => {
         const scrollableComponent = document.getElementById(this.props.scrollableComponent);
         if(scrollableComponent) {
-            scrollableComponent.addEventListener('scroll', this.loadOnScroll);
+            scrollableComponent.addEventListener('scroll', this.handleScroll);
         }
     }
 
     removeScrollListener = () => {
         const scrollableComponent = document.getElementById(this.props.scrollableComponent);
         if(scrollableComponent) {
-            scrollableComponent.removeEventListener('scroll', this.loadOnScroll);
+            scrollableComponent.removeEventListener('scroll', this.handleScroll);
         }
     }
 
-    loadOnScroll = (event) => {
+    handleScroll = (event) => {
         const scrollableComponent = document.getElementById(this.props.scrollableComponent);
         if (!scrollableComponent) {
             return;
