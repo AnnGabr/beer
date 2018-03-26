@@ -1,5 +1,5 @@
 import {actionTypes} from '../actionTypes';
-
+import createAction from './actionCreator';
 import favoritesService from '../../services/favoritesService';
 
 export const saveFavoriteChange = (id, isMarkedAsFavorite) => (dispatch, getState) => {
@@ -18,14 +18,12 @@ export const saveFavoriteChange = (id, isMarkedAsFavorite) => (dispatch, getStat
 function saveFavorites(newFavoriteBeerIds, dispatch) {
     favoritesService.set(newFavoriteBeerIds);
     
-    dispatch(changeFavorites(newFavoriteBeerIds));
+    dispatch(createAction(
+        actionTypes.FAVORITES_CHANGED,
+        newFavoriteBeerIds
+    ));
 }
 
 const addBeerId = (beerIds, idToAdd) => beerIds.concat(idToAdd);
 
 const removeBeerId = (beerIds, idToRemove) => beerIds.filter((id) => id !== idToRemove);
-
-const changeFavorites = (newFavoriteBeerIds) => ({
-    type: actionTypes.FAVORITES_CHANGED,
-    payload: newFavoriteBeerIds
-});

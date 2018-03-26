@@ -5,6 +5,10 @@ import {Searchbar, Filter} from '../../components';
 
 import {fetchSearchResult} from '../../actions/actionCreators/landingSearch';
 
+const mapStateToProps = (state) => ({
+    isSearchDisabled: state.landingBeerList.loading
+});
+
 class LandingSearch extends Component {
     constructor(props) {
         super(props);
@@ -13,14 +17,13 @@ class LandingSearch extends Component {
     }
 
     render() {
-        const filter = this.state.isFilterOpened
-            ? <Filter ref={node => this.filter = node}/>
-            :null;
-
         return (
             <div>
-                <Searchbar onSearch={this.handleSearch}/>
-                {filter}
+                <Searchbar 
+                    onSearch={this.handleSearch}
+                    isDisabled={this.props.isSearchDisabled}
+                />
+                {this.getFilter()}
             </div>
         )
     }
@@ -35,8 +38,14 @@ class LandingSearch extends Component {
             this.setState({isFilterOpened: true});
         }      
     }
+
+    getFilter = () => (
+        this.state.isFilterOpened
+            ? <Filter ref={node => this.filter = node}/>
+            :null
+    )
 }
 
-LandingSearch = connect(null, { fetchSearchResult })(LandingSearch);
+LandingSearch = connect(mapStateToProps, { fetchSearchResult })(LandingSearch);
 
 export default LandingSearch;

@@ -18,8 +18,9 @@ export default class Searchbar extends Component {
                     <button 
                         className="button is-info" 
                         onClick={this.handleSearch} 
-                        onSubmit={this.handleSearch}>
-                        Search
+                        onSubmit={this.handleSearch}
+                        disabled={this.props.isDisabled}>
+                        <span className="material-icon" aria-hidden="true">search</span>
                     </button>
                 </span>
             </form>

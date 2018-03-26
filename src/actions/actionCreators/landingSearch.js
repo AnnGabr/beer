@@ -28,17 +28,17 @@ const startSearch = ({beerName, filter}) => {
     return createAction(actionTypes.SEARCH_STARTED, searchParams);
 }
 
-export const fetchBeers = (actionBeforeFetch = requestBeers) => (dispatch, getState) => {
+const fetchBeers = (actionBeforeFetch = fetchBeersAction) => (dispatch, getState) => {
     fetch(actionBeforeFetch, dispatch, getState);
 }
 
-const requestBeers = createAction(actionTypes.FETCH_LANDING_BEERS);
+const fetchBeersAction = createAction(actionTypes.FETCH_LANDING_BEERS);
 
-export const fetchMoreBeers = (actionBeforeFetch = requestMoreBeers) => (dispatch, getState) => {
+const fetchMoreBeers = (actionBeforeFetch = fetchMoreBeersAction) => (dispatch, getState) => {
     fetch(actionBeforeFetch, dispatch, getState);
 }
 
-const requestMoreBeers = createAction(actionTypes.FETCH_MORE_LANDING_BEERS);
+const fetchMoreBeersAction = createAction(actionTypes.FETCH_MORE_LANDING_BEERS);
 
 const fetch = (
     actionBeforeFetch, 
@@ -60,9 +60,12 @@ const fetch = (
             actionTypes.LANDING_BEERS_FETCHED_SUCCEEDED, 
             onSuccess(response, favorites.beerIds)
         ));
-    }).catch(error => 
-        dispatch(createAction(actionTypes.LANDING_BEERS_FETCH_FAILED, error))
-    );
+    }).catch(error => {
+        dispatch(createAction(
+            actionTypes.LANDING_BEERS_FETCH_FAILED, 
+            error
+        ));
+    });
 }
 
 
