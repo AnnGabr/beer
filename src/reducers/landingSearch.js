@@ -12,7 +12,7 @@ export default function landingSearch(state = initialState, action) {
                 ...initialState,
                 ...action.payload
             };
-        case actionTypes.LANDING_BEERS_FETCHED_SUCCEEDED:
+        case actionTypes.LANDING_BEERS_FETCH_SUCCEEDED:
             return {
                 ...state,
                 pageNumber: state.pageNumber + 1

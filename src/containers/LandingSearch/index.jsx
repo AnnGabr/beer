@@ -25,14 +25,14 @@ class LandingSearch extends Component {
                 />
                 {this.getFilter()}
             </div>
-        )
+        );
     }
 
     handleSearch = (beerName) => {
         this.props.fetchSearchResult({
             beerName: beerName,
             filter: this.filter && this.filter.value
-        })
+        });
         
         if(!this.state.isFilterOpened) {
             this.setState({isFilterOpened: true});

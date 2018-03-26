@@ -42,13 +42,15 @@ export default class InfiniteBeerList extends Component {
 
     loadOnScroll = (event) => {
         const scrollableComponent = document.getElementById(this.props.scrollableComponent);
-        if(!scrollableComponent) return;
+        if (!scrollableComponent) {
+            return;
+        }
         
         const isAtEnd = (
             scrollableComponent.clientHeight +  scrollableComponent.scrollTop 
-                                                        >= scrollableComponent.scrollHeight - 10
+                >= scrollableComponent.scrollHeight - 10
         );
-        if(isAtEnd){
+        if (isAtEnd) {
             this.props.onEndAchive();
         }
     }

@@ -24,7 +24,7 @@ class LandingBeerList extends Component {
         let searchReasult = (
             <InfiniteBeerList 
                 scrollableComponent={this.props.scrollableComponent}
-                onEndAchive={this.handleEndAchive}
+                onEndAchive={this.fetchMoreData}
                 loading={this.props.loading}
                 beers={this.props.beers}
             />
@@ -40,11 +40,7 @@ class LandingBeerList extends Component {
         return searchReasult;
     }
 
-    handleEndAchive = () => {
-        this.fetchMoreData();
-    }
-
-    fetchMoreData() {
+    fetchMoreData = () => {
         this.props.fetchSearchResult(null);
     }
 }
