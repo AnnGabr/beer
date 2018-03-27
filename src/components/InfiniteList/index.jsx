@@ -21,36 +21,33 @@ export default class InfiniteBeerList extends Component {
                 {this.props.children}
                 {this.getLoader()}
             </div>
-        )    
+        );
     }
 
-    getLoader = () => (
-        this.props.loading ? <Loader /> : null
-    )
+    getLoader = () => (this.props.loading ? <Loader /> : null);
 
     addScrollListener = () => {
-        if(this.scrollableDOMElement) {
+        if (this.scrollableDOMElement) {
             this.scrollableDOMElement.addEventListener('scroll', this.handleScroll);
         }
-    }
+    };
 
     removeScrollListener = () => {
-        if(this.scrollableDOMElement) {
+        if (this.scrollableDOMElement) {
             this.scrollableDOMElement.removeEventListener('scroll', this.handleScroll);
         }
-    }
+    };
 
-    handleScroll = (event) => {
+    handleScroll = () => {
         if (!this.scrollableDOMElement) {
             return;
         }
-        
-        const isAtEnd = (
-            this.scrollableDOMElement.clientHeight +  this.scrollableDOMElement.scrollTop 
-                >= this.scrollableDOMElement.scrollHeight - 10
-        );
+
+        const isAtEnd =
+            this.scrollableDOMElement.clientHeight + this.scrollableDOMElement.scrollTop >=
+            this.scrollableDOMElement.scrollHeight - 10;
         if (isAtEnd) {
             this.props.onEndAchive();
         }
-    }
+    };
 }

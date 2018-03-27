@@ -1,14 +1,14 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import {Message, InfiniteList, BeerList} from '../../components';
+import { Message, InfiniteList, BeerList } from '../../components';
 
-import {fetchSearchResult} from '../../actions/actionCreators/landingSearch';
+import fetchSearchResult from '../../actions/actionCreators/landingSearch';
 
-import {NO_SEARCH_RESULTS_MESSAGE, FETCH_FAIL_MESSAGE} from '../../constants';
+import { NO_SEARCH_RESULTS_MESSAGE, FETCH_FAIL_MESSAGE } from '../../constants';
 
 const mapStateToProps = state => ({
-    ...state.landingBeerList
+    ...state.landingBeerList,
 });
 
 class LandingBeerList extends Component {
@@ -26,19 +26,19 @@ class LandingBeerList extends Component {
 
     getSearchResult() {
         let searchReasult = (
-            <InfiniteList 
+            <InfiniteList
                 scrollableComponent={this.props.scrollableComponent}
                 onEndAchive={this.fetchMoreData}
-                loading={this.props.loading}    
+                loading={this.props.loading}
             >
                 <BeerList beers={this.props.beers} />
             </InfiniteList>
         );
-        if(this.props.error) {
-            searchReasult = <Message text={FETCH_FAIL_MESSAGE}/>;
-        } else if(this.props.isAllFetched) {
-            if(this.props.beers.length === 0) {
-                searchReasult = <Message text={NO_SEARCH_RESULTS_MESSAGE}/>;
+        if (this.props.error) {
+            searchReasult = <Message text={FETCH_FAIL_MESSAGE} />;
+        } else if (this.props.isAllFetched) {
+            if (this.props.beers.length === 0) {
+                searchReasult = <Message text={NO_SEARCH_RESULTS_MESSAGE} />;
             }
         }
 
@@ -47,7 +47,7 @@ class LandingBeerList extends Component {
 
     fetchMoreData = () => {
         this.props.fetchSearchResult(null);
-    }
+    };
 }
 
 LandingBeerList = connect(mapStateToProps, { fetchSearchResult })(LandingBeerList);

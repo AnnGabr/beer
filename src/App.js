@@ -7,29 +7,29 @@ import 'bulma/css/bulma.css';
 import './index.css';
 
 export default class App extends Component {
-	constructor(props) {
-		super(props);
-		
-		this.state = {isDrawerOpened: false};  
-	}
+    constructor(props) {
+        super(props);
 
-	render() {
-		return (
-			<div className="layout">
-				{this.getDrawer()}
-				<Header onHamburgerClick={this.toggleDrawer}/>
-				<Router />
-			</div>
-		);
-	}
+        this.state = { isDrawerOpened: false };
+    }
 
-	getDrawer = () => (
-		this.state.isDrawerOpened 
-			? <Drawer onClick={this.toggleDrawer}/> 
-			: null
-	)
+    render() {
+        return (
+            <div className="layout">
+                {this.getDrawer()}
+                <Header onHamburgerClick={this.toggleDrawer}/>
+                <Router />
+            </div>
+        );
+    }
 
-	toggleDrawer = () => {
-		this.setState({isDrawerOpened: !this.state.isDrawerOpened});
-	}
+    getDrawer = () => (
+        this.state.isDrawerOpened
+            ? <Drawer onClick={this.toggleDrawer}/>
+            : null
+    )
+
+    toggleDrawer = () => {
+        this.setState({ isDrawerOpened: !this.state.isDrawerOpened });
+    }
 }

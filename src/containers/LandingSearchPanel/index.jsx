@@ -1,49 +1,50 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 
-import {Searchbar, Filter} from '../../components';
+import { Searchbar, Filter } from '../../components';
 
-import {fetchSearchResult} from '../../actions/actionCreators/landingSearch';
+import fetchSearchResult from '../../actions/actionCreators/landingSearch';
 
-const mapStateToProps = (state) => ({
-    isSearchDisabled: state.landingBeerList.loading
+const mapStateToProps = state => ({
+    isSearchDisabled: state.landingBeerList.loading,
 });
 
 class LandingSearchPanel extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {isFilterOpened: false};
+        this.state = { isFilterOpened: false };
     }
 
     render() {
         return (
-            <div>
-                <Searchbar 
-                    onSearch={this.handleSearch}
-                    isDisabled={this.props.isSearchDisabled}
-                />
+            <Fragment>
+                <Searchbar onSearch={this.handleSearch} isDisabled={this.props.isSearchDisabled} />
                 {this.getFilter()}
-            </div>
+            </Fragment>
         );
     }
 
     handleSearch = (beerName) => {
         this.props.fetchSearchResult({
-            beerName: beerName,
-            filter: this.filter && this.filter.value
+            beerName,
+            filter: this.filter && this.filter.value,
         });
-        
-        if(!this.state.isFilterOpened) {
-            this.setState({isFilterOpened: true});
-        }      
-    }
+
+        if (!this.state.isFilterOpened) {
+            this.setState({ isFilterOpened: true });
+        }
+    };
 
     getFilter = () => (
-        this.state.isFilterOpened
-            ? <Filter ref={node => this.filter = node}/>
-            :null
-    )
+        this.state.isFilterOpened ? (
+            <Filter
+                ref={(node) => {
+                    this.filter = node;
+                }}
+            />
+        ) : null
+    );
 }
 
 LandingSearchPanel = connect(mapStateToProps, { fetchSearchResult })(LandingSearchPanel);
