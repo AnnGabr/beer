@@ -12,6 +12,7 @@ const mapStateToProps = (state, ownProps) => ({
     ...state.favoritesBeerList,
     favoriteBeersIds: state.favorites.beerIds,
     beersCount: state.favorites.beerIds.length,
+    activePage: ownProps.match.params.pageNumber,
 });
 
 class PagedBeerList extends Component {
