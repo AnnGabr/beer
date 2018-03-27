@@ -37,13 +37,15 @@ class LandingSearchPanel extends Component {
     };
 
     getFilter = () => (
-        this.state.isFilterOpened ? (
-            <Filter
-                ref={(node) => {
-                    this.filter = node;
-                }}
-            />
-        ) : null
+        this.state.isFilterOpened
+            ? (
+                <Filter
+                    ref={(node) => {
+                        this.filter = node;
+                    }}
+                />
+            )
+            : null
     );
 }
 

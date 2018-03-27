@@ -41,13 +41,15 @@ export default class PagingPanel extends Component {
         const needLeftArrow =
             this.state.visibleStartPageNumber >= this.interval + this.startPageNumber;
 
-        return needLeftArrow ? (
-            <button className="button" onClick={this.handlePreviousPagesClick}>
-                <i className="material-icon" aria-hidden="true">
-                    chevron_left
-                </i>
-            </button>
-        ) : null;
+        return needLeftArrow
+            ? (
+                <button className="button" onClick={this.handlePreviousPagesClick}>
+                    <i className="material-icon" aria-hidden="true">
+                        chevron_left
+                    </i>
+                </button>
+            )
+            : null;
     };
 
     handlePreviousPagesClick = () => {
@@ -103,13 +105,15 @@ export default class PagingPanel extends Component {
         const needRightArrow =
             this.props.totalPagesCount - this.interval >= this.state.visibleStartPageNumber;
 
-        return needRightArrow ? (
-            <button className="button" onClick={this.handleNextPagesClick}>
-                <i className="material-icon" aria-hidden="true">
-                    chevron_right
-                </i>
-            </button>
-        ) : null;
+        return needRightArrow
+            ? (
+                <button className="button" onClick={this.handleNextPagesClick}>
+                    <i className="material-icon" aria-hidden="true">
+                        chevron_right
+                    </i>
+                </button>
+            )
+            : null;
     };
 
     handleNextPagesClick = () => {
