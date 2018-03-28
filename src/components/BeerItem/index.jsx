@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { saveFavoriteChange } from '../../actions/actionCreators/favorites';
@@ -18,47 +19,76 @@ class BeerItem extends Component {
 
     render() {
         const beerClass = classNames('beer', { 'beer--expanded': this.props.isExpanded });
-        const favoriteButtonClass = classNames(
-            'button',
-            this.state.isFavorite ? 'is-primary' : 'is-light',
-        );
-        const taglineClass = classNames({ 'beer__tagline--expanded': this.props.isExpanded });
-        const imageClass = classNames('beer__image', {
-            'beer__image--expanded': this.props.isExpanded,
-        });
-
-        const favoriteButtonContent = this.state.isFavorite ? 'Remove Favorite' : 'Favorite';
-
-        const description = this.props.isExpanded
-            ? <p className="beer__description">{this.props.description}</p>
-            : null;
 
         return (
             <div className="box">
                 <article className={beerClass}>
                     <figure className="beer__image-container">
-                        <img className={imageClass} src={this.props.imageUrl} alt="beer" />
+                        {this.renderBeerImage()}
                     </figure>
                     <div className="beer__about">
-                        <div className="title is-4 beer__name">{this.props.name}</div>
-                        <p className={taglineClass}>{this.props.tagline}</p>
-                        {description}
+                        {this.renderBeerName()}
+                        {this.renderTagline()}
+                        {this.renderDescription()}
                         <div className="field is-grouped is-grouped-multiline beer__buttons">
                             <div className="control">
-                                <button className="button is-outlined is-link">Open</button>
+                                {this.renderOpenButton()}
                             </div>
                             <div className="control">
-                                <button
-                                    className={favoriteButtonClass}
-                                    onClick={this.handleFavoriteButtonClick}
-                                >
-                                    {favoriteButtonContent}
-                                </button>
+                                {this.renderFavoriteButton()}
                             </div>
                         </div>
                     </div>
                 </article>
             </div>
+        );
+    }
+
+    renderBeerImage() {
+        const imageClass = classNames('beer__image', {
+            'beer__image--expanded': this.props.isExpanded,
+        });
+        const { imageUrl, name } = this.props;
+
+        return <img className={imageClass} src={imageUrl} alt={name} />;
+    }
+
+    renderBeerName() {
+        return <div className="title is-4 beer__name">{this.props.name}</div>;
+    }
+
+    renderTagline() {
+        const taglineClass = classNames({ 'beer__tagline--expanded': this.props.isExpanded });
+
+        return <p className={taglineClass}>{this.props.tagline}</p>;
+    }
+
+    renderDescription() {
+        return this.props.isExpanded
+            ? <p className="beer__description">{this.props.description}</p>
+            : null;
+    }
+
+    renderOpenButton() {
+        const { id } = this.props;
+
+        return <Link to={`beer/${id}`} className="button is-outlined is-link">Open</Link>;
+    }
+
+    renderFavoriteButton() {
+        const favoriteButtonClass = classNames(
+            'button',
+            this.state.isFavorite ? 'is-primary' : 'is-light',
+        );
+        const favoriteButtonContent = this.state.isFavorite ? 'Remove Favorite' : 'Favorite';
+
+        return (
+            <button
+                className={favoriteButtonClass}
+                onClick={this.handleFavoriteButtonClick}
+            >
+                {favoriteButtonContent}
+            </button>
         );
     }
 
