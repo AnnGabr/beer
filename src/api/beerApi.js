@@ -1,10 +1,10 @@
-import { fetch } from './fetchApi';
+import { get } from './fetchApi';
 
 const ROOT_URL = 'https://api.punkapi.com/v2/beers';
 
 export const fetchBeers = (urlParams) => {
     const url = buildUrl(urlParams);
-    return fetch(url);
+    return get(url);
 };
 
 const buildUrl = ({

@@ -1,6 +1,6 @@
 import { actionTypes } from '../actionTypes';
 import createAction from './actionCreator';
-import * as beerApi from '../../api/beerFetchApi';
+import * as beerApi from '../../api/beerApi';
 import { mapToFavoritesModels } from '../../utils/beerFilters';
 
 const getUrlParams = ({ favoriteBeersIds }) => ({
