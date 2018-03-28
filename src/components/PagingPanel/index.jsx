@@ -19,7 +19,7 @@ export default class PagingPanel extends Component {
         const { activePageNumber } = this.props;
 
         let visibleStartPageNumber = startPageNumber;
-        while (visibleStartPageNumber + interval < activePageNumber) {
+        while (visibleStartPageNumber + interval <= activePageNumber) {
             visibleStartPageNumber += interval;
         }
 

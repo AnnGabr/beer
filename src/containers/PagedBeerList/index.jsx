@@ -8,11 +8,11 @@ import { BeerList, Loader, PagingPanel } from '../../components';
 
 import './paged-list.css';
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state, { match }) => ({
     ...state.favoritesBeerList,
     favoriteBeersIds: state.favorites.beerIds,
     beersCount: state.favorites.beerIds.length,
-    activePageNumber: Number(ownProps.match.params.pageNumber),
+    activePageNumber: Number(match.params.pageNumber) || 1,
 });
 
 class PagedBeerList extends Component {
@@ -20,7 +20,6 @@ class PagedBeerList extends Component {
         super(props);
 
         this.favoriteBeersIds = this.props.favoriteBeersIds;
-        this.currentPageNumber = props.activePageNumber || 1;
         this.beersPerPageCount = props.beersPerPageCount || 5;
         this.totalPagesCount = Math.ceil(props.beersCount / this.beersPerPageCount);
     }
@@ -29,10 +28,8 @@ class PagedBeerList extends Component {
         this.fetchData();
     }
 
-    componentWillUpdate(nextProps) {
-        if (nextProps.activePageNumber !== this.currentPageNumber) {
-            this.currentPageNumber = nextProps.activePageNumber;
-
+    componentDidUpdate(prevProps) {
+        if (prevProps.activePageNumber !== this.props.activePageNumber) {
             this.fetchData();
         }
     }
@@ -69,7 +66,7 @@ class PagedBeerList extends Component {
                 <PagingPanel
                     totalPagesCount={this.totalPagesCount}
                     interval={this.beersPerPageCount}
-                    activePageNumber={this.currentPageNumber}
+                    activePageNumber={this.props.activePageNumber}
                 />
             )
     )
@@ -81,7 +78,7 @@ class PagedBeerList extends Component {
     }
 
     getCurrentPageBeersIds() {
-        const startIndex = (this.currentPageNumber - 1) * this.beersPerPageCount;
+        const startIndex = (this.props.activePageNumber - 1) * this.beersPerPageCount;
         const endIndex = startIndex + this.beersPerPageCount;
 
         return this.favoriteBeersIds.slice(startIndex, endIndex);
