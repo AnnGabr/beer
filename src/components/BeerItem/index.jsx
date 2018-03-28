@@ -72,7 +72,7 @@ class BeerItem extends Component {
     renderOpenButton() {
         const { id } = this.props;
 
-        return <Link to={`beer/${id}`} className="button is-outlined is-link">Open</Link>;
+        return <Link to={`/beer/${id}`} className="button is-outlined is-link">Open</Link>;
     }
 
     renderFavoriteButton() {
