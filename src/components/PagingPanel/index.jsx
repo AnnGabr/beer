@@ -10,7 +10,6 @@ export default class PagingPanel extends Component {
         this.interval = props.interval || 5;
         this.startPageNumber = props.startPageNumber || 1;
         this.state = {
-            activePageNumber: props.activePageNumber || 1,
             visibleStartPageNumber: this.getVisibleStartPageNumber(),
         };
     }
@@ -63,12 +62,12 @@ export default class PagingPanel extends Component {
     };
 
     getPageLinks() {
-        const { totalPagesCount } = this.props;
+        const { totalPagesCount, activePageNumber } = this.props;
         if (totalPagesCount < 2) {
             return;
         }
 
-        const { visibleStartPageNumber, activePageNumber } = this.state;
+        const { visibleStartPageNumber } = this.state;
 
         const visibleEndPageNumber = visibleStartPageNumber + this.interval - 1;
         const links = [];
@@ -96,9 +95,9 @@ export default class PagingPanel extends Component {
     }
 
     handleOnPageLinkClick = (pageNumber) => {
-        this.setState({ activePageNumber: pageNumber });
-
-        this.props.onClick(pageNumber);
+        if (this.props.onClick) {
+            this.props.onClick(pageNumber);
+        }
     };
 
     getRightArrow = () => {

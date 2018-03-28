@@ -19,15 +19,22 @@ class PagedBeerList extends Component {
     constructor(props) {
         super(props);
 
+        this.favoriteBeersIds = this.props.favoriteBeersIds;
         this.currentPageNumber = props.activePageNumber || 1;
         this.beersPerPageCount = props.beersPerPageCount || 5;
         this.totalPagesCount = Math.ceil(props.beersCount / this.beersPerPageCount);
     }
 
     componentWillMount() {
-        this.favoriteBeersIds = this.props.favoriteBeersIds;
-
         this.fetchData();
+    }
+
+    componentWillUpdate(nextProps) {
+        if (nextProps.activePageNumber !== this.currentPageNumber) {
+            this.currentPageNumber = nextProps.activePageNumber;
+
+            this.fetchData();
+        }
     }
 
     render() {
@@ -61,20 +68,11 @@ class PagedBeerList extends Component {
             : (
                 <PagingPanel
                     totalPagesCount={this.totalPagesCount}
-                    onClick={this.handlePageClick}
                     interval={this.beersPerPageCount}
                     activePageNumber={this.currentPageNumber}
                 />
             )
     )
-
-    handlePageClick = (newPageNumber) => {
-        if (newPageNumber !== this.currentPageNumber) {
-            this.currentPageNumber = newPageNumber;
-
-            this.fetchData();
-        }
-    }
 
     fetchData() {
         this.props.fetchBeers({
