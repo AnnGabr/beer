@@ -1,0 +1,23 @@
+.simple-list--with-border {
+    border-radius: 5px;
+    border: solid 1px hsl(210, 12%, 86%);
+}
+
+.simple-list__item {
+    padding: 0.5rem 0;
+}
+
+.simple-list__item--with-border:first-child {
+    border-top-width: 0;
+}
+
+.simple-list__item--with-border {
+    border-top: solid 1px hsl(210, 12%, 86%);
+    padding: 0.8rem;
+}
+
+.simple-list__title {
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-bottom: 0.1rem;
+}
