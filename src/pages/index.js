@@ -1,5 +1,5 @@
 import Landing from './Landing.jsx';
 import Favorites from './Favorites.jsx';
-import BeerDetails from './BeerDetails.jsx';
+import Details from './Details.jsx';
 
-export { Landing, Favorites, BeerDetails };
+export { Landing, Favorites, Details };
