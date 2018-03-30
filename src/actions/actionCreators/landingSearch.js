@@ -1,7 +1,7 @@
 import { actionTypes } from '../actionTypes';
 import createAction from './actionCreator';
 
-import * as beerApi from '../../api/beerFetchApi';
+import * as beerService from '../../services/beerService';
 import { isFetching, isAllFetched } from '../../reducers/landingBeerList';
 import { mapToLandingModels } from '../../utils/beerFilters';
 
@@ -36,7 +36,7 @@ const fetchBeers = (onSuccess = mapToLandingModels) => (dispatch, getState) => {
 
     dispatch(createAction(actionTypes.FETCH_LANDING_BEERS));
 
-    return beerApi
+    return beerService
         .fetchBeers(landingSearch)
         .then((response) => {
             dispatch(createAction(

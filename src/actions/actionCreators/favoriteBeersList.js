@@ -1,6 +1,6 @@
 import { actionTypes } from '../actionTypes';
 import createAction from './actionCreator';
-import * as beerApi from '../../api/beerFetchApi';
+import * as beerService from '../../services/beerService';
 import { mapToFavoritesModels } from '../../utils/beerFilters';
 
 const getUrlParams = ({ favoriteBeersIds }) => ({
@@ -12,7 +12,7 @@ const fetchBeers = (fetchParams, onSuccess = mapToFavoritesModels) => (dispatch,
 
     const { favorites } = getState();
 
-    return beerApi
+    return beerService
         .fetchBeers(getUrlParams(fetchParams))
         .then((response) => {
             dispatch(createAction(
