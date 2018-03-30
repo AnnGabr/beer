@@ -25,19 +25,16 @@ export default function landingSearch(state = initialState, action) {
 }
 
 export const getSearchParams = ({ landingSearch }) => {
-    const {filter, beerName, pageNumber, beersPerPageCount} = landingSearch;
-    let searchParams = {
+    const { filter, beerName, pageNumber, beersPerPageCount } = landingSearch;
+    const searchParams = {
         beerName,
         pageNumber,
         beersPerPageCount
     };
     if (filter) {
-        searchParams = {
-            ...searchParams,
-            alcoholVolume: filter.alcoholVolume,
-            internationalBitternessUnits: filter.internationalBitternessUnits,
-            colorEbc: filter.colorEbc,
-        };
+        searchParams.alcoholVolume = filter.alcoholVolume;
+        searchParams.internationalBitternessUnits = filter.internationalBitternessUnits;
+        searchParams.colorEbc = filter.colorEbc;
     }
 
     return searchParams;

@@ -26,6 +26,7 @@
         "import/no-unresolved": 0,
         "no-plusplus": 0,
         "no-class-assign": 0,
+        "linebreak-style": 0,
         "indent": ["error", 4],
         "no-const-assign": "warn",
         "no-this-before-super": "warn",
