@@ -26,7 +26,7 @@ const startSearch = ({ beerName, filter }) => {
     return createAction(actionTypes.SEARCH_STARTED, searchParams);
 };
 
-const fetchBeers = (onSuccess = mapToLandingModels) => (dispatch, getState) => {
+const fetchBeers = () => (dispatch, getState) => {
     const state = getState();
     if (isFetching(state) || isAllFetched(state)) {
         return;
@@ -41,7 +41,7 @@ const fetchBeers = (onSuccess = mapToLandingModels) => (dispatch, getState) => {
         .then((response) => {
             dispatch(createAction(
                 actionTypes.LANDING_BEERS_FETCH_SUCCEEDED,
-                onSuccess(response, favorites.beerIds),
+                mapToLandingModels(response, favorites.beerIds),
             ));
         })
         .catch((error) => {
