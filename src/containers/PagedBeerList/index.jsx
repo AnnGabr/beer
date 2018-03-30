@@ -72,9 +72,7 @@ class PagedBeerList extends Component {
     )
 
     fetchData() {
-        this.props.fetchBeers({
-            favoriteBeersIds: this.getCurrentPageBeersIds(),
-        });
+        this.props.fetchBeers(this.getCurrentPageBeersIds());
     }
 
     getCurrentPageBeersIds() {

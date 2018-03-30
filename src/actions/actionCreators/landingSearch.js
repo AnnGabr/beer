@@ -3,27 +3,17 @@ import createAction from './actionCreator';
 
 import beerService from '../../services/beerService';
 import { isFetching, isAllFetched } from '../../reducers/landingBeerList';
+import { getSearchParams } from '../../reducers/landingSearch';
 import { mapToLandingModels } from '../../utils/beerFilters';
 
 const fetchSearchResult = searchParams => (dispatch) => {
     if (searchParams) {
-        dispatch(startSearch(searchParams));
+        dispatch(createAction(
+            actionTypes.SEARCH_STARTED,
+            searchParams
+        ));
     }
     dispatch(fetchBeers());
-};
-
-const startSearch = ({ beerName, filter }) => {
-    let searchParams = {};
-    if (filter) {
-        searchParams = {
-            alcoholVolume: filter.alcoholVolume,
-            internationalBitternessUnits: filter.internationalBitternessUnits,
-            colorEbc: filter.colorEbc,
-        };
-    }
-    searchParams.beerName = beerName;
-
-    return createAction(actionTypes.SEARCH_STARTED, searchParams);
 };
 
 const fetchBeers = () => (dispatch, getState) => {
@@ -32,12 +22,12 @@ const fetchBeers = () => (dispatch, getState) => {
         return;
     }
 
-    const { landingSearch, favorites } = state;
+    const { favorites } = state;
 
     dispatch(createAction(actionTypes.FETCH_LANDING_BEERS));
 
     return beerService
-        .searchBeers(landingSearch)
+        .searchBeers(getSearchParams(state))
         .then((response) => {
             dispatch(createAction(
                 actionTypes.LANDING_BEERS_FETCH_SUCCEEDED,
@@ -45,7 +35,10 @@ const fetchBeers = () => (dispatch, getState) => {
             ));
         })
         .catch((error) => {
-            dispatch(createAction(actionTypes.LANDING_BEERS_FETCH_FAILED, error));
+            dispatch(createAction(
+                actionTypes.LANDING_BEERS_FETCH_FAILED, 
+                error
+            ));
         });
 };
 

@@ -3,6 +3,8 @@ import { actionTypes } from '../actions/actionTypes';
 const initialState = {
     pageNumber: 1,
     beersPerPageCount: 9,
+    filter: null,
+    beerName: null
 };
 
 export default function landingSearch(state = initialState, action) {
@@ -20,4 +22,23 @@ export default function landingSearch(state = initialState, action) {
     default:
         return state;
     }
+}
+
+export const getSearchParams = ({ landingSearch }) => {
+    const {filter, beerName, pageNumber, beersPerPageCount} = landingSearch;
+    let searchParams = {
+        beerName,
+        pageNumber,
+        beersPerPageCount
+    };
+    if (filter) {
+        searchParams = {
+            ...searchParams,
+            alcoholVolume: filter.alcoholVolume,
+            internationalBitternessUnits: filter.internationalBitternessUnits,
+            colorEbc: filter.colorEbc,
+        };
+    }
+
+    return searchParams;
 }
