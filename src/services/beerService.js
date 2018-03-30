@@ -2,19 +2,23 @@ import * as api from '../api/fetchApi';
 
 const ROOT_URL = 'https://api.punkapi.com/v2/beers';
 
-export const fetchBeers = (urlParams) => {
-    const url = buildUrl(urlParams);
+function getBeersByIds(ids) {
+    const url = `${ROOT_URL}?${getBeerIdsUrlPart(ids)}`;
     return api.fetch(url);
 };
 
-const buildUrl = ({
+function searchBeers(urlParams) {
+    const url = buildSearchUrl(urlParams);
+    return api.fetch(url);
+};
+
+const buildSearchUrl = ({
     pageNumber,
     beersPerPageCount,
     beerName,
     alcoholVolume,
     internationalBitternessUnits,
-    colorEbc,
-    beerIds,
+    colorEbc
 }) => {
     const urlParts = [];
     if (pageNumber) {
@@ -34,9 +38,6 @@ const buildUrl = ({
     }
     if (colorEbc) {
         urlParts.push(getColorEbcUrlPart(colorEbc));
-    }
-    if (beerIds) {
-        urlParts.push(getBeerIdsUrlPart(beerIds));
     }
 
     let url = ROOT_URL;
@@ -61,3 +62,8 @@ const getInternationalBitternessUnitsUrlPart = internationalBitternessUnits =>
     `ibu_lt=${internationalBitternessUnits}`;
 
 const getColorEbcUrlPart = colorEbc => `ebc_lt=${colorEbc}`;
+
+export default {
+    searchBeers,
+    getBeersByIds
+}
