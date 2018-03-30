@@ -1,6 +1,6 @@
 .simple-list--with-border {
-    border-radius: 5px;
     border: solid 1px hsl(210, 12%, 86%);
+    border-radius: 5px;
 }
 
 .simple-list__item {
@@ -12,12 +12,18 @@
 }
 
 .simple-list__item--with-border {
-    border-top: solid 1px hsl(210, 12%, 86%);
     padding: 0.8rem;
+
+    border-top: solid 1px hsl(210, 12%, 86%);
 }
 
 .simple-list__title {
-    font-weight: bold;
-    font-size: 1.25rem;
     margin-bottom: 0.1rem;
+
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.simple-list__info {
+    white-space: pre;
 }

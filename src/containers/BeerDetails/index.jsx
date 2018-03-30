@@ -6,7 +6,7 @@ import { SimpleList, PropertiesList, ComponentWithHeader } from '../../component
 
 const test = [{
     title: 'Ludo',
-    info: 'from the values set in the previous file',
+    info: 'from the values set in \nthe previous file',
 },
 {
     title: 'Daspo',
@@ -15,6 +15,20 @@ const test = [{
 {
     title: 'Uget',
     info: 'from the values set in the previous file',
+}];
+
+const test2 = [{
+    name: 'Ludo',
+    tooltipText: 'from the values set in \nthe previous file',
+    value: '6'
+},
+{
+    name: 'Daspo',
+    tooltipText: 'from the values set in the previous file',
+},
+{
+    name: 'Uget',
+    tooltipText: 'from the values set in the previous file',
 }];
 
 class BeerDetails extends Component {
@@ -31,7 +45,9 @@ class BeerDetails extends Component {
 
         return (
             <section className="section container">
-                <PropertiesList />
+                <ComponentWithHeader headerText="Properties">
+                    <PropertiesList content={test2}/>
+                </ComponentWithHeader>
                 <ComponentWithHeader headerText="Food Paring">
                     <SimpleList content={test} />
                 </ComponentWithHeader>

@@ -1,0 +1,36 @@
+.property {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+}
+
+.property__name,
+.property__value,
+property__tooltip {
+    display: inline-block;
+}
+
+.property__name {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.property__value {
+    margin-left: 1rem;
+    padding: 0.2rem 1rem;
+
+    color: hsl(192, 15%, 99%);
+    border-radius: 25px;
+    background-color: hsl(204, 70%, 63%);
+}
+
+.property__tooltip {
+    margin-left: 1rem;
+}
+
+.property__name-tooltip {
+    display: flex;
+
+    align-items: center;
+}

@@ -1,0 +1,12 @@
+.with-border {
+    border: solid 1px hsl(210, 12%, 86%);
+    border-radius: 5px;
+}
+
+.with-top-border:first-child {
+    border-top: none;
+}
+
+.with-top-border {
+    border-top: solid 1px hsl(210, 12%, 86%);
+}
