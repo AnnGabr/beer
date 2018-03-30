@@ -1,20 +1,9 @@
-.simple-list--with-border {
-    border: solid 1px hsl(210, 12%, 86%);
-    border-radius: 5px;
-}
-
 .simple-list__item {
     padding: 0.5rem 0;
 }
 
-.simple-list__item--with-border:first-child {
-    border-top-width: 0;
-}
-
-.simple-list__item--with-border {
-    padding: 0.8rem;
-
-    border-top: solid 1px hsl(210, 12%, 86%);
+.simple-list__item--with-paddings {
+    padding: 1rem 1.5rem;
 }
 
 .simple-list__title {
