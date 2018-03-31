@@ -3,21 +3,13 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { SimpleList, ComponentWithHeader } from '../../components';
-import BeerProperties from '../../components/beerDetails/BeerProperties';
-import { BeerMainInfo } from '../../components/beerDetails';
+import { BeerMainInfo , BeerProperties, BeerFoodPairing } from '../../components/beerDetails';
 
-const test = [{
-    title: 'Ludo',
-    info: 'from the values set in \nthe previous file',
-},
-{
-    title: 'Daspo',
-    info: 'from the values set in the previous file',
-},
-{
-    title: 'Uget',
-    info: 'from the values set in the previous file',
-}];
+const test = [
+    "Spicy carne asada with a pico de gallo sauce",
+    "Shredded chicken tacos with a mango chilli lime salsa",
+    "Cheesecake with a passion fruit swirl sauce"
+];
 
 const maininfo = {
     imageUrl: 'https://images.punkapi.com/v2/192.png',
@@ -46,12 +38,8 @@ class BeerDetails extends Component {
         return (
             <section className="section container">
                 <BeerMainInfo {...maininfo} />
-                <ComponentWithHeader headerText="Properties">
-                    <BeerProperties properties={test2}/>
-                </ComponentWithHeader>
-                <ComponentWithHeader headerText="Food Paring">
-                    <SimpleList content={test} hasBorder/>
-                </ComponentWithHeader>
+                <BeerProperties properties={test2}/>
+                <BeerFoodPairing variants={test} />
             </section>
         );    
     }

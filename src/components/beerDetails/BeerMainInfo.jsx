@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import classNames from 'classnames';
 
-import '../../common/styles/text-modifiers.css';
+import '../common/styles/text-modifiers.css';
 
 export default class BeerMainInfo extends Component {
     constructor(props) {
@@ -45,7 +45,7 @@ export default class BeerMainInfo extends Component {
     }
 
     renderTagline() {
-        const taglineClass = classNames('beer__tagline', 'beer__tagline--expanded', 'is-italic');
+        const taglineClass = classNames('beer__tagline', 'beer__tagline--expanded', 'is-italic', 'is-uppercase');
 
         return <p className={taglineClass}>{this.props.tagline}</p>;
     }

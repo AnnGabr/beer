@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import './simple-list.css';
 import '../common/styles/border.css';
+import '../common/styles/text-modifiers.css';
 
 export default class SimpleList extends Component {
     render() {
@@ -29,7 +30,7 @@ export default class SimpleList extends Component {
 
         const { title, info } = item;
         const titleComponent = title
-            ? <div className="simple-list__title">{title}</div>
+            ? <div className="simple-list__title is-capitalized">{title}</div>
             : null;
 
         return (

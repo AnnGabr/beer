@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import PropertiesList from '../../PropertiesList';
+
+import PropertiesList from '../PropertiesList';
+import ComponentWithHeader from '../ComponentWithHeader';
 
 export default class BeerProperties extends Component {
     render() {
@@ -22,6 +24,10 @@ export default class BeerProperties extends Component {
             },
         ];
 
-        return <PropertiesList content={content} />;
+        return (
+            <ComponentWithHeader headerText="properties">
+                <PropertiesList content={content} />
+            </ComponentWithHeader>
+        );
     }
 }
