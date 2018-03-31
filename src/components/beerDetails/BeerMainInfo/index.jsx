@@ -30,8 +30,8 @@ export default class BeerMainInfo extends Component {
                     {this.renderBeerImage()}
                 </figure>
             </article>
-        );  
-    }  
+        );
+    }
 
     renderBeerImage() {
         const imageClass = classNames('beer__image', 'beer__image--expanded');

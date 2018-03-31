@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { SimpleList, PropertiesList, ComponentWithHeader } from '../../components';
+import { SimpleList, ComponentWithHeader } from '../../components';
+import BeerProperties from '../../components/beerDetails/BeerProperties';
 import { BeerMainInfo } from '../../components/beerDetails';
 
 const test = [{
@@ -26,22 +27,14 @@ const maininfo = {
     isFavorite: true
 }
 
-const test2 = [{
-    name: 'Ludo',
-    tooltipText: 'from the values set in \nthe previous file',
-    value: '6'
-},
-{
-    name: 'Daspo',
-    tooltipText: 'from the values set in the previous file',
-},
-{
-    name: 'Uget',
-    tooltipText: 'from the values set in the previous file',
-}];
+const test2 = {
+    colorEbc: 6,
+    internationalBitternessUnits: 130,
+    alcoholVolume: 13
+};
 
 class BeerDetails extends Component {
-    componentWillMount() {
+    componentDidMount() {
         this.fetchData();
     }
 
@@ -50,13 +43,11 @@ class BeerDetails extends Component {
     }
 
     render() {
-        const { some } = this.props;
-
         return (
             <section className="section container">
                 <BeerMainInfo {...maininfo} />
                 <ComponentWithHeader headerText="Properties">
-                    <PropertiesList content={test2}/>
+                    <BeerProperties properties={test2}/>
                 </ComponentWithHeader>
                 <ComponentWithHeader headerText="Food Paring">
                     <SimpleList content={test} hasBorder/>

@@ -5,6 +5,7 @@ import './properties-list.css';
 import './tooltip.css';
 import './property.css';
 import '../common/styles/border.css';
+import '../common/styles/text-modifiers.css';
 
 export default class PropertiesList extends Component {
     render() {
@@ -23,7 +24,7 @@ export default class PropertiesList extends Component {
         return (
             <li key={index} className="properties-list__item with-top-border property">
                 <div className="property__name-tooltip">
-                    <span className="property__name">{name}</span>
+                    <span className="property__name is-uppercase">{name}</span>
                     <div className="tooltip property__tooltip">
                         <div className="tooltip__text">{tooltipText}</div>
                         <span className="material-icon tooltip__icon">info_outline</span>
