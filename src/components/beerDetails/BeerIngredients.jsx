@@ -70,7 +70,7 @@ export default class BeerIngredients extends Component {
         });
 
         return {
-            title: 'malt',
+            title: 'hops',
             info
         };
     }
