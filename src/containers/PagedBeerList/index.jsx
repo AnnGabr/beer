@@ -4,7 +4,9 @@ import { withRouter } from 'react-router-dom';
 
 import fetchBeers from '../../actions/actionCreators/favoriteBeersList';
 
-import { BeerList, Loader, PagingPanel } from '../../components';
+import { BeerList, Loader, PagingPanel, Message } from '../../components';
+
+import { NO_FAVORITES_MESSAGE } from '../../constants';
 
 import './paged-list.css';
 
@@ -15,7 +17,7 @@ const mapStateToProps = (state, { match }) => ({
     activePageNumber: Number(match.params.pageNumber) || 1,
 });
 
-class PagedBeerList extends Component {
+export class PagedBeerList extends Component {
     constructor(props) {
         super(props);
 
@@ -41,11 +43,7 @@ class PagedBeerList extends Component {
                     Your favorite beers
                 </header>
                 <main className="paged-list__list">
-                    <BeerList
-                        beers={this.props.beers}
-                        isColumnList
-                        isExpanded
-                    />
+                    {this.getFavoritesList()}
                     {this.getLoader()}
                 </main>
                 <footer className="paged-list__footer">
@@ -54,6 +52,18 @@ class PagedBeerList extends Component {
             </section>
         );
     }
+
+    getFavoritesList = () => (
+        this.props.beers
+            ? (
+                <BeerList
+                    beers={this.props.beers}
+                    isColumnList
+                    isExpanded
+                />
+            )
+            : <Message text={NO_FAVORITES_MESSAGE}/>
+    )
 
     getLoader = () => (
         this.props.loading ? <Loader /> : null
@@ -83,6 +93,5 @@ class PagedBeerList extends Component {
     }
 }
 
-PagedBeerList = withRouter(connect(mapStateToProps, { fetchBeers })(PagedBeerList));
+export default withRouter(connect(mapStateToProps, { fetchBeers })(PagedBeerList));
 
-export default PagedBeerList;

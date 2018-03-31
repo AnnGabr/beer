@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
     isSearchDisabled: state.landingBeerList.loading,
 });
 
-class LandingSearchPanel extends Component {
+export class LandingSearchPanel extends Component {
     constructor(props) {
         super(props);
 
@@ -38,17 +38,9 @@ class LandingSearchPanel extends Component {
 
     getFilter = () => (
         this.state.isFilterOpened
-            ? (
-                <Filter
-                    ref={(node) => {
-                        this.filter = node;
-                    }}
-                />
-            )
+            ? <Filter ref={(node) => { this.filter = node; }}/>
             : null
     );
 }
 
-LandingSearchPanel = connect(mapStateToProps, { fetchSearchResult })(LandingSearchPanel);
-
-export default LandingSearchPanel;
+export default connect(mapStateToProps, { fetchSearchResult })(LandingSearchPanel);

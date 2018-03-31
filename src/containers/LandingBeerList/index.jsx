@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
     ...state.landingBeerList,
 });
 
-class LandingBeerList extends Component {
+export class LandingBeerList extends Component {
     componentWillMount() {
         this.fetchDefaultData();
     }
@@ -50,6 +50,5 @@ class LandingBeerList extends Component {
     };
 }
 
-LandingBeerList = connect(mapStateToProps, { fetchSearchResult })(LandingBeerList);
+export default connect(mapStateToProps, { fetchSearchResult })(LandingBeerList);
 
-export default LandingBeerList;

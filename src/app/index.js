@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Drawer, Header } from './components';
+import { Drawer, Header } from '../components';
 import { Router } from './routes';
 
 import 'bulma/css/bulma.css';

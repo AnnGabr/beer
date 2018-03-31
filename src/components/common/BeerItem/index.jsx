@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { saveFavoriteChange } from '../../actions/actionCreators/favorites';
+import { saveFavoriteChange } from '../../../actions/actionCreators/favorites';
 
 import './beer.css';
 
