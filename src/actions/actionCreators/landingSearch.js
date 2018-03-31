@@ -4,7 +4,7 @@ import createAction from './actionCreator';
 import beerService from '../../services/beerService';
 import { isFetching, isAllFetched } from '../../reducers/landingBeerList';
 import { getSearchParams } from '../../reducers/landingSearch';
-import { mapToLandingModels } from '../../utils/beerFilters';
+import mapper from '../../utils/beerMapper';
 
 const fetchSearchResult = searchParams => (dispatch) => {
     if (searchParams) {
@@ -31,12 +31,12 @@ const fetchBeers = () => (dispatch, getState) => {
         .then((response) => {
             dispatch(createAction(
                 actionTypes.LANDING_BEERS_FETCH_SUCCEEDED,
-                mapToLandingModels(response, favorites.beerIds),
+                mapper.mapToLandingModels(response, favorites.beerIds),
             ));
         })
         .catch((error) => {
             dispatch(createAction(
-                actionTypes.LANDING_BEERS_FETCH_FAILED, 
+                actionTypes.LANDING_BEERS_FETCH_FAILED,
                 error
             ));
         });

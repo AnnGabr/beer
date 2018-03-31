@@ -27,6 +27,7 @@
         "no-plusplus": 0,
         "no-class-assign": 0,
         "linebreak-style": 0,
+        "comma-dangle": 0,
         "indent": ["error", 4],
         "no-const-assign": "warn",
         "no-this-before-super": "warn",

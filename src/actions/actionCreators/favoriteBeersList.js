@@ -2,7 +2,7 @@ import { actionTypes } from '../actionTypes';
 import createAction from './actionCreator';
 
 import beerService from '../../services/beerService';
-import { mapToFavoritesModels } from '../../utils/beerFilters';
+import mapper from '../../utils/beerMapper';
 
 const fetchBeers = favoriteBeersIds => (dispatch, getState) => {
     dispatch(createAction(actionTypes.FETCH_FAVORITE_BEERS));
@@ -14,7 +14,7 @@ const fetchBeers = favoriteBeersIds => (dispatch, getState) => {
         .then((response) => {
             dispatch(createAction(
                 actionTypes.FAVORITE_BEERS_FETCH_SUCCEEDED,
-                mapToFavoritesModels(response, favorites.beerIds),
+                mapper.mapToFavoritesModels(response, favorites.beerIds),
             ));
         })
         .catch((error) => {
