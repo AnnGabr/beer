@@ -58,7 +58,7 @@ class BeerItem extends Component {
     }
 
     renderTagline() {
-        const taglineClass = classNames({ 'beer__tagline--expanded': this.props.isExpanded });
+        const taglineClass = classNames('beer__tagline', { 'beer__tagline--expanded': this.props.isExpanded });
 
         return <p className={taglineClass}>{this.props.tagline}</p>;
     }
