@@ -38,4 +38,5 @@ export const getSearchParams = ({ landingSearch }) => {
     }
 
     return searchParams;
-}
+};
+

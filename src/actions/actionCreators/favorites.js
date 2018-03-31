@@ -1,5 +1,6 @@
 import { actionTypes } from '../actionTypes';
 import createAction from './actionCreator';
+
 import favoritesService from '../../services/favoritesService';
 
 export const saveFavoriteChange = (id, isMarkedAsFavorite) => (dispatch, getState) => {
