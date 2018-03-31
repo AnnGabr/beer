@@ -5,8 +5,17 @@ import ComponentWithHeader from '../ComponentWithHeader';
 
 export default class BeerProperties extends Component {
     render() {
+        return (
+            <ComponentWithHeader headerText="properties">
+                <PropertiesList content={this.getContent()} />
+            </ComponentWithHeader>
+        );
+    }
+
+    getContent() {
         const { properties } = this.props;
-        const content = [
+
+        return [
             {
                 name: 'abv',
                 tooltipText: 'alcohol by volume',
@@ -23,11 +32,5 @@ export default class BeerProperties extends Component {
                 value: properties.colorEbc
             },
         ];
-
-        return (
-            <ComponentWithHeader headerText="properties">
-                <PropertiesList content={content} />
-            </ComponentWithHeader>
-        );
     }
 }
