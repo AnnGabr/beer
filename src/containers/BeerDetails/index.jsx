@@ -26,7 +26,7 @@ const test2 = {
 };
 
 const method = {
-    "mash_temp": [{
+    "mash": [{
         "temp": {
             "value": 65,
             "unit": "celsius"
@@ -110,7 +110,7 @@ class BeerDetails extends Component {
                     {breawing}
                 </ComponentWithHeader>
                 <BeerIngredients {...ingr}/>
-                <BeerMethod method={method}/>
+                <BeerMethod {...method}/>
             </section>
         );    
     }
