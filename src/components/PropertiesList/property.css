@@ -17,7 +17,7 @@ property__tooltip {
 }
 
 .property__value {
-    margin-left: 1rem;
+    margin-left: 5rem;
     padding: 0.2rem 1rem;
 
     color: hsl(192, 15%, 99%);

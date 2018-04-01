@@ -7,7 +7,7 @@ export default class ComponentWithHeader extends Component {
         return (
             <Fragment>
                 <header className="title is-3 is-capitalized">{this.props.headerText}</header>
-                <div>{this.props.children}</div>
+                {this.props.children}
             </Fragment>
         );
     }

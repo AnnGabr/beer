@@ -1,0 +1,45 @@
+.beer-details {
+    display: inline-block;
+
+    padding: 1rem 1rem 2rem 2rem;
+
+    border-radius: 25px;
+    background-color: hsl(180,26.3%,97%);
+}
+.beer-details__main-info,
+.beer-details__brewing-tips {
+    text-align: justify;
+}
+
+.beer-details__main-info {
+    max-width: 1000px;
+}
+
+.beer-details__brewing-tips {
+    max-width: 800px;
+    margin-top: 4rem;
+}
+
+.beer-details__props-pairing,
+.beer-details__ingredients-method {
+    display: grid;
+
+    margin-top: 1.2rem;
+
+    grid-column-gap: 4rem;
+    grid-row-gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min-content, 400px));
+}
+
+@media (max-width: 769px) {
+    .beer-details__props-pairing,
+    .beer-details__ingredients-method {
+        grid-template-columns: auto;
+    }
+
+    .beer-details {
+        padding: 0;
+
+        background-color: hsl(100, 100%, 100%);
+    }
+}

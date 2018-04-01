@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { ComponentWithHeader } from '../../components';
 import { BeerMainInfo , BeerProperties, BeerFoodPairing, BeerIngredients, BeerMethod } from '../../components/beerDetails';
 
+import './beer-details.css';
 const test = [
     "Spicy carne asada with a pico de gallo sauce",
     "Shredded chicken tacos with a mango chilli lime salsa",
@@ -102,16 +103,32 @@ class BeerDetails extends Component {
         submerged and add them just before knock out for an intense hop hit.`;
         
         return (
-            <section className="section container">
-                <BeerMainInfo {...maininfo} />
-                <BeerProperties properties={test2}/>
-                <BeerFoodPairing variants={test} />
-                <ComponentWithHeader headerText="brewing">
-                    {breawing}
-                </ComponentWithHeader>
-                <BeerIngredients {...ingr}/>
-                <BeerMethod {...method}/>
-            </section>
+            <div className="beer-details">
+                <div className="beer-details__main-info">
+                    <BeerMainInfo {...maininfo} />
+                </div>
+                <div className="beer-details__props-pairing">
+                    <div className="beer-details__props">
+                        <BeerProperties properties={test2}/>
+                    </div>
+                    <div className="beer-details__pairing">
+                        <BeerFoodPairing variants={test} />
+                    </div>
+                </div>
+                <div className="beer-details__brewing-tips">
+                    <ComponentWithHeader headerText="brewing">
+                        <p>{breawing}</p>
+                    </ComponentWithHeader>
+                </div>
+                <div className="beer-details__ingredients-method">
+                    <div className="beer-details__ingredients">
+                        <BeerIngredients {...ingr}/>
+                    </div>
+                    <div className="beer-details__method">
+                        <BeerMethod {...method}/>
+                    </div>
+                </div>   
+            </div>
         );    
     }
 }

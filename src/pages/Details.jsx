@@ -4,7 +4,9 @@ import { BeerDetails } from '../containers';
 
 const Details = () => (
     <main className="layout has-scroll">
-        <BeerDetails />
+        <section className="section container">
+            <BeerDetails />
+        </section>
     </main>
 );
 
