@@ -24,9 +24,8 @@ class BeerDetails extends Component {
     fetchData() {
         const { match } = this.props;
 
-        fetchBeers({
-            beerIds: [match.params.beerId]
-        }).then(response => this.setState(mapToDetailsModels(response, this.props.favoriteBeersIds)[0]));
+        fetchBeers({ beerIds: [match.params.beerId] })
+            .then(response => this.setState(mapToDetailsModels(response, this.props.favoriteBeersIds)[0]));
     }
 
     render() {
@@ -49,7 +48,7 @@ class BeerDetails extends Component {
                         <BeerFoodPairing variants={foodPairing} />
                     </div>
                 </div>
-                <div className="row-list__item beer-details__brewing-tips">
+                <div className="beer-details__brewing-tips">
                     <ComponentWithHeader headerText="brewing">
                         <p>{brewersTips}</p>
                     </ComponentWithHeader>
