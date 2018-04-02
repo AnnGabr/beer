@@ -14,20 +14,20 @@ export default class BeerMethod extends Component {
 
     getContent() {
         return [
-            this.getMash(),
+            this.getMashTemp(),
             this.getTwist(),
             this.getFermentation()
         ].filter(item => !!item);
     }
 
-    getMash() {
-        const { mash } = this.props;
-        if (!mash || mash.length === 0) {
+    getMashTemp() {
+        const { mashTemp } = this.props;
+        if (!mashTemp || mashTemp.length === 0) {
             return null;
         }
 
         const info = [];
-        mash.forEach((item, index) => {
+        mashTemp.forEach((item, index) => {
             const { temp } = item;
             info.push(
                 <span key={index} className="is-block">
@@ -37,7 +37,7 @@ export default class BeerMethod extends Component {
         });
 
         return {
-            title: 'malt',
+            title: 'mash',
             info
         };
     }

@@ -1,0 +1,23 @@
+.row-list {
+    display: flex;
+
+    flex-wrap: wrap;
+}
+
+.row-list__item {
+    margin-top: 1.2rem;
+}
+
+.row-list__item:first-child {
+    margin-right: 4rem;
+}
+
+@media (max-width: 1023px) {
+    .row-list {
+        flex-direction: column;
+    }
+
+    .row-list__item:first-child {
+        margin-right: 0;
+    }
+}

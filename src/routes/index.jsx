@@ -7,6 +7,6 @@ export const Router = () => (
     <Switch>
         <Route exact path='/' component={Landing} />
         <Route path='/favorites/page=:pageNumber' component={Favorites} />
-        <Route path='/beer/:id' component={Details} />
+        <Route path='/beer/:beerId' component={Details} />
     </Switch>
 );

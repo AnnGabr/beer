@@ -4,128 +4,61 @@ import { connect } from 'react-redux';
 
 import { ComponentWithHeader } from '../../components';
 import { BeerMainInfo, BeerProperties, BeerFoodPairing, BeerIngredients, BeerMethod } from '../../components/beerDetails';
+import { fetchBeers } from '../../api/beerApi';
+import { mapToDetailsModels } from '../../utils/beerFilters';
 
 import './beer-details.css';
+import '../../components/common/styles/row-list.css';
 
-const test = [
-    "Spicy carne asada with a pico de gallo sauce",
-    "Shredded chicken tacos with a mango chilli lime salsa",
-    "Cheesecake with a passion fruit swirl sauce"
-];
-
-const maininfo = {
-    imageUrl: 'https://images.punkapi.com/v2/192.png',
-    name: 'some',
-    tagline: 'some tagline ipsume dagotten',
-    description: "Our flagship beer that kick started the craft beer revolution. This is James and Martin's original take on an American IPA, subverted with punchy New Zealand hops. Layered with new world hops to create an all-out riot of grapefruit, pineapple and lychee before a spiky, mouth-puckering bitter finish.",
-    isFavorite: true
-}
-
-const test2 = {
-    colorEbc: 6,
-    internationalBitternessUnits: 130,
-    alcoholVolume: 13
-};
-
-const method = {
-    "mash": [{
-        "temp": {
-            "value": 65,
-            "unit": "celsius"
-        },
-        "duration": 75
-    }],
-    "fermentation": {
-        "temp": {
-        "value": 19.0,
-        "unit": "celsius"
-        }
-    },
-    "twist": null
-};
-
-const ingr = {
-    water: {
-        "value": 25,
-        "unit": "liters"
-    },
-    "malt": [
-      {
-        "name": "Extra Pale",
-        "amount": {
-          "value": 5.3,
-          "unit": "kilograms"
-        }
-      },
-      {
-        "name": "Extra Pale",
-        "amount": {
-          "value": 5.3,
-          "unit": "kilograms"
-        }
-      }
-    ],
-    "hops": [
-      {
-        "name": "Ahtanum",
-        "amount": {
-          "value": 17.5,
-          "unit": "grams"
-         },
-         "add": "start",
-         "attribute": "bitter"
-       },
-       {
-         "name": "Chinook",
-         "amount": {
-           "value": 15,
-           "unit": "grams"
-         },
-         "add": "start",
-         "attribute": "bitter"
-       }
-    ],
-    "yeast": "Wyeast 1056 - American Ale™"
-};
+const mapStateToProps = state => ({
+    favoriteBeersIds: state.favorites.beerIds
+});
 
 class BeerDetails extends Component {
+    state = null;
+
     componentDidMount() {
         this.fetchData();
     }
 
     fetchData() {
         const { match } = this.props;
+
+        fetchBeers({
+            beerIds: [match.params.beerId]
+        }).then(response => this.setState(mapToDetailsModels(response, this.props.favoriteBeersIds)[0]));
     }
 
     render() {
-        const breawing = `While it may surprise you, this 
-        version of Punk IPA isn't dry hopped but still packs a punch! 
-        To make the best of the aroma hops make sure they are fully 
-        submerged and add them just before knock out for an intense hop hit.`;
-        
+        if (!this.state) {
+            return null;
+        }
+
+        const { mainInfo, foodPairing, method, brewersTips, ingredients, properties } = this.state;
+
         return (
             <div className="beer-details">
                 <div className="beer-details__main-info">
-                    <BeerMainInfo {...maininfo} />
+                    <BeerMainInfo {...mainInfo}/>
                 </div>
-                <div className="beer-details__props-pairing">
-                    <div className="beer-details__props">
-                        <BeerProperties properties={test2}/>
+                <div className="row-list">
+                    <div className="row-list__item beer-details__props">
+                        <BeerProperties properties={properties}/>
                     </div>
-                    <div className="beer-details__pairing">
-                        <BeerFoodPairing variants={test} />
+                    <div className="row-list__item beer-details__pairing">
+                        <BeerFoodPairing variants={foodPairing} />
                     </div>
                 </div>
-                <div className="beer-details__brewing-tips">
+                <div className="row-list__item beer-details__brewing-tips">
                     <ComponentWithHeader headerText="brewing">
-                        <p>{breawing}</p>
+                        <p>{brewersTips}</p>
                     </ComponentWithHeader>
                 </div>
-                <div className="beer-details__ingredients-method">
-                    <div className="beer-details__ingredients">
-                        <BeerIngredients {...ingr}/>
+                <div className="row-list">
+                    <div className="row-list__item beer-details__ingredients">
+                        <BeerIngredients {...ingredients}/>
                     </div>
-                    <div className="beer-details__method">
+                    <div className="row-list__item beer-details__method">
                         <BeerMethod {...method}/>
                     </div>
                 </div>
@@ -134,4 +67,4 @@ class BeerDetails extends Component {
     }
 }
 
-export default withRouter(connect()(BeerDetails));
+export default withRouter(connect(mapStateToProps)(BeerDetails));

@@ -30,12 +30,12 @@ export function mapToFavoritesModels(serverResponse, favorites) {
     return beers;
 }
 
-const getMainInfo = (beer, favorites) => ({
+const getMainInfo = (beer, favoriteBeersIds) => ({
     id: beer.id,
     imageUrl: beer.image_url,
     name: beer.name,
     tagline: beer.tagline,
-    isFavorite: favorites.includes(beer.id),
+    isFavorite: favoriteBeersIds.includes(beer.id),
 });
 
 export function mapToDetailsModels(serverResponse, favorites) {
@@ -43,10 +43,7 @@ export function mapToDetailsModels(serverResponse, favorites) {
     try {
         const parsedResponse = JSON.parse(serverResponse);
         if (Array.isArray(parsedResponse)) {
-            beers = parsedResponse.map(beer => ({
-                ...parsedResponse,
-                isFavorite: favorites.includes(beer.id),
-            }));
+            beers = parsedResponse.map(beer => mapToDetailsModel(beer, favorites));
         }
     } catch (err) {
         console.log('Can not parse server response at: mapToDetailsModels.');
@@ -54,3 +51,27 @@ export function mapToDetailsModels(serverResponse, favorites) {
 
     return beers;
 }
+
+const mapToDetailsModel = (beer, favoriteBeersIds) => ({
+    mainInfo: {
+        ...getMainInfo(beer, favoriteBeersIds),
+        description: beer.description
+    },
+    properties: {
+        internationalBitternessUnits: beer.ibu,
+        colorEbc: beer.ebc,
+        alcoholVolume: beer.abv
+    },
+    method: beer.method && {
+        twist: beer.twist,
+        fermentation: beer.fermentation,
+        mashTemp: beer.method.mash_temp
+    },
+    ingredients: beer.ingredients && {
+        ...beer.ingredients,
+        water: beer.boil_volume
+    },
+    foodPairing: beer.food_pairing,
+    brewersTips: beer.brewers_tips
+});
+
