@@ -20,6 +20,7 @@ export default class Slider extends Component {
                     value={this.state.value}
                     ref={sliderRef}
                     onChange={this.handleOnChange}
+                    className="slider__range"
                     {...sliderRestParams}
                 />
             </div>

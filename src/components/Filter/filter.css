@@ -1,0 +1,77 @@
+.filter {
+    max-width: 600px;
+    margin: auto;
+}
+
+.filter__header {
+    text-align: center;
+}
+
+.filter__content {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter__sliders {
+    flex: 2 0;
+}
+
+.filter__list {
+    margin-left: 2rem;
+}
+
+.filter__list:first-child {
+    margin-left: 0;
+}
+
+.filter__list-item {
+    padding: 1rem;
+}
+
+.filter__name {
+    display: block;
+
+    text-transform: capitalize;
+}
+
+.filter__ibu::after {
+    content: "international bitterness units";
+}
+
+.filter__abv::after {
+    content: "alcohol by volume";
+}
+
+.filter__ebc::after {
+    content: "color by EBC";
+}
+
+@media (max-width: 768px) {
+    .filter__name {
+        text-transform: uppercase;
+
+        font-weight: bold;
+    }
+
+    .filter__ibu::after {
+        content: "ibu";
+    }
+
+    .filter__abv::after {
+        content: "ABV";
+    }
+
+    .filter__ebc::after {
+        content: "EBC";
+    }
+
+    .filter__list {
+        margin-left: 0;
+    }
+
+    .filter__list-item {
+        padding: 1rem 0.5rem;
+    }
+}

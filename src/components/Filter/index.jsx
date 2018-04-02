@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Slider from '../Slider';
 
-import './filters.css';
+import './filter.css';
 
 export default class Filter extends Component {
     componentDidMount() {
@@ -23,20 +23,20 @@ export default class Filter extends Component {
 
     render() {
         return (
-            <div className="filters">
-                <div className="filters__header title is-6">Filter results</div>
-                <div className="filters__content">
-                    <ul className="filters__list">
-                        <li className="filters__list-item">Alcohol by volume</li>
-                        <li className="filters__list-item">International Bitterness units</li>
-                        <li className="filters__list-item">Color by EBC</li>
+            <div className="filter">
+                <div className="filter__header title is-6">Filter results</div>
+                <div className="filter__content">
+                    <ul className="filter__list">
+                        <li className="filter__list-item filter__name filter__abv"></li>
+                        <li className="filter__list-item filter__name filter__ibu"></li>
+                        <li className="filter__list-item filter__name filter__ebc"></li>
                     </ul>
-                    <ul className="filters__list">
-                        <li className="filters__list-item">{this.getAlcoholVolumeSlider()}</li>
-                        <li className="filters__list-item">
+                    <ul className="filter__list filter__sliders">
+                        <li className="filter__list-item">{this.getAlcoholVolumeSlider()}</li>
+                        <li className="filter__list-item">
                             {this.getInternationalBitternessUnitsSlider()}
                         </li>
-                        <li className="filters__list-item">{this.getColorEbcSlider()}</li>
+                        <li className="filter__list-item">{this.getColorEbcSlider()}</li>
                     </ul>
                 </div>
             </div>
