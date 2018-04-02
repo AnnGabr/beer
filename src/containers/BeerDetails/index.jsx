@@ -3,9 +3,10 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { ComponentWithHeader } from '../../components';
-import { BeerMainInfo , BeerProperties, BeerFoodPairing, BeerIngredients, BeerMethod } from '../../components/beerDetails';
+import { BeerMainInfo, BeerProperties, BeerFoodPairing, BeerIngredients, BeerMethod } from '../../components/beerDetails';
 
 import './beer-details.css';
+
 const test = [
     "Spicy carne asada with a pico de gallo sauce",
     "Shredded chicken tacos with a mango chilli lime salsa",
@@ -127,9 +128,9 @@ class BeerDetails extends Component {
                     <div className="beer-details__method">
                         <BeerMethod {...method}/>
                     </div>
-                </div>   
+                </div>
             </div>
-        );    
+        );
     }
 }
 

@@ -1,7 +1,5 @@
 .beer-details {
-    display: inline-block;
-
-    padding: 1rem 1rem 2rem 2rem;
+    padding: 1rem 2rem 2rem;
 
     border-radius: 25px;
     background-color: hsl(180,26.3%,97%);
@@ -11,10 +9,6 @@
     text-align: justify;
 }
 
-.beer-details__main-info {
-    max-width: 1000px;
-}
-
 .beer-details__brewing-tips {
     max-width: 800px;
     margin-top: 4rem;
@@ -22,24 +16,37 @@
 
 .beer-details__props-pairing,
 .beer-details__ingredients-method {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
+}
 
+.beer-details__props,
+.beer-details__ingredients,
+.beer-details__method,
+.beer-details__pairing {
     margin-top: 1.2rem;
+}
 
-    grid-column-gap: 4rem;
-    grid-row-gap: 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(min-content, 400px));
+.beer-details__props,
+.beer-details__ingredients {
+    margin-right: 4rem;
 }
 
 @media (max-width: 769px) {
     .beer-details__props-pairing,
     .beer-details__ingredients-method {
-        grid-template-columns: auto;
+        width: 100%;
+    }
+}
+
+@media (max-width: 1023px) {
+    .beer-details__props-pairing,
+    .beer-details__ingredients-method {
+        flex-direction: column;
     }
 
-    .beer-details {
-        padding: 0;
-
-        background-color: hsl(100, 100%, 100%);
+    .beer-details__props,
+    .beer-details__ingredients {
+        margin-right: 0;
     }
 }

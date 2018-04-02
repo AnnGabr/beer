@@ -1,11 +1,3 @@
-.is-italic {
-    font-style: italic;
-}
-
-.is-uppercase {
-    text-transform: uppercase;
-}
-
 .is-capitalized {
     text-transform: capitalize;
 }
