@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import classNames from 'classnames';
 
 import '../common/styles/text-modifiers.css';
 
-export default class BeerMainInfo extends Component {
+import { saveFavoriteChange } from '../../actions/actionCreators/favorites';
+
+export class BeerMainInfo extends Component {
     constructor(props) {
         super(props);
 
@@ -12,7 +15,7 @@ export default class BeerMainInfo extends Component {
     }
 
     componentDidUpdate() {
-        //this.props.saveFavoriteChange(this.props.id, this.state.isFavorite);
+        this.props.saveFavoriteChange(this.props.id, this.state.isFavorite);
     }
 
     render() {
@@ -76,4 +79,6 @@ export default class BeerMainInfo extends Component {
         this.setState({ isFavorite: !this.state.isFavorite });
     };
 }
+
+export default connect(null, { saveFavoriteChange })(BeerMainInfo);
 
