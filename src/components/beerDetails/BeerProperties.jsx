@@ -3,6 +3,21 @@ import React, { Component } from 'react';
 import PropertiesList from '../PropertiesList';
 import ComponentWithHeader from '../ComponentWithHeader';
 
+const BEER_PROPERTIES_INFO = {
+    alcoholVolume: {
+        acronym: 'abv',
+        explanation: 'alcohol by volume'
+    },
+    internationalBitternessUnits: {
+        acronym: 'ibu',
+        explanation: 'international bitterness units'
+    },
+    colorEbc: {
+        acronym: 'ebc',
+        explanation: 'color by ebc'
+    }
+};
+
 export default class BeerProperties extends Component {
     render() {
         return (
@@ -14,23 +29,19 @@ export default class BeerProperties extends Component {
 
     getContent() {
         const { properties } = this.props;
+        const propertysNames = Object.keys(properties);
 
-        return [
-            {
-                name: 'abv',
-                tooltipText: 'alcohol by volume',
-                value: properties.alcoholVolume
-            },
-            {
-                name: 'ibu',
-                tooltipText: 'international bitterness units',
-                value: properties.internationalBitternessUnits
-            },
-            {
-                name: 'ebc',
-                tooltipText: 'color by ebc',
-                value: properties.colorEbc
-            },
-        ];
+        const content = [];
+        propertysNames.forEach((propertyName) => {
+            if (properties[propertyName] && BEER_PROPERTIES_INFO[propertyName]) {
+                content.push({
+                    name: BEER_PROPERTIES_INFO[propertyName].acronym,
+                    tooltipText: BEER_PROPERTIES_INFO[propertyName].explanation,
+                    value: properties[propertyName]
+                });
+            }
+        });
+
+        return content;
     }
 }
