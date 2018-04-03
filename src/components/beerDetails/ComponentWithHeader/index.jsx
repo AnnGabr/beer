@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import '../common/styles/text-modifiers.css';
+import '../../common/styles/text-modifiers.css';
 
 export default class ComponentWithHeader extends Component {
     render() {

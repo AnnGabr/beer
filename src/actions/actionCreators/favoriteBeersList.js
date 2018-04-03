@@ -4,7 +4,7 @@ import createAction from './actionCreator';
 import beerService from '../../services/beerService';
 import mapper from '../../utils/beerMapper';
 
-const fetchBeers = favoriteBeersIds => (dispatch, getState) => {
+const fetchBeers = favoriteBeersIds => (dispatch) => {
     dispatch(createAction(actionTypes.FETCH_FAVORITE_BEERS));
 
     return beerService

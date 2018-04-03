@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import './properties-list.css';
 import './tooltip.css';
 import './property.css';
-import '../common/styles/border.css';
-import '../common/styles/text-modifiers.css';
+import '../../common/styles/border.css';
+import '../../common/styles/text-modifiers.css';
 
 export default class PropertiesList extends Component {
     render() {

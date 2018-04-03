@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import ComponentWithHeader from '../ComponentWithHeader';
-import SimpleList from '../SimpleList';
+import ComponentWithHeader from './ComponentWithHeader';
+import SimpleList from './SimpleList';
 
 export default class BeerFoodPairing extends Component {
     render() {

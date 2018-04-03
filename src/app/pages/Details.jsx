@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { BeerDetails } from '../containers';
-import { Message } from '../components';
+import { BeerDetails } from '../../containers';
+import { Message } from '../../components';
 
-import '../components/common/styles/advertising.css';
+import '../../components/common/styles/advertising.css';
 
 const Details = () => (
     <main className="layout has-scroll columns is-centered">

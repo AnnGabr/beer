@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import SimpleList from '../SimpleList';
-import ComponentWithHeader from '../ComponentWithHeader';
+import SimpleList from './SimpleList';
+import ComponentWithHeader from './ComponentWithHeader';
 
 export default class BeerMethod extends Component {
     render() {

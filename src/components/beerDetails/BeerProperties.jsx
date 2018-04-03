@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import PropertiesList from '../PropertiesList';
-import ComponentWithHeader from '../ComponentWithHeader';
+import PropertiesList from './PropertiesList';
+import ComponentWithHeader from './ComponentWithHeader';
 
 const BEER_PROPERTIES_INFO = {
     alcoholVolume: {

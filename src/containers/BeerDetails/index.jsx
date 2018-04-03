@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { ComponentWithHeader } from '../../components';
 import { BeerMainInfo, BeerProperties, BeerFoodPairing, BeerIngredients, BeerMethod } from '../../components/beerDetails';
 
-import { fetchBeers } from '../../api/beerApi';
-import { mapToDetailsModels } from '../../utils/beerFilters';
+import beerService from '../../services/beerService';
+import mapper from '../../utils/beerMapper';
 
 import './beer-details.css';
 import '../../components/common/styles/row-list.css';
@@ -21,8 +21,8 @@ class BeerDetails extends Component {
     fetchData() {
         const { match } = this.props;
 
-        fetchBeers({ beerIds: [match.params.beerId] })
-            .then(response => this.setState(mapToDetailsModels(response)[0]));
+        beerService.getBeersByIds([match.params.beerId])
+            .then(response => this.setState(mapper.mapToDetailsModels(response)[0]));
     }
 
     render() {

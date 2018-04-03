@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 
 import './simple-list.css';
-import '../common/styles/border.css';
-import '../common/styles/text-modifiers.css';
+import '../../common/styles/border.css';
+import '../../common/styles/text-modifiers.css';
 
 export default class SimpleList extends Component {
     render() {
