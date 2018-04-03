@@ -1,0 +1,31 @@
+.filters {
+    margin: auto;
+}
+
+.filters__header {
+    text-align: center;
+}
+
+.filters__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.filters__list {
+    list-style-type: none; 
+    margin-left: 6rem;
+}
+
+.filters__list:first-child {
+    margin-left: 0; 
+}
+
+.filters__list-item {
+    padding: 1rem; 
+}
+
+.filters__range {
+    margin-left: 0; 
+    padding-left: 0;
+}

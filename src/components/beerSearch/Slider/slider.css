@@ -1,0 +1,11 @@
+.slider {
+    display: flex;
+    align-items: center;
+}
+
+.slider__value {
+    min-width: 3em;
+    text-align: end;
+    margin-right: 16px;
+}
+
