@@ -4,15 +4,12 @@ import { connect } from 'react-redux';
 
 import { ComponentWithHeader } from '../../components';
 import { BeerMainInfo, BeerProperties, BeerFoodPairing, BeerIngredients, BeerMethod } from '../../components/beerDetails';
+
 import { fetchBeers } from '../../api/beerApi';
 import { mapToDetailsModels } from '../../utils/beerFilters';
 
 import './beer-details.css';
 import '../../components/common/styles/row-list.css';
-
-const mapStateToProps = state => ({
-    favoriteBeersIds: state.favorites.beerIds
-});
 
 class BeerDetails extends Component {
     state = null;
@@ -25,7 +22,7 @@ class BeerDetails extends Component {
         const { match } = this.props;
 
         fetchBeers({ beerIds: [match.params.beerId] })
-            .then(response => this.setState(mapToDetailsModels(response, this.props.favoriteBeersIds)[0]));
+            .then(response => this.setState(mapToDetailsModels(response)[0]));
     }
 
     render() {
@@ -66,4 +63,4 @@ class BeerDetails extends Component {
     }
 }
 
-export default withRouter(connect(mapStateToProps)(BeerDetails));
+export default withRouter(connect()(BeerDetails));

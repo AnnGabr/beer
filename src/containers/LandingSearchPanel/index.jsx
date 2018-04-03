@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 
 import { Searchbar, Filter } from '../../components';
 
-import fetchSearchResult from '../../actions/actionCreators/landingSearch';
+import { fetchSearchResult } from '../../actions/actionCreators/landingSearch';
+import { isFetching } from '../../reducers/landingBeerList';
 
 const mapStateToProps = state => ({
-    isSearchDisabled: state.landingBeerList.loading,
+    isSearchDisabled: isFetching(state)
 });
 
 class LandingSearchPanel extends Component {

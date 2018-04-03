@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import classNames from 'classnames';
+import { saveFavoriteChange } from '../../actions/actionCreators/favorites';
+import { isFavorite } from '../../reducers/favorites';
 
+import classNames from 'classnames';
 import '../common/styles/text-modifiers.css';
 
-import { saveFavoriteChange } from '../../actions/actionCreators/favorites';
+const mapStateToProps = (state, ownProps) => ({
+    isFavorite: isFavorite(state, ownProps.id)
+});
 
 export class BeerMainInfo extends Component {
     constructor(props) {
@@ -80,5 +84,5 @@ export class BeerMainInfo extends Component {
     };
 }
 
-export default connect(null, { saveFavoriteChange })(BeerMainInfo);
+export default connect(mapStateToProps, { saveFavoriteChange })(BeerMainInfo);
 

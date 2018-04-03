@@ -5,7 +5,7 @@ import * as beerApi from '../../api/beerApi';
 import { isFetching, isAllFetched } from '../../reducers/landingBeerList';
 import { mapToLandingModels } from '../../utils/beerFilters';
 
-const fetchSearchResult = searchParams => (dispatch) => {
+export const fetchSearchResult = searchParams => (dispatch) => {
     if (searchParams) {
         dispatch(startSearch(searchParams));
     }
@@ -48,5 +48,3 @@ const fetchBeers = (onSuccess = mapToLandingModels) => (dispatch, getState) => {
             dispatch(createAction(actionTypes.LANDING_BEERS_FETCH_FAILED, error));
         });
 };
-
-export default fetchSearchResult;

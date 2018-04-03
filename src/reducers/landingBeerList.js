@@ -38,3 +38,5 @@ export default function landingBeerList(state = initialState, { type, payload })
 export const isAllFetched = ({ landingBeerList }) => landingBeerList.isAllFetched;
 
 export const isFetching = ({ landingBeerList }) => landingBeerList.loading;
+
+export const getLandingBeerListState = ({ landingBeerList }) => landingBeerList;

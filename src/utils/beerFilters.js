@@ -1,10 +1,10 @@
-export function mapToLandingModels(serverResponse, favorites) {
+export function mapToLandingModels(serverResponse) {
     let beers = [];
     try {
         const parsedResponse = JSON.parse(serverResponse);
         if (Array.isArray(parsedResponse)) {
             beers = parsedResponse.map(beer => ({
-                ...getMainInfo(beer, favorites),
+                ...getMainInfo(beer),
             }));
         }
     } catch (err) {
@@ -13,13 +13,13 @@ export function mapToLandingModels(serverResponse, favorites) {
     return beers;
 }
 
-export function mapToFavoritesModels(serverResponse, favorites) {
+export function mapToFavoritesModels(serverResponse) {
     let beers = [];
     try {
         const parsedResponse = JSON.parse(serverResponse);
         if (Array.isArray(parsedResponse)) {
             beers = parsedResponse.map(beer => ({
-                ...getMainInfo(beer, favorites),
+                ...getMainInfo(beer),
                 description: beer.description,
             }));
         }
@@ -30,20 +30,19 @@ export function mapToFavoritesModels(serverResponse, favorites) {
     return beers;
 }
 
-const getMainInfo = (beer, favoriteBeersIds) => ({
+const getMainInfo = beer => ({
     id: beer.id,
     imageUrl: beer.image_url,
     name: beer.name,
-    tagline: beer.tagline,
-    isFavorite: favoriteBeersIds.includes(beer.id),
+    tagline: beer.tagline
 });
 
-export function mapToDetailsModels(serverResponse, favorites) {
+export function mapToDetailsModels(serverResponse) {
     let beers = [];
     try {
         const parsedResponse = JSON.parse(serverResponse);
         if (Array.isArray(parsedResponse)) {
-            beers = parsedResponse.map(beer => mapToDetailsModel(beer, favorites));
+            beers = parsedResponse.map(beer => mapToDetailsModel(beer));
         }
     } catch (err) {
         console.log('Can not parse server response at: mapToDetailsModels.');
@@ -52,9 +51,9 @@ export function mapToDetailsModels(serverResponse, favorites) {
     return beers;
 }
 
-const mapToDetailsModel = (beer, favoriteBeersIds) => ({
+const mapToDetailsModel = beer => ({
     mainInfo: {
-        ...getMainInfo(beer, favoriteBeersIds),
+        ...getMainInfo(beer),
         description: beer.description
     },
     properties: {
