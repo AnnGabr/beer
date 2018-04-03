@@ -23,8 +23,6 @@ const fetchBeers = () => (dispatch, getState) => {
         return;
     }
 
-    const { favorites } = state;
-
     dispatch(createAction(actionTypes.FETCH_LANDING_BEERS));
 
     return beerService
@@ -32,7 +30,7 @@ const fetchBeers = () => (dispatch, getState) => {
         .then((response) => {
             dispatch(createAction(
                 actionTypes.LANDING_BEERS_FETCH_SUCCEEDED,
-                mapper.mapToLandingModels(response, favorites.beerIds),
+                mapper.mapToLandingModels(response),
             ));
         })
         .catch((error) => {

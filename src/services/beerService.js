@@ -5,12 +5,12 @@ const ROOT_URL = 'https://api.punkapi.com/v2/beers';
 function getBeersByIds(ids) {
     const url = `${ROOT_URL}?${getBeerIdsUrlPart(ids)}`;
     return api.fetch(url);
-};
+}
 
 function searchBeers(urlParams) {
     const url = buildSearchUrl(urlParams);
     return api.fetch(url);
-};
+}
 
 const buildSearchUrl = ({
     pageNumber,
@@ -66,4 +66,4 @@ const getColorEbcUrlPart = colorEbc => `ebc_lt=${colorEbc}`;
 export default {
     searchBeers,
     getBeersByIds
-}
+};
