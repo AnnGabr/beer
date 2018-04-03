@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PagedBeerList } from '../containers';
+import { PagedBeerList } from '../../containers';
 
 const Favorites = () => (
     <main className="layout has-scroll">

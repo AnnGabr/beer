@@ -13,12 +13,7 @@ export default class BeerList extends Component {
                 {beers.map(beer => (
                     <li key={beer.id} className={listItemClass}>
                         <BeerItem
-                            id={beer.id}
-                            imageUrl={beer.imageUrl}
-                            name={beer.name}
-                            tagline={beer.tagline}
-                            description={beer.description}
-                            isFavorite={beer.isFavorite}
+                            {...beer}
                             isExpanded={isExpanded}
                         />
                     </li>

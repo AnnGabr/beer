@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import SearchPanel from '../containers/LandingSearchPanel';
-import InfiniteBeerList from '../containers/LandingBeerList';
+import SearchPanel from '../../containers/LandingSearchPanel';
+import InfiniteBeerList from '../../containers/LandingBeerList';
 
 export default class Landing extends Component {
     render() {

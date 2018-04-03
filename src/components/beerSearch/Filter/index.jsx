@@ -47,9 +47,7 @@ export default class Filter extends Component {
         <Slider
             min="2"
             max="14"
-            sliderRef={(range) => {
-                this.alcoholVolume = range;
-            }}
+            sliderRef={(range) => { this.alcoholVolume = range; }}
             onChange={this.handleFilterChange}
         />
     );
@@ -58,9 +56,7 @@ export default class Filter extends Component {
         <Slider
             min="0"
             max="120"
-            sliderRef={(range) => {
-                this.internationalBitternessUnits = range;
-            }}
+            sliderRef={(range) => { this.internationalBitternessUnits = range; }}
             onChange={this.handleFilterChange}
         />
     );
@@ -69,9 +65,7 @@ export default class Filter extends Component {
         <Slider
             min="4"
             max="80"
-            sliderRef={(range) => {
-                this.colorEbc = range;
-            }}
+            sliderRef={(range) => { this.colorEbc = range; }}
             onChange={this.handleFilterChange}
         />
     );

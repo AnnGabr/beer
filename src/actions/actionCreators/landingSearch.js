@@ -1,50 +1,44 @@
 import { actionTypes } from '../actionTypes';
 import createAction from './actionCreator';
 
-import * as beerApi from '../../api/beerApi';
 import { isFetching, isAllFetched } from '../../reducers/landingBeerList';
-import { mapToLandingModels } from '../../utils/beerFilters';
+import { getSearchParams } from '../../reducers/landingSearch';
+
+import beerService from '../../services/beerService';
+import mapper from '../../utils/beerMapper';
 
 export const fetchSearchResult = searchParams => (dispatch) => {
     if (searchParams) {
-        dispatch(startSearch(searchParams));
+        dispatch(createAction(
+            actionTypes.SEARCH_STARTED,
+            searchParams
+        ));
     }
     dispatch(fetchBeers());
 };
 
-const startSearch = ({ beerName, filter }) => {
-    let searchParams = {};
-    if (filter) {
-        searchParams = {
-            alcoholVolume: filter.alcoholVolume,
-            internationalBitternessUnits: filter.internationalBitternessUnits,
-            colorEbc: filter.colorEbc,
-        };
-    }
-    searchParams.beerName = beerName;
-
-    return createAction(actionTypes.SEARCH_STARTED, searchParams);
-};
-
-const fetchBeers = (onSuccess = mapToLandingModels) => (dispatch, getState) => {
+const fetchBeers = () => (dispatch, getState) => {
     const state = getState();
     if (isFetching(state) || isAllFetched(state)) {
         return;
     }
 
-    const { landingSearch, favorites } = state;
+    const { favorites } = state;
 
     dispatch(createAction(actionTypes.FETCH_LANDING_BEERS));
 
-    return beerApi
-        .fetchBeers(landingSearch)
+    return beerService
+        .searchBeers(getSearchParams(state))
         .then((response) => {
             dispatch(createAction(
                 actionTypes.LANDING_BEERS_FETCH_SUCCEEDED,
-                onSuccess(response, favorites.beerIds),
+                mapper.mapToLandingModels(response, favorites.beerIds),
             ));
         })
         .catch((error) => {
-            dispatch(createAction(actionTypes.LANDING_BEERS_FETCH_FAILED, error));
+            dispatch(createAction(
+                actionTypes.LANDING_BEERS_FETCH_FAILED,
+                error
+            ));
         });
 };

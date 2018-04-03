@@ -15,7 +15,7 @@ export default function favoritesBeerList(state = initialState, { type, payload 
         };
     case actionTypes.FAVORITE_BEERS_FETCH_SUCCEEDED:
         return {
-            beers: [...payload],
+            beers: (payload.length === 0) ? null : [...payload],
             loading: false,
             error: null,
         };

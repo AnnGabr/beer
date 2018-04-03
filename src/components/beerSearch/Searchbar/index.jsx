@@ -8,9 +8,7 @@ export default class Searchbar extends Component {
             <form className="field is-grouped searchbar">
                 <span className="control is-expanded">
                     <input
-                        ref={(node) => {
-                            this.input = node;
-                        }}
+                        ref={(node) => { this.input = node; }}
                         className="input"
                         type="text"
                         placeholder="Search beers..."

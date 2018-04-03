@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import { Loader } from '../../components';
+import Loader from '../../common/Loader';
 
 import './infinite-list-wrapper.css';
 

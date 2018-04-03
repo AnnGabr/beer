@@ -6,7 +6,9 @@ import fetchBeers from '../../actions/actionCreators/favoriteBeersList';
 import { getFavoriteBeersCount, getFavoriteBeersIds } from '../../reducers/favorites';
 import { getFavoriteBeersListState } from '../../reducers/favoritesBeerList';
 
-import { BeerList, Loader, PagingPanel } from '../../components';
+import { BeerList, Loader, PagingPanel, Message } from '../../components';
+
+import { NO_FAVORITES_MESSAGE } from '../../constants';
 
 import './paged-list.css';
 
@@ -43,11 +45,7 @@ export class PagedBeerList extends Component {
                     Your favorite beers
                 </header>
                 <main className="paged-list__list">
-                    <BeerList
-                        beers={this.props.beers}
-                        isColumnList
-                        isExpanded
-                    />
+                    {this.getFavoritesList()}
                     {this.getLoader()}
                 </main>
                 <footer className="paged-list__footer">
@@ -56,6 +54,18 @@ export class PagedBeerList extends Component {
             </section>
         );
     }
+
+    getFavoritesList = () => (
+        this.props.beers
+            ? (
+                <BeerList
+                    beers={this.props.beers}
+                    isColumnList
+                    isExpanded
+                />
+            )
+            : <Message text={NO_FAVORITES_MESSAGE}/>
+    )
 
     getLoader = () => (
         this.props.loading ? <Loader /> : null
@@ -74,9 +84,7 @@ export class PagedBeerList extends Component {
     )
 
     fetchData() {
-        this.props.fetchBeers({
-            favoriteBeersIds: this.getCurrentPageBeersIds(),
-        });
+        this.props.fetchBeers(this.getCurrentPageBeersIds());
     }
 
     getCurrentPageBeersIds() {
@@ -88,3 +96,4 @@ export class PagedBeerList extends Component {
 }
 
 export default withRouter(connect(mapStateToProps, { fetchBeers })(PagedBeerList));
+
