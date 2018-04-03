@@ -1,0 +1,36 @@
+.drawer-container {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+}
+
+.drawer-container--opened {
+    pointer-events: auto;
+}
+
+.drawer-container--opened::before {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    left: 0;
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    content: "";
+
+    opacity: 0.8;
+    background-color: #000000;
+
+    will-change: opacity;
+}

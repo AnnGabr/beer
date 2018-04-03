@@ -1,0 +1,14 @@
+.paged-list {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.paged-list__title {
+    text-align: center;
+}
+
+.paged-list__list {
+    padding: 3rem 0 4rem;
+}

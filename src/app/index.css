@@ -1,0 +1,13 @@
+.layout {
+  height: 99%;
+}
+
+.has-scroll {
+  overflow-y: auto;
+}
+
+.no-scroll {
+  overflow-y: hidden;
+}
+
+

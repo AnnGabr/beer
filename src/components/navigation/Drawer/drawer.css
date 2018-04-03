@@ -1,0 +1,37 @@
+
+.drawer {
+    position: relative;
+    z-index: 10;
+
+    width: 320px;
+    height: 100%;
+
+    animation: 0.5s ease-out 0s 1 slideInFromLeft;
+
+    background-color: #ffffff;
+
+    touch-action: none;
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.drawer__header {
+    position: relative;
+
+    height: 200px;
+    padding: 36px 24px;
+}
+
+.drawer__content {
+    position: relative;
+
+    padding: 30px 0;
+}
+
