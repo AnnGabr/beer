@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { ComponentWithHeader } from '../../components';
+import { ComponentWithHeader, Loader } from '../../components';
 import { BeerMainInfo, BeerProperties, BeerFoodPairing, BeerIngredients, BeerMethod } from '../../components/beerDetails';
 
 import beerService from '../../services/beerService';
@@ -22,12 +22,13 @@ class BeerDetails extends Component {
         const { match } = this.props;
 
         beerService.getBeersByIds([match.params.beerId])
-            .then(response => this.setState(mapper.mapToDetailsModels(response)[0]));
+            .then(response =>
+                this.setState(mapper.mapToDetailsModels(response)[0]));
     }
 
     render() {
         if (!this.state) {
-            return null;
+            return <Loader />;
         }
 
         const { mainInfo, foodPairing, method, brewersTips, ingredients, properties } = this.state;
