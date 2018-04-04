@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { ComponentWithHeader, Loader } from '../../components';
+import { ComponentWithHeader, Message } from '../../components';
 import { BeerMainInfo, BeerProperties, BeerFoodPairing, BeerIngredients, BeerMethod } from '../../components/beerDetails';
+
+import { WAIT_MESSAGE } from '../../constants';
 
 import beerService from '../../services/beerService';
 import mapper from '../../utils/beerMapper';
@@ -28,7 +30,7 @@ class BeerDetails extends Component {
 
     render() {
         if (!this.state) {
-            return <Loader />;
+            return <Message text={WAIT_MESSAGE}/>;
         }
 
         const { mainInfo, foodPairing, method, brewersTips, ingredients, properties } = this.state;
