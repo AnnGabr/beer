@@ -7,7 +7,7 @@ import { getSearchParams } from '../../reducers/landingSearch';
 import beerService from '../../services/beerService';
 import mapper from '../../utils/beerMapper';
 
-const fetchSearchResult = searchParams => (dispatch) => {
+export const fetchSearchResult = searchParams => (dispatch) => {
     if (searchParams) {
         dispatch(createAction(
             actionTypes.SEARCH_STARTED,
@@ -23,8 +23,6 @@ const fetchBeers = () => (dispatch, getState) => {
         return;
     }
 
-    const { favorites } = state;
-
     dispatch(createAction(actionTypes.FETCH_LANDING_BEERS));
 
     return beerService
@@ -32,7 +30,7 @@ const fetchBeers = () => (dispatch, getState) => {
         .then((response) => {
             dispatch(createAction(
                 actionTypes.LANDING_BEERS_FETCH_SUCCEEDED,
-                mapper.mapToLandingModels(response, favorites.beerIds),
+                mapper.mapToLandingModels(response),
             ));
         })
         .catch((error) => {
@@ -42,5 +40,3 @@ const fetchBeers = () => (dispatch, getState) => {
             ));
         });
 };
-
-export default fetchSearchResult;

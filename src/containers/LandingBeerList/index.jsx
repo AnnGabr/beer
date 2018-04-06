@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 
 import { Message, InfiniteList, BeerList } from '../../components';
 
-import fetchSearchResult from '../../actions/actionCreators/landingSearch';
+import { fetchSearchResult } from '../../actions/actionCreators/landingSearch';
+import { getLandingBeerListState } from '../../reducers/landingBeerList';
 
 import { NO_SEARCH_RESULTS_MESSAGE, FETCH_FAIL_MESSAGE } from '../../constants';
 
 const mapStateToProps = state => ({
-    ...state.landingBeerList,
+    ...getLandingBeerListState(state)
 });
 
 export class LandingBeerList extends Component {

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import fetchBeers from '../../actions/actionCreators/favoriteBeersList';
+import { getFavoriteBeersCount, getFavoriteBeersIds } from '../../reducers/favorites';
+import { getFavoriteBeersListState } from '../../reducers/favoritesBeerList';
 
 import { BeerList, Loader, PagingPanel, Message } from '../../components';
 
@@ -10,11 +12,11 @@ import { NO_FAVORITES_MESSAGE } from '../../constants';
 
 import './paged-list.css';
 
-const mapStateToProps = (state, { match }) => ({
-    ...state.favoritesBeerList,
-    favoriteBeersIds: state.favorites.beerIds,
-    beersCount: state.favorites.beerIds.length,
-    activePageNumber: Number(match.params.pageNumber) || 1,
+const mapStateToProps = (state, ownProps) => ({
+    ...getFavoriteBeersListState(state),
+    favoriteBeersIds: getFavoriteBeersIds(state),
+    beersCount: getFavoriteBeersCount(state),
+    activePageNumber: Number(ownProps.match.params.pageNumber) || 1
 });
 
 export class PagedBeerList extends Component {

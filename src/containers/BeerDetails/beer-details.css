@@ -1,0 +1,23 @@
+.beer-details {
+    max-width: 1023px;
+    margin: auto;
+    padding: 1rem 2rem 2rem;
+
+    border-radius: 25px;
+    background-color: hsl(180,26.3%,97%);
+}
+.beer-details__main-info,
+.beer-details__brewing-tips {
+    text-align: justify;
+}
+
+.beer-details__brewing-tips {
+    max-width: 800px;
+    margin-top: 4rem;
+}
+
+@media (max-width: 1023px) {
+    .beer-details {
+        padding: 1rem;
+    }
+}

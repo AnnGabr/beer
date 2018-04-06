@@ -2,16 +2,17 @@ import { actionTypes } from '../actionTypes';
 import createAction from './actionCreator';
 
 import favoritesService from '../../services/favoritesService';
+import { removeBeerId, addBeerId, isFavorite } from '../../reducers/favorites';
 
 export const saveFavoriteChange = (id, isMarkedAsFavorite) => (dispatch, getState) => {
-    const { favorites } = getState();
+    const state = getState();
 
-    const isInFavorites = favorites.beerIds.includes(id);
+    const isInFavorites = isFavorite(state, id);
     if (isInFavorites && !isMarkedAsFavorite) {
-        const newFavoriteBeersIds = removeBeerId(favorites.beerIds, id);
+        const newFavoriteBeersIds = removeBeerId(state, id);
         saveFavorites(newFavoriteBeersIds, dispatch);
     } else if (!isInFavorites && isMarkedAsFavorite) {
-        const newFavoriteBeersIds = addBeerId(favorites.beerIds, id);
+        const newFavoriteBeersIds = addBeerId(state, id);
         saveFavorites(newFavoriteBeersIds, dispatch);
     }
 };
@@ -19,9 +20,8 @@ export const saveFavoriteChange = (id, isMarkedAsFavorite) => (dispatch, getStat
 function saveFavorites(newFavoriteBeersIds, dispatch) {
     favoritesService.set(newFavoriteBeersIds);
 
-    dispatch(createAction(actionTypes.FAVORITES_CHANGED, newFavoriteBeersIds));
+    dispatch(createAction(
+        actionTypes.FAVORITES_CHANGED,
+        newFavoriteBeersIds
+    ));
 }
-
-const addBeerId = (beerIds, idToAdd) => beerIds.concat(idToAdd);
-
-const removeBeerId = (beerIds, idToRemove) => beerIds.filter(id => id !== idToRemove);

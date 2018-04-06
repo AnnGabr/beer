@@ -1,18 +1,19 @@
 input[type=range] {
-    width: 300px;
+    display: block;
 
-    border: 1px solid white;
+    border: 1px solid hsl(0, 0%, 100%);
 
     -webkit-appearance: none;
 }
 
 input[type=range]::-webkit-slider-runnable-track {
-    width: 300px;
+    display: block;
+
     height: 2px;
 
     border: none;
     border-radius: 3px;
-    background: #f0f0f0;
+    background: hsl(0,0%,94.1%);
 }
 
 input[type=range]::-webkit-slider-thumb {
@@ -22,7 +23,7 @@ input[type=range]::-webkit-slider-thumb {
 
     border: none;
     border-radius: 50%;
-    background: #3273dc;
+    background: hsl(217, 71%, 53%);
 
     -webkit-appearance: none;
 }
@@ -32,20 +33,21 @@ input[type=range]:focus {
 }
 
 input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #f0f0f0;
+    background: hsl(0,0%,94.1%);
 }
 
 input[type=range]::-moz-range-track {
-    width: 300px;
+    display: block;
+
     height: 2px;
 
     border: none;
     border-radius: 3px;
-    background-color: #f0f0f0;
+    background-color: hsl(0,0%,94.1%);
 }
 
 input[type="range"]::-moz-range-progress {
-    background-color: #3273dc;
+    background-color: hsl(217, 71%, 53%);
 }
 
 input[type=range]::-moz-range-thumb {
@@ -54,16 +56,17 @@ input[type=range]::-moz-range-thumb {
 
     border: none;
     border-radius: 50%;
-    background-color: #3273dc;
+    background-color: hsl(217, 71%, 53%);
 }
 
 input[type=range]:-moz-focusring {
-    outline: 1px solid white;
+    outline: 1px solid hsl(0, 0%, 100%);
     outline-offset: -1px;
 }
 
 input[type=range]::-ms-track {
-    width: 300px;
+    display: block;
+
     height: 2px;
 
     color: transparent;
@@ -78,23 +81,23 @@ input[type=range]::-ms-thumb {
 
     border: none;
     border-radius: 50%;
-    background: #3273dc;
+    background: hsl(217, 71%, 53%);
 }
 
 input[type=range]::-ms-fill-lower {
     border-radius: 10px;
-    background: #3273dc;
+    background: hsl(217, 71%, 53%);
 }
 
 input[type=range]::-ms-fill-upper {
     border-radius: 10px;
-    background: #f0f0f0;
+    background: hsl(0,0%,94.1%);
 }
 
 input[type=range]:focus::-ms-fill-lower {
-    background: #3273dc;
+    background: hsl(217, 71%, 53%);
 }
 
 input[type=range]:focus::-ms-fill-upper {
-    background: #f0f0f0;
+    background: hsl(0,0%,94.1%);
 }

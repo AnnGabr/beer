@@ -12,3 +12,14 @@ export default function favorites(state = initialState, action) {
         return state;
     }
 }
+
+export const isFavorite = ({ favorites }, beerId) => favorites.beerIds.includes(beerId);
+
+export const getFavoriteBeersCount = ({ favorites }) => favorites.beerIds.length;
+
+export const getFavoriteBeersIds = ({ favorites }) => favorites.beerIds;
+
+export const addBeerId = ({ favorites }, idToAdd) => favorites.beerIds.concat(idToAdd);
+
+export const removeBeerId = ({ favorites }, idToRemove) =>
+    favorites.beerIds.filter(id => id !== idToRemove);

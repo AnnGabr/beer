@@ -1,7 +1,7 @@
 .beer__tagline--expanded {
     margin: -1.5rem 0 1.5rem;
 
-    color: #a9a9a9;
+    color: hsl(0, 0%, 66%);
 
     font-size: 1em;
 }
@@ -13,6 +13,8 @@
 .beer__image-container {
     min-width: 200px;
     padding: 1rem 0;
+
+    align-self: center;
 }
 
 .beer__image {
@@ -20,12 +22,14 @@
 
     height: 300px;
     margin: auto;
-
-    flex-shrink: 0;
 }
 
 .beer__buttons {
     margin-top: 1.5rem;
+}
+
+.beer__button {
+    margin-bottom: 1.5rem;
 }
 
 @media (min-width: 768px) {

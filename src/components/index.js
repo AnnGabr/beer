@@ -7,5 +7,21 @@ import Loader from './common/Loader';
 import PagingPanel from './favorites/PagingPanel';
 import Message from './common/Message';
 import InfiniteList from './beerSearch/InfiniteList';
+import PropertiesList from './beerDetails/PropertiesList';
+import SimpleList from './beerDetails/SimpleList';
+import ComponentWithHeader from './beerDetails/ComponentWithHeader';
 
-export { Drawer, Header, Searchbar, Filter, BeerList, Loader, PagingPanel, Message, InfiniteList };
+export {
+    Drawer,
+    Header,
+    Searchbar,
+    Filter,
+    BeerList,
+    Loader,
+    PagingPanel,
+    Message,
+    InfiniteList,
+    PropertiesList,
+    SimpleList,
+    ComponentWithHeader
+};
