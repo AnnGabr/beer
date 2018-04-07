@@ -1,0 +1,11 @@
+D:\work\itechart\beer3\Web\bin\Debug\netcoreapp2.0\Web.deps.json
+D:\work\itechart\beer3\Web\bin\Debug\netcoreapp2.0\Web.runtimeconfig.json
+D:\work\itechart\beer3\Web\bin\Debug\netcoreapp2.0\Web.runtimeconfig.dev.json
+D:\work\itechart\beer3\Web\bin\Debug\netcoreapp2.0\Web.dll
+D:\work\itechart\beer3\Web\obj\Debug\netcoreapp2.0\Web.csprojResolveAssemblyReference.cache
+D:\work\itechart\beer3\Web\obj\Debug\netcoreapp2.0\Web.csproj.CoreCompileInputs.cache
+D:\work\itechart\beer3\Web\obj\Debug\netcoreapp2.0\Web.AssemblyInfoInputs.cache
+D:\work\itechart\beer3\Web\obj\Debug\netcoreapp2.0\Web.AssemblyInfo.cs
+D:\work\itechart\beer3\Web\bin\Debug\netcoreapp2.0\Web.pdb
+D:\work\itechart\beer3\Web\obj\Debug\netcoreapp2.0\Web.dll
+D:\work\itechart\beer3\Web\obj\Debug\netcoreapp2.0\Web.pdb
