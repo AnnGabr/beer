@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 namespace Web.Models
 {
     public class Beer
-    {
-		public UInt64 BeerId { get; set; }
+	{
+		public UInt32 BeerId { get; set; }
 
-		public ICollection<User> Users { get; set; }
+		public IList<UserFavoriteBeer> UserFavoriteBeers { get; set; }
 	}
 }
