@@ -38,7 +38,12 @@ namespace Web
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+	            routes.MapRoute(
+		            name: "default",
+		            template: "{controller=Beer}/{action=SearchBeer}");
+            });
         }
     }
 }

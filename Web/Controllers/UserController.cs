@@ -8,10 +8,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("v1/[controller]")]
     public class UserController : Controller
     {
-        [HttpGet]
+
+		private readonly BeerCatalogContext _beerCatalogContext;
+
+		public UserController(BeerCatalogContext context)
+		{
+			_beerCatalogContext = context;
+		}
+
+		[HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
@@ -31,7 +39,6 @@ namespace Web.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
-		
         }
 
         [HttpDelete("{id}")]

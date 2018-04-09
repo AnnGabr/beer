@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Web.Models;
 
-namespace Web
+namespace BeerApp.DataAccess.Models
 {
 	public class BeerCatalogContext : DbContext
 	{
@@ -18,7 +13,7 @@ namespace Web
 			modelBuilder.Entity<UserFavoriteBeer>().HasKey(userBeer => new { userBeer.UserId, userBeer.BeerId });
 		}
 
-		public BeerCatalogContext(DbContextOptions<BeerCatalogContext> options) : base(options) { }
+		public BeerCatalogContext(DbContextOptions<BeerCatalogContext> options) : base((DbContextOptions) options) { }
 	}
 }
 

@@ -4,43 +4,93 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class BeerController : Controller
     {
-        // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+		private readonly IBeerService beerService;
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+		private readonly BeerCatalogContext beerCatalogContext;
 
-        // POST api/<controller>
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
+		public BeerController(BeerCatalogContext context, IBeerService beerService)
+		{
+			this.beerService = beerService ?? throw new ArgumentNullException(nameof(beerService));
 
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
+			beerCatalogContext = context;
+		}
 
-        // DELETE api/<controller>/5
+		[HttpGet("page={page}")]
+		public IActionResult SearchBeers(Int64 page)
+		{
+			return new NoContentResult();
+		}
+
+		[HttpPost]
+		public IActionResult Add([FromBody] Beer beerItem)
+		{
+			if (beerItem == null)
+			{
+				return BadRequest();
+			}
+
+			beerCatalogContext.Beers.Add(beerItem);
+			beerCatalogContext.SaveChanges();
+
+			return new NoContentResult();
+		}
+
+		[HttpPut("{id}")]
+        public IActionResult Update(Int64 beerId, [FromBody] Beer beerItem)
+        {
+			if (beerItem == null || beerItem.BeerId != beerId)
+			{
+				return BadRequest();
+			}
+
+			var beer = beerCatalogContext.Beers.FirstOrDefault(b => b.BeerId == beerId);
+			if (beer == null)
+			{
+				return NotFound();
+			}
+
+			//TODO: some update
+
+			return new NoContentResult();
+		}
+
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(Int64 beerId)
         {
-        }
+			var beer = beerCatalogContext.Beers.FirstOrDefault(b => b.BeerId == beerId);
+			if (beer == null)
+			{
+				return NotFound();
+			}
+
+			beerCatalogContext.Beers.Remove(beer);
+			beerCatalogContext.SaveChanges();
+
+			return new NoContentResult();
+		}
+
+		[HttpGet("{id}")]
+		public IActionResult GetById(Int64 beerId)
+		{
+			var beer = beerCatalogContext.Beers.FirstOrDefault(b => b.BeerId == beerId);
+			if (beer == null)
+			{
+				return NotFound();
+			}
+
+			return new ObjectResult(beer);
+		}
+
+		public Boolean IsBeerExists(Int64 beerId)
+		{
+			Beer beer = beerCatalogContext.Beers.FirstOrDefault(b => b.BeerId == beerId);
+
+			return beer != null;
+		}
     }
 }
