@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using BeerApp.DataAccess;
+using BeerApp.PunkApi.Services;
+using BeerApp.PunkApi.Services.Interfaces;
+using BeerApp.Web.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +23,7 @@ namespace BeerApp.Web
         public void ConfigureServices(IServiceCollection services)
         {
 			services.AddMvc();
+		
 	        services.AddAutoMapper();
 
 			services.AddEntityFrameworkNpgsql().AddDbContext<BeerCatalogContext>(options =>
@@ -28,6 +32,10 @@ namespace BeerApp.Web
 					b => b.MigrationsAssembly("BeerApp.DataAccess")
 				)
 			);
+
+			services.AddSingleton(GlobalMapper.GetConfiguredMapper());
+
+			services.AddTransient<IPunkApiService, PunkApiService>();
 		}
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -37,12 +45,7 @@ namespace BeerApp.Web
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc(routes =>
-            {
-	            routes.MapRoute(
-		            name: "default",
-		            template: "{controller=Beer}/{action=GetSingle}/{id?}");
-            });
-        }
+			app.UseMvc();
+		}
     }
 }

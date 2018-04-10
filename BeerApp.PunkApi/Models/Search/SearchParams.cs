@@ -2,23 +2,13 @@
 {
 	public class SearchParams
 	{
-		public PropertiesFilter Filter { get; set; }
-		public string BeerName { get; set; }
-		public long PageNumber { get; set; }
-		public long BeersPerPageCount { get; } = 9;
+		public long? PerPage { get; }
+		public long? Page { get; set; }
 
-		public class PropertiesFilter
-		{
-			public int AlcoholVolume { get; set; }
-			public int ColorEbc { get; set; }
-			public int InternationalBitternessUnits { get; set; }
+		public string Name { get; set; }
 
-			public PropertiesFilter(int alcoholVolume, int internationalBitternessUnits, int colorEbc)
-			{
-				AlcoholVolume = alcoholVolume;
-				InternationalBitternessUnits = internationalBitternessUnits;
-				ColorEbc = colorEbc;
-			}
-		}
+		public int? Abv { get; set; }
+		public int? Ebc { get; set; }
+		public int? Ibu { get; set; }
 	}
 }

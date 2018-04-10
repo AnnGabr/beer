@@ -1,32 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using BeerApp.PunkApi.Models.Beer;
 using BeerApp.PunkApi.Services.Interfaces;
-using BeerApp.Web.Models.Search;
-using BeerApp.Web.Mappers.Search;
-using BeerApp.Web.Models.Beer;
+using PunkApiSearchParams = BeerApp.PunkApi.Models.Search.SearchParams;
+
+using BeerApiSearchParams = BeerApp.Web.Models.Search.SearchParams;
+
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace BeerApp.Web.Controllers
 {
-    public class BeerController : Controller
-    {
+	[Route("[controller]")]
+	public class BeerController : Controller
+	{
 		private readonly IPunkApiService punkApiService;
+		private readonly IMapper mapper;
 
-		public BeerController(IPunkApiService punkApiService)
+		public BeerController(IPunkApiService punkApiService, IMapper mapper)
 		{
 			this.punkApiService = punkApiService ?? throw new ArgumentNullException(nameof(punkApiService));
+			this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
 
-		[HttpGet("{page}")]
-		public IActionResult SearchBeers([FromBody] SearchParams searchParams)
+		[HttpGet("Search")]
+		public IActionResult SearchBeers([FromQuery] BeerApiSearchParams searchParams)
 		{
-			ICollection<BaseBeer> searcheBeers = punkApiService.GetSearchResult(SearchParamsMapper.Map(searchParams));
+			ICollection<BaseBeer> searchResult = punkApiService
+				.GetSearchResult(mapper.Map<PunkApiSearchParams>(searchParams));
 
-			return new ObjectResult(searcheBeers);
+			return new ObjectResult(searchResult);
 		}
 
-		[HttpPost]
+		/*[HttpPost]
 		public IActionResult Add([FromBody] BeerBase beerItem)
 		{
 			if (beerItem == null)
@@ -37,7 +44,7 @@ namespace BeerApp.Web.Controllers
 			return new NoContentResult();
 		}
 
-		/*[HttpPut("{id}")]
+		[HttpPut("{id}")]
         public IActionResult Update(Int64 beerId, [FromBody] BeerBase beerItem)
         {
 			if (beerItem == null || beerItem.BeerId != beerId)

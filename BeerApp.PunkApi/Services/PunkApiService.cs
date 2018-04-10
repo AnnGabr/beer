@@ -9,7 +9,7 @@ namespace BeerApp.PunkApi.Services
 	{
 		public ICollection<BaseBeer> GetSearchResult(SearchParams searchParams)
 		{
-			throw new System.NotImplementedException();
+			return new List<BaseBeer>() { new BaseBeer() };
 		}
 	}
 }
