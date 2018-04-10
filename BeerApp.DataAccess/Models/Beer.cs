@@ -9,7 +9,7 @@ namespace BeerApp.DataAccess.Models
 	{
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public Int64 BeerId { get; set; }
+		public long BeerId { get; set; }
 
 		public IList<UserFavoriteBeer> UserFavoriteBeers { get; set; }
 	}

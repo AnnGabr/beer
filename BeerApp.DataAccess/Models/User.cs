@@ -9,14 +9,14 @@ namespace BeerApp.DataAccess.Models
     {
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public Int64 UserId { get; set; }
+		public long UserId { get; set; }
 
 		[Required]
-		public String Name { get; set; }
+		public string Name { get; set; }
 
 		[Required]
-		public String Email { get; set; }
-		public String ProfilePictureUrl { get; set; }
+		public string Email { get; set; }
+		public string ProfilePictureUrl { get; set; }
 		public DateTime? BirthDate { get; set; }
 
 		public IList<UserFavoriteBeer> UserFavoriteBeers { get; set; }
