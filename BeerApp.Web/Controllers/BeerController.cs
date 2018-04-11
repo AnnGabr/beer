@@ -29,7 +29,7 @@ namespace BeerApp.Web.Controllers
 		{
 			ICollection<BaseBeer> searchResult = punkApiService
 				.GetSearchResult(mapper.Map<PunkApiSearchParams>(searchParams));
-
+			
 			return new ObjectResult(searchResult);
 		}
 

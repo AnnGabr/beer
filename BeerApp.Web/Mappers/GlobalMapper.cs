@@ -5,7 +5,7 @@ using BeerApp.Web.Mappers.Search;
 
 namespace BeerApp.Web.Mappers
 {
-    public class GlobalMapper : Controller
+    public class GlobalMapper
     {
 		public static IMapper GetConfiguredMapper()
 		{
