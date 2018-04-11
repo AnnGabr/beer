@@ -1,6 +1,9 @@
-﻿namespace BeerApp.PunkApi.Models.Beer
+﻿using System.Runtime.Serialization;
+
+namespace BeerApp.PunkApi.Models.Beer
 {
-    public class DetailedBeer : BeerWithDescription
+	[DataContract(Name = "beer")]
+	public class DetailedBeer : BeerWithDescription
     {
 
     }

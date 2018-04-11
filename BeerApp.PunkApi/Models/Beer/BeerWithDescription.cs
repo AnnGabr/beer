@@ -1,7 +1,11 @@
-﻿namespace BeerApp.PunkApi.Models.Beer
+﻿using System.Runtime.Serialization;
+
+namespace BeerApp.PunkApi.Models.Beer
 {
-    public class BeerWithDescription : BaseBeer
+	[DataContract(Name = "beer")]
+	public class BeerWithDescription : BaseBeer
     {
-	    public string Description { get; set; }
+	    [DataMember(Name = "description")]
+		public string Description { get; set; }
     }
 }

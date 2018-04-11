@@ -1,10 +1,20 @@
-﻿namespace BeerApp.PunkApi.Models.Beer
+﻿using System.Runtime.Serialization;
+
+namespace BeerApp.PunkApi.Models.Beer
 {
-    public class BaseBeer
+	[DataContract(Name = "beer")]
+	public class BaseBeer
     {
-	    public long Id { get; set; }
-	    public string Name { get; set; }
-	    public string Tagline { get; set; }
-	    public string ImageUrl { get; set; }
+	    [DataMember(Name = "id")]
+		public long Id { get; set; }
+
+	    [DataMember(Name = "name")]
+		public string BeerName { get; set; }
+
+	    [DataMember(Name = "tagline")]
+		public string Tagline { get; set; }
+
+	    [DataMember(Name = "image_url")]
+		public string ImageUrl { get; set; }
     }
 }

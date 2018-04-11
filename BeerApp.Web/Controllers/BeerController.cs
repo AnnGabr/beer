@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 using BeerApp.PunkApi.Models.Beer;
 using BeerApp.PunkApi.Services.Interfaces;
 using PunkApiSearchParams = BeerApp.PunkApi.Models.Search.SearchParams;
 
 using BeerApiSearchParams = BeerApp.Web.Models.Search.SearchParams;
-
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
 
 namespace BeerApp.Web.Controllers
 {
@@ -25,10 +26,10 @@ namespace BeerApp.Web.Controllers
 		}
 
 		[HttpGet("Search")]
-		public IActionResult SearchBeers([FromQuery] BeerApiSearchParams searchParams)
+		public async Task<IActionResult> SearchBeers([FromQuery] BeerApiSearchParams searchParams)
 		{
-			ICollection<BaseBeer> searchResult = punkApiService
-				.GetSearchResult(mapper.Map<PunkApiSearchParams>(searchParams));
+			ICollection<BaseBeer> searchResult = await punkApiService
+				.GetSearchResultAsync(mapper.Map<PunkApiSearchParams>(searchParams));
 			
 			return new ObjectResult(searchResult);
 		}

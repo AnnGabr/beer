@@ -3,24 +3,24 @@ using BeerApp.PunkApi.Utilities.interfaces;
 
 namespace BeerApp.PunkApi.Models.Search
 {
-	public class SearchParams : IUrlQueryParams
+	public class SearchParams : IUriParams
 	{
-		[UrlQueryParam(Name = "per_page")]
+		[UriParam(Name = "per_page")]
 		public long? PerPage { get; set; }
 
-		[UrlQueryParam(Name = "page")]
+		[UriParam(Name = "page")]
 		public long? Page { get; set; }
 
-		[UrlQueryParam(Name = "name")]
+		[UriParam(Name = "name")]
 		public string Name { get; set; }
 
-		[UrlQueryParam(Name = "abv_lt")]
+		[UriParam(Name = "abv_lt")]
 		public int? Abv { get; set; }
 
-		[UrlQueryParam(Name = "ebc_lt")]
+		[UriParam(Name = "ebc_lt")]
 		public int? Ebc { get; set; }
 
-		[UrlQueryParam(Name = "ibu_lt")]
+		[UriParam(Name = "ibu_lt")]
 		public int? Ibu { get; set; }
 	}
 }

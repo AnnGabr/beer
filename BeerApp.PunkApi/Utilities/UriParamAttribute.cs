@@ -3,7 +3,7 @@
 namespace BeerApp.PunkApi.Utilities
 {
 	[AttributeUsage(AttributeTargets.All)]
-	public class UrlQueryParamAttribute : Attribute
+	public class UriParamAttribute : Attribute
     {
 		public string Name { get; set; }
     }
