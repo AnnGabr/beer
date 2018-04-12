@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-
-using BeerApp.Web.Mappers.Search;
+using BeerApp.Web.Mappers.Profiles;
 
 namespace BeerApp.Web.Mappers
 {
@@ -12,6 +10,7 @@ namespace BeerApp.Web.Mappers
 			return new MapperConfiguration(cfg =>
 			{
 				cfg.AddProfile(new SearchProfile());
+				cfg.AddProfile(new BeerProfile());
 			})
 			.CreateMapper();
 		}

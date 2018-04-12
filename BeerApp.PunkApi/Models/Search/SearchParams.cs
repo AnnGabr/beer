@@ -11,8 +11,8 @@ namespace BeerApp.PunkApi.Models.Search
 		[UriParam(Name = "page")]
 		public long? Page { get; set; }
 
-		[UriParam(Name = "name")]
-		public string Name { get; set; }
+		[UriParam(Name = "beer_name")]
+		public string BeerName { get; set; }
 
 		[UriParam(Name = "abv_lt")]
 		public int? Abv { get; set; }
