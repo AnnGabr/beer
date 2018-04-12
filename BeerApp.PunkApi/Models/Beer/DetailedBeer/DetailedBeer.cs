@@ -15,104 +15,97 @@ namespace BeerApp.PunkApi.Models.Beer.DetailedBeer
 		[DataMember(Name = "ebc")]
 		public float Ebc { get; set; }
 
-		/*public class Volume
-		{
-			public int value { get; set; }
-			public string unit { get; set; }
-		}
+		[DataMember(Name = "food_pairing")]
+		public List<string> FoodPairing { get; set; }
 
-		public class BoilVolume
-		{
-			public int value { get; set; }
-			public string unit { get; set; }
-		}
+		[DataMember(Name = "brewers_tips")]
+		public string BrewersTips { get; set; }
 
-		public class Temp
-		{
-			public int value { get; set; }
-			public string unit { get; set; }
-		}
+		[DataMember(Name = "boil_volume")]
+		public ValueUnit BoilVolume { get; set; }
 
-		public class MashTemp
-		{
-			public Temp temp { get; set; }
-			public int duration { get; set; }
-		}
+		[DataMember(Name = "method")]
+		public Method Method { get; set; }
 
-		public class Temp2
-		{
-			public int value { get; set; }
-			public string unit { get; set; }
-		}
-
-		public class Fermentation
-		{
-			public Temp2 temp { get; set; }
-		}
-
-		public class Method
-		{
-			public List<MashTemp> mash_temp { get; set; }
-			public Fermentation fermentation { get; set; }
-			public object twist { get; set; }
-		}
-
-		public class Amount
-		{
-			public double value { get; set; }
-			public string unit { get; set; }
-		}
-
-		public class Malt
-		{
-			public string name { get; set; }
-			public Amount amount { get; set; }
-		}
-
-		public class Amount2
-		{
-			public double value { get; set; }
-			public string unit { get; set; }
-		}
-
-		public class Hop
-		{
-			public string name { get; set; }
-			public Amount2 amount { get; set; }
-			public string add { get; set; }
-			public string attribute { get; set; }
-		}
-
-		public class Ingredients
-		{
-			public List<Malt> malt { get; set; }
-			public List<Hop> hops { get; set; }
-			public string yeast { get; set; }
-		}
-
-		public class MainInfo
-		{
-			public int id { get; set; }
-			public string name { get; set; }
-			public string tagline { get; set; }
-			public string first_brewed { get; set; }
-			public string description { get; set; }
-			public string image_url { get; set; }
-			public double abv { get; set; }
-			public int ibu { get; set; }
-			public int target_fg { get; set; }
-			public int target_og { get; set; }
-			public int ebc { get; set; }
-			public int srm { get; set; }
-			public double ph { get; set; }
-			public int attenuation_level { get; set; }
-			public Volume volume { get; set; }
-			public BoilVolume boil_volume { get; set; }
-			public Method method { get; set; }
-			public Ingredients ingredients { get; set; }
-			public List<string> food_pairing { get; set; }
-			public string brewers_tips { get; set; }
-			public string contributed_by { get; set; }
-		}*/
+		[DataMember(Name = "ingredients")]
+		public Ingredients Ingredients { get; set; }
     }
+
+	[DataContract(Name = "method")]
+	public class Method
+	{
+		[DataMember(Name = "mash_temp")]
+		public List<MashTemp> MashTemp { get; set; }
+
+		[DataMember(Name = "fermentation")]
+		public Fermentation Fermentation { get; set; }
+
+		[DataMember(Name = "twist")]
+		public string Twist { get; set; }
+	}
+
+	[DataContract(Name = "mash_temp")]
+	public class MashTemp
+	{
+		public Temp temp { get; set; }
+		public int duration { get; set; }
+	}
+
+	[DataContract(Name = "fermentation")]
+	public class Fermentation
+	{
+		public Temp temp { get; set; }
+	}
+
+	[DataContract(Name = "value_unit")]
+	public class ValueUnit
+	{
+		[DataMember(Name = "value")]
+		public int Value { get; set; }
+
+		[DataMember(Name = "unit")]
+		public string Unit { get; set; }
+	}
+
+	public class Temp
+	{
+		public int value { get; set; }
+		public string unit { get; set; }
+	}
+
+	
+
+	
+
+	public class Amount
+	{
+		public double value { get; set; }
+		public string unit { get; set; }
+	}
+
+	public class Malt
+	{
+		public string name { get; set; }
+		public Amount amount { get; set; }
+	}
+
+	public class Amount2
+	{
+		public double value { get; set; }
+		public string unit { get; set; }
+	}
+
+	public class Hop
+	{
+		public string name { get; set; }
+		public Amount2 amount { get; set; }
+		public string add { get; set; }
+		public string attribute { get; set; }
+	}
+
+	public class Ingredients
+	{
+		public List<Malt> malt { get; set; }
+		public List<Hop> hops { get; set; }
+	}
 }
