@@ -7,8 +7,7 @@ using AutoMapper;
 
 using BeerApp.PunkApi.Services.Interfaces;
 using PunkApiSearchParams = BeerApp.PunkApi.Models.Search.SearchParams;
-using PunkApiBaseBeer = BeerApp.PunkApi.Models.Beer.BaseBeer;
-using PunkApiDetailedBeer = BeerApp.PunkApi.Models.Beer.DetailedBeer.DetailedBeer;
+using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
 
 using BeerApiSearchParams = BeerApp.Web.Models.Search.SearchParams;
 using BeerApiBaseBeer = BeerApp.Web.Models.Beer.BeerBase;
@@ -38,7 +37,7 @@ namespace BeerApp.Web.Controllers
 
 		private async Task<ICollection<BeerApiBaseBeer>> GetSearchResult(BeerApiSearchParams searchParams)
 		{
-			ICollection<PunkApiBaseBeer> searchResult = await punkApiService
+			ICollection<PunkApiBeer> searchResult = await punkApiService
 				.GetSearchResultAsync(mapper.Map<PunkApiSearchParams>(searchParams));
 
 			return mapper.Map<ICollection<BeerApiBaseBeer>>(searchResult);
@@ -47,10 +46,10 @@ namespace BeerApp.Web.Controllers
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetBeerByIdAsync(long id)
 		{
-			PunkApiDetailedBeer punkApiBeer = await punkApiService.GetBeerByIdAsync(id);
-			//var beerApiBeer = mapper.Map<BeerApiDetailedBeer>(punkApiBeer);
+			PunkApiBeer punkApiBeer = await punkApiService.GetBeerByIdAsync(id);
+			var beerApiBeer = mapper.Map<BeerApiDetailedBeer>(punkApiBeer);
 
-			return new ObjectResult(punkApiBeer);
+			return new ObjectResult(beerApiBeer);
 		}
 
 		/*[HttpPost]
