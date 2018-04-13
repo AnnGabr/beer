@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using BeerApp.Web.Models.Beer;
+
 using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
 using PunkApiBeerIngredients = BeerApp.PunkApi.Models.Beer.Ingredients;
 
-using BaseBeer = BeerApp.Web.Models.Beer.BeerBase;
-using BeerWithDescription = BeerApp.Web.Models.Beer.BeerWithDescription;
-using DetailedBeer = BeerApp.Web.Models.Beer.DetailedBeer;
+using BeerApp.Web.Models.Beer;
 using BeerApiBeerIngredients = BeerApp.Web.Models.Beer.Ingredients;
 
 namespace BeerApp.Web.Mappers.Profiles

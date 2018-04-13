@@ -1,6 +1,6 @@
 ﻿namespace BeerApp.Web.Models.Beer
 {
-    public class BeerBase
+    public class BaseBeer
     {
 	    public long Id { get; set; }
 	    public string BeerName { get; set; }

@@ -10,8 +10,7 @@ using PunkApiSearchParams = BeerApp.PunkApi.Models.Search.SearchParams;
 using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
 
 using BeerApiSearchParams = BeerApp.Web.Models.Search.SearchParams;
-using BeerApiBaseBeer = BeerApp.Web.Models.Beer.BeerBase;
-using BeerApiDetailedBeer = BeerApp.Web.Models.Beer.DetailedBeer;
+using BeerApp.Web.Models.Beer;
 
 namespace BeerApp.Web.Controllers
 {
@@ -30,90 +29,26 @@ namespace BeerApp.Web.Controllers
 		[HttpGet("Search")]
 		public async Task<IActionResult> SearchBeers([FromQuery] BeerApiSearchParams searchParams)
 		{
-			ICollection<BeerApiBaseBeer> searchResult = await GetSearchResult(searchParams);
+			ICollection<BaseBeer> searchResult = await GetSearchResultAsync(searchParams);
 
 			return new ObjectResult(searchResult);
 		}
 
-		private async Task<ICollection<BeerApiBaseBeer>> GetSearchResult(BeerApiSearchParams searchParams)
+		private async Task<ICollection<BaseBeer>> GetSearchResultAsync(BeerApiSearchParams searchParams)
 		{
 			ICollection<PunkApiBeer> searchResult = await punkApiService
 				.GetSearchResultAsync(mapper.Map<PunkApiSearchParams>(searchParams));
 
-			return mapper.Map<ICollection<BeerApiBaseBeer>>(searchResult);
+			return mapper.Map<ICollection<BaseBeer>>(searchResult);
 		}
 
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetBeerByIdAsync(long id)
 		{
 			PunkApiBeer punkApiBeer = await punkApiService.GetBeerByIdAsync(id);
-			var beerApiBeer = mapper.Map<BeerApiDetailedBeer>(punkApiBeer);
+			var beerApiBeer = mapper.Map<DetailedBeer>(punkApiBeer);
 
 			return new ObjectResult(beerApiBeer);
 		}
-
-		/*[HttpPost]
-		public IActionResult Add([FromBody] BeerBase beerItem)
-		{
-			if (beerItem == null)
-			{
-				return BadRequest();
-			}
-
-			return new NoContentResult();
-		}
-
-		[HttpPut("{id}")]
-        public IActionResult Update(Int64 beerId, [FromBody] BeerBase beerItem)
-        {
-			if (beerItem == null || beerItem.BeerId != beerId)
-			{
-				return BadRequest();
-			}
-
-			var beer = beerCatalogContext.Beers.FirstOrDefault(b => b.BeerId == beerId);
-			if (beer == null)
-			{
-				return NotFound();
-			}
-
-			//TODO: some update
-
-			return new NoContentResult();
-		}
-
-        [HttpDelete("{id}")]
-        public IActionResult Delete(Int64 beerId)
-        {
-			var beer = beerCatalogContext.Beers.FirstOrDefault(b => b.BeerId == beerId);
-			if (beer == null)
-			{
-				return NotFound();
-			}
-
-			beerCatalogContext.Beers.Remove(beer);
-			beerCatalogContext.SaveChanges();
-
-			return new NoContentResult();
-		}
-
-		[HttpGet("{id}")]
-		public IActionResult GetById(Int64 beerId)
-		{
-			/*var beer = beerCatalogContext.Beers.FirstOrDefault(b => b.BeerId == beerId);
-			if (beer == null)
-			{
-				return NotFound();
-			}
-
-			return new ObjectResult(beer);
-		}
-
-		public Boolean IsBeerExists(Int64 beerId)
-		{
-			Beer beer = beerCatalogContext.Beers.FirstOrDefault(b => b.BeerId == beerId);
-
-			return beer != null;
-		}*/
 	}
 }

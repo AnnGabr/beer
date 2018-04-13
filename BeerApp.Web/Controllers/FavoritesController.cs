@@ -1,9 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+
+using BeerApp.PunkApi.Services.Interfaces;
+using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
+
+using BeerApp.Web.Models.Beer;
 
 namespace BeerApp.Web.Controllers
 {
-    public class FavoriteBeerController : Controller
+	[Route("[controller]")]
+	public class FavoritesController : Controller
     {
-      
-    }
+		 private readonly IPunkApiService punkApiService;
+		private readonly IMapper mapper;
+
+		public FavoritesController(IPunkApiService punkApiService, IMapper mapper)
+	    {
+		    this.punkApiService = punkApiService ?? throw new ArgumentNullException(nameof(punkApiService));
+		    this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+	    }
+
+		[HttpGet]
+		public async Task<IActionResult> GetFavoriteBeersAsync([FromQuery] long userId)
+		{
+			long[] ids = {1, 2, 3}; //test
+			ICollection<PunkApiBeer> punkApiBeer = await punkApiService.GetBeerByIdsAsync(ids);
+			var favorites = mapper.Map<ICollection<BeerWithDescription>>(punkApiBeer);
+
+			return new ObjectResult(favorites);
+		}
+	}
 }
