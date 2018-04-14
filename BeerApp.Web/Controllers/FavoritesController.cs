@@ -27,8 +27,8 @@ namespace BeerApp.Web.Controllers
 		public async Task<IActionResult> GetFavoriteBeersAsync([FromQuery] long userId)
 		{
 			long[] ids = {1, 2, 3}; //test
-			ICollection<PunkApiBeer> punkApiBeer = await punkApiService.GetBeerByIdsAsync(ids);
-			var favorites = mapper.Map<ICollection<BeerWithDescription>>(punkApiBeer);
+			IEnumerable<PunkApiBeer> punkApiBeer = await punkApiService.GetBeerByIdsAsync(ids);
+			var favorites = mapper.Map<IReadOnlyList<BeerWithDescription>>(punkApiBeer);
 
 			return new ObjectResult(favorites);
 		}

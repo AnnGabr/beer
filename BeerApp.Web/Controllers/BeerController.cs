@@ -32,7 +32,7 @@ namespace BeerApp.Web.Controllers
 		{
 			try
 			{
-				ICollection<BaseBeer> searchResult = await GetSearchResultAsync(searchParams);
+				IEnumerable<BaseBeer> searchResult = await GetSearchResultAsync(searchParams);
 
 				return new ObjectResult(searchResult);
 			}
@@ -42,12 +42,12 @@ namespace BeerApp.Web.Controllers
 			}
 		}
 
-		private async Task<ICollection<BaseBeer>> GetSearchResultAsync(BeerApiSearchParams searchParams)
+		private async Task<IEnumerable<BaseBeer>> GetSearchResultAsync(BeerApiSearchParams searchParams)
 		{
-			ICollection<PunkApiBeer> searchResult = await punkApiService
+			IEnumerable<PunkApiBeer> searchResult = await punkApiService
 				.GetSearchResultAsync(mapper.Map<PunkApiSearchParams>(searchParams));
 
-			return mapper.Map<ICollection<BaseBeer>>(searchResult);
+			return mapper.Map<IReadOnlyList<BaseBeer>>(searchResult);
 		}
 
 		[HttpGet("{id}")]

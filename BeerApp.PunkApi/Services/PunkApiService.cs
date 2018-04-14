@@ -20,7 +20,7 @@ namespace BeerApp.PunkApi.Services
 
 		protected readonly DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(ICollection<Beer>));
 
-		public async Task<ICollection<Beer>> GetSearchResultAsync(SearchParams searchParams)
+		public async Task<IReadOnlyList<Beer>> GetSearchResultAsync(SearchParams searchParams)
 		{
 			string requestUri = UrlBuilder.BuildFromQueryParams(RootUrl, searchParams);
 
@@ -35,20 +35,20 @@ namespace BeerApp.PunkApi.Services
 				?.FirstOrDefault();
 	    }
 
-	    public async Task<ICollection<Beer>> GetBeerByIdsAsync(long[] beerIds)
+	    public async Task<IReadOnlyList<Beer>> GetBeerByIdsAsync(long[] beerIds)
 	    {
 			string requestUri = $"{RootUrl}?ids={string.Join("|", beerIds)}";
 
 		    return await GetBeersAsync(requestUri);
 	    }
 
-	    protected async Task<ICollection<Beer>> GetBeersAsync(string requestUri)
+	    protected async Task<IReadOnlyList<Beer>> GetBeersAsync(string requestUri)
 	    {
 			HttpResponseMessage response = await Client.GetAsync(requestUri);
 		    await response.EnsureSuccessStatusCodeAsync();
 
 		    Stream responseBody = await response.Content.ReadAsStreamAsync();
-		    var beers = Serializer.ReadObject(responseBody) as ICollection<Beer>;
+		    var beers = Serializer.ReadObject(responseBody) as IReadOnlyList<Beer>;
 
 			return beers;
 		}
