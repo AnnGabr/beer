@@ -11,7 +11,14 @@ namespace BeerApp.DataAccess
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<UserFavoriteBeer>().HasKey(userBeer => new { userBeer.UserId, userBeer.BeerId });
+			modelBuilder
+				.Entity<UserFavoriteBeer>()
+				.HasKey(userBeer => new { userBeer.UserId, userBeer.BeerId });
+
+			modelBuilder
+				.Entity<Beer>()
+				.HasIndex(b => b.PunkBeerId)
+				.IsUnique();
 		}
 
 		public BeerCatalogContext(DbContextOptions<BeerCatalogContext> options) : base(options) { }
