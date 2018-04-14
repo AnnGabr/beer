@@ -4,10 +4,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
+using BeerApp.PunkApi.Extensions;
 using BeerApp.PunkApi.Models.Beer;
 using BeerApp.PunkApi.Models.Search;
 using BeerApp.PunkApi.Services.Interfaces;
-using UrlBuilder = BeerApp.PunkApi.Utilities.UrlBuilder;
+using BeerApp.PunkApi.Utilities;
 
 namespace BeerApp.PunkApi.Services
 {
@@ -22,48 +23,34 @@ namespace BeerApp.PunkApi.Services
 		public async Task<ICollection<Beer>> GetSearchResultAsync(SearchParams searchParams)
 		{
 			string requestUri = UrlBuilder.BuildFromQueryParams(RootUrl, searchParams);
-			HttpResponseMessage response = await Client.GetAsync(requestUri);
 
-			await EnsureSuccessStatusCode(response);
- 
-			Stream responseBody = await response.Content.ReadAsStreamAsync();
-			var beers = Serializer.ReadObject(responseBody) as ICollection<Beer>;
-			
-			return beers;
+			return await GetBeersAsync(requestUri);
 		}
 
 	    public async Task<Beer> GetBeerByIdAsync(long beerId)
 	    {
 		    string requestUri = $"{RootUrl}/{beerId}";
-		    HttpResponseMessage response = await Client.GetAsync(requestUri);
 
-		    await EnsureSuccessStatusCode(response);
-
-		    Stream responseBody = await response.Content.ReadAsStreamAsync();
-		    var beers = Serializer.ReadObject(responseBody) as ICollection<Beer>;
-
-		    return beers?.FirstOrDefault();
+			return (await GetBeersAsync(requestUri))
+				?.FirstOrDefault();
 	    }
 
 	    public async Task<ICollection<Beer>> GetBeerByIdsAsync(long[] beerIds)
 	    {
 			string requestUri = $"{RootUrl}?ids={string.Join("|", beerIds)}";
-		    HttpResponseMessage response = await Client.GetAsync(requestUri);
 
-		    await EnsureSuccessStatusCode(response);
+		    return await GetBeersAsync(requestUri);
+	    }
+
+	    protected async Task<ICollection<Beer>> GetBeersAsync(string requestUri)
+	    {
+			HttpResponseMessage response = await Client.GetAsync(requestUri);
+		    await response.EnsureSuccessStatusCodeAsync();
 
 		    Stream responseBody = await response.Content.ReadAsStreamAsync();
 		    var beers = Serializer.ReadObject(responseBody) as ICollection<Beer>;
 
-		    return beers;
-		}
-
-	    protected async Task EnsureSuccessStatusCode(HttpResponseMessage response)
-	    {
-			if (!response.IsSuccessStatusCode)
-			{
-				throw new HttpRequestException(await response.Content.ReadAsStringAsync());
-			}
+			return beers;
 		}
 	}
 }
