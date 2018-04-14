@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
@@ -29,9 +31,16 @@ namespace BeerApp.Web.Controllers
 		[HttpGet("Search")]
 		public async Task<IActionResult> SearchBeers([FromQuery] BeerApiSearchParams searchParams)
 		{
-			ICollection<BaseBeer> searchResult = await GetSearchResultAsync(searchParams);
+			try
+			{
+				ICollection<BaseBeer> searchResult = await GetSearchResultAsync(searchParams);
 
-			return new ObjectResult(searchResult);
+				return new ObjectResult(searchResult);
+			}
+			catch (HttpRequestException exp)
+			{
+				return BadRequest(exp.Message);
+			}
 		}
 
 		private async Task<ICollection<BaseBeer>> GetSearchResultAsync(BeerApiSearchParams searchParams)
@@ -45,10 +54,17 @@ namespace BeerApp.Web.Controllers
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetBeerByIdAsync(long id)
 		{
-			PunkApiBeer punkApiBeer = await punkApiService.GetBeerByIdAsync(id);
-			var beerApiBeer = mapper.Map<DetailedBeer>(punkApiBeer);
+			try
+			{
+				PunkApiBeer punkApiBeer = await punkApiService.GetBeerByIdAsync(id);
+				var beerApiBeer = mapper.Map<DetailedBeer>(punkApiBeer);
 
-			return new ObjectResult(beerApiBeer);
+				return new ObjectResult(beerApiBeer);
+			}
+			catch (HttpRequestException exp)
+			{
+				return BadRequest(exp.Message);
+			}	
 		}
 	}
 }

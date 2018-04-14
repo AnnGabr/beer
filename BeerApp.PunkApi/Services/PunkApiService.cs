@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -16,43 +15,55 @@ namespace BeerApp.PunkApi.Services
     {
 	    public readonly string RootUrl = "https://api.punkapi.com/v2/beers";
 
+		protected readonly HttpClient Client = new HttpClient();
+
+		protected readonly DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(ICollection<Beer>));
+
 		public async Task<ICollection<Beer>> GetSearchResultAsync(SearchParams searchParams)
 		{
-			var serializer = new DataContractJsonSerializer(typeof(List<Beer>));
-			var client = new HttpClient();
-
 			string requestUri = UrlBuilder.BuildFromQueryParams(RootUrl, searchParams);
-			Task<Stream> searchBeersTask = client.GetStreamAsync(requestUri);
+			HttpResponseMessage response = await Client.GetAsync(requestUri);
 
-			var beers = serializer.ReadObject(await searchBeersTask) as List<Beer>;
+			await EnsureSuccessStatusCode(response);
+ 
+			Stream responseBody = await response.Content.ReadAsStreamAsync();
+			var beers = Serializer.ReadObject(responseBody) as ICollection<Beer>;
 			
 			return beers;
 		}
 
 	    public async Task<Beer> GetBeerByIdAsync(long beerId)
 	    {
-			var serializer = new DataContractJsonSerializer(typeof(ICollection<Beer>));
-		    var client = new HttpClient();
+		    string requestUri = $"{RootUrl}/{beerId}";
+		    HttpResponseMessage response = await Client.GetAsync(requestUri);
 
-			string requestUri = $"{RootUrl}/{beerId}";
-		    Task<Stream> searchBeersTask = client.GetStreamAsync(requestUri);
+		    await EnsureSuccessStatusCode(response);
 
-		    var beer = serializer.ReadObject(await searchBeersTask) as ICollection<Beer>;
+		    Stream responseBody = await response.Content.ReadAsStreamAsync();
+		    var beers = Serializer.ReadObject(responseBody) as ICollection<Beer>;
 
-		    return beer?.FirstOrDefault();
+		    return beers?.FirstOrDefault();
 	    }
 
 	    public async Task<ICollection<Beer>> GetBeerByIdsAsync(long[] beerIds)
 	    {
-			var serializer = new DataContractJsonSerializer(typeof(List<Beer>));
-		    var client = new HttpClient();
+			string requestUri = $"{RootUrl}?ids={string.Join("|", beerIds)}";
+		    HttpResponseMessage response = await Client.GetAsync(requestUri);
 
-		    string requestUri = $"{RootUrl}?ids={string.Join("|", beerIds)}";
-		    Task<Stream> searchBeersTask = client.GetStreamAsync(requestUri);
+		    await EnsureSuccessStatusCode(response);
 
-		    var beers = serializer.ReadObject(await searchBeersTask) as List<Beer>;
+		    Stream responseBody = await response.Content.ReadAsStreamAsync();
+		    var beers = Serializer.ReadObject(responseBody) as ICollection<Beer>;
 
 		    return beers;
 		}
-    }
+
+	    protected async Task EnsureSuccessStatusCode(HttpResponseMessage response)
+	    {
+			if (!response.IsSuccessStatusCode)
+			{
+				throw new HttpRequestException(await response.Content.ReadAsStringAsync());
+			}
+		}
+	}
 }
