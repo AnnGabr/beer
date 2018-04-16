@@ -1,23 +1,17 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace BeerApp.Web.Models.Beer
 {
 	public class DetailedBeer : BeerWithDescription
 	{
-		/*public float? Abv { get; set; }
-		public float? Ibu { get; set; }
-		public float? Ebc { get; set; }*/
-
-		public Properties Properties { get; set; }	//test
+		public Properties Properties { get; set; }	
 		public List<string> FoodPairing { get; set; }
 		public string BrewersTips { get; set; }
-		//public ValueInUnit BoilVolume { get; set; }
 		public Method Method { get; set; }
 		public Ingredients Ingredients { get; set; }
 	}
 
-	public class Properties //test
+	public class Properties
 	{
 		public float? Abv { get; set; }
 		public float? Ibu { get; set; }
@@ -44,7 +38,7 @@ namespace BeerApp.Web.Models.Beer
 
 	public class Ingredients
 	{
-		public ValueInUnit Water { get; set; } //test
+		public ValueInUnit Water { get; set; } 
 		public List<Malt> Malt { get; set; }
 		public List<Hop> Hops { get; set; }
 	}

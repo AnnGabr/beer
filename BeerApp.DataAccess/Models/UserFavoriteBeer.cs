@@ -1,5 +1,8 @@
-﻿namespace BeerApp.DataAccess.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BeerApp.DataAccess.Models
 {
+	[Table("Favorites")]
     public class UserFavoriteBeer
     {
 		public long UserId { get; set; }

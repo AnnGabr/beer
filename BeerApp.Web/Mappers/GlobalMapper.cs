@@ -11,6 +11,7 @@ namespace BeerApp.Web.Mappers
 			{
 				cfg.AddProfile(new SearchProfile());
 				cfg.AddProfile(new BeerProfile());
+				cfg.AddProfile(new UserProfile());
 			})
 			.CreateMapper();
 		}

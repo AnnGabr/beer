@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeerApp.Web.Frontend", "Bee
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeerApp.Web", "BeerApp.Web\BeerApp.Web.csproj", "{62747077-CB91-4A60-8918-3DF194C9C490}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeerApp.Account", "BeerApp.Account\BeerApp.Account.csproj", "{3ABD788C-36A6-4DD4-BD1E-0098113EFABE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{62747077-CB91-4A60-8918-3DF194C9C490}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62747077-CB91-4A60-8918-3DF194C9C490}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62747077-CB91-4A60-8918-3DF194C9C490}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ABD788C-36A6-4DD4-BD1E-0098113EFABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ABD788C-36A6-4DD4-BD1E-0098113EFABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ABD788C-36A6-4DD4-BD1E-0098113EFABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ABD788C-36A6-4DD4-BD1E-0098113EFABE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

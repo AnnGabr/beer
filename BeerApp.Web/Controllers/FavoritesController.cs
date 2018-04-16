@@ -8,13 +8,15 @@ using BeerApp.PunkApi.Services.Interfaces;
 using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
 
 using BeerApp.Web.Models.Beer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BeerApp.Web.Controllers
 {
+	[Authorize]
 	[Route("[controller]")]
 	public class FavoritesController : Controller
     {
-		 private readonly IPunkApiService punkApiService;
+		private readonly IPunkApiService punkApiService;
 		private readonly IMapper mapper;
 
 		public FavoritesController(IPunkApiService punkApiService, IMapper mapper)

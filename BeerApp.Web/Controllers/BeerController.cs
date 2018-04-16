@@ -27,7 +27,7 @@ namespace BeerApp.Web.Controllers
 			this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
 
-		[HttpGet("Search")]
+		[HttpGet("search")]
 		public async Task<IActionResult> SearchBeers([FromQuery] BeerApiSearchParams searchParams)
 		{
 			try
