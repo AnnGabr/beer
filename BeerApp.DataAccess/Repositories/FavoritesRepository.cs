@@ -28,10 +28,10 @@ namespace BeerApp.DataAccess.Repositories
 
 	    public async Task<UserFavoriteBeer> RemoveAsync(UserFavoriteBeer favorite)
 	    {
-		    EntityEntry<UserFavoriteBeer> deletedFavorite = DbContext.UserFavoriteBeers.Remove(favorite);
+		    EntityEntry<UserFavoriteBeer> removedFavorite = DbContext.UserFavoriteBeers.Remove(favorite);
 		    await DbContext.SaveChangesAsync();
 
-		    return deletedFavorite.Entity;
+		    return removedFavorite.Entity;
 	    }
 
 	    public async Task<IReadOnlyList<Beer>> GetAllAsync(long userId)

@@ -2,7 +2,6 @@
 using BeerApp.DataAccess;
 using BeerApp.DataAccess.Models;
 using BeerApp.PunkApi.Services;
-using BeerApp.PunkApi.Services.Interfaces;
 using BeerApp.Web.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

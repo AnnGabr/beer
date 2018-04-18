@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using BeerApp.PunkApi.Extensions;
 using BeerApp.PunkApi.Models.Beer;
 using BeerApp.PunkApi.Models.Search;
-using BeerApp.PunkApi.Services.Interfaces;
 using BeerApp.PunkApi.Utilities;
 
 namespace BeerApp.PunkApi.Services
