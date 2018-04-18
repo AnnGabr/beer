@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BeerApp.Web.Services.interfaces
+﻿namespace BeerApp.Account.Services
 {
-    interface IUserService
+    public interface IUserService
     {
     }
 }

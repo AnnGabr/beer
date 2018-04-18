@@ -1,18 +1,18 @@
 ﻿using System;
+using System.Threading.Tasks;
+
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System.Threading.Tasks;
-using BeerApp.Account.Services.interfaces;
 
 namespace BeerApp.Account.Services
 {
-	class SendgridMailService : IMailService
+	internal class SendgridMailSender : IMailSender
 	{
 		public async Task Send()
 		{
 			var apiKey = Environment.GetEnvironmentVariable("BEER_SENDGRID_KEY");
 			var client = new SendGridClient(apiKey);
-			var from = new EmailAddress("test@example.com", "Example User");
+			var from = new EmailAddress("annbaks1997@gmail.com", "Example User");
 			var subject = "Sending with SendGrid is Fun";
 			var to = new EmailAddress("test@example.com", "Example User");
 			var plainTextContent = "and easy to do anywhere, even with C#";

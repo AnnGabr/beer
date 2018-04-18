@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace BeerApp.Web
 {
@@ -35,7 +36,7 @@ namespace BeerApp.Web
 			);
 
 			services.AddIdentity<User, Role>(config => {
-				config.SignIn.RequireConfirmedEmail = true;
+				//config.SignIn.RequireConfirmedEmail = true;
 			})
 			.AddEntityFrameworkStores<BeerCatalogContext>()
 			.AddDefaultTokenProviders();
@@ -52,16 +53,14 @@ namespace BeerApp.Web
 				}
 			});*/
 
-			/*services.Configure<IdentityOptions>(options =>
+			services.Configure<IdentityOptions>(options =>
 			{
-				options.Password.RequireDigit = true;
 				options.Password.RequiredLength = 8;
 				options.Password.RequireNonAlphanumeric = false;
-				options.Password.RequireUppercase = true;
-				options.Password.RequireLowercase = false;
+				options.Password.RequireUppercase = false;
 				options.Password.RequiredUniqueChars = 6;
 
-				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
 				options.Lockout.MaxFailedAccessAttempts = 10;
 				options.Lockout.AllowedForNewUsers = true;
 
@@ -71,14 +70,11 @@ namespace BeerApp.Web
 			services.ConfigureApplicationCookie(options =>
 			{
 				options.Cookie.HttpOnly = true;
-				options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-				options.LoginPath = "/Account/Login";
-				options.AccessDeniedPath = "/Account/AccessDenied";
+				options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
 				options.SlidingExpiration = true;
-			});*/
+			});
 
 			services.AddSingleton(GlobalMapper.GetConfiguredMapper());
-
 			services.AddTransient<IPunkApiService, PunkApiService>();
 
 			services.AddMvc();
