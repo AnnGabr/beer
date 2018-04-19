@@ -8,19 +8,32 @@ namespace BeerApp.Web.Services
 {
 	public class BeerService : IBeerService
 	{
-		protected readonly BeerRepository beerRepository;
+		protected readonly BeerRepository BeerRepository;
 
 		public BeerService(BeerRepository beerRepository)
 		{
-			this.beerRepository = beerRepository ?? throw new ArgumentNullException(nameof(beerRepository));
+			BeerRepository = beerRepository ?? throw new ArgumentNullException(nameof(beerRepository));
 		}
 
-		public async Task<long> AddAsync(long punkBeerId)
+		public async Task<Beer> AddAsync(long punkBeerId)
 		{
-			Beer addedBeer = await beerRepository.AddAsync(new Beer { PunkBeerId = punkBeerId });
-			//TODO: check existance here
+			Beer addedBeer = await BeerRepository.AddAsync(new Beer { PunkBeerId = punkBeerId });
 
-			return addedBeer.BeerId;
+			return addedBeer;
+		}
+
+		public async Task<bool> IsBeerExistAsync(long punkBeerId)
+		{
+			Beer isBeerExist = await FindFirstAsync(punkBeerId);
+
+			return isBeerExist != null;
+		}
+
+		public async Task<Beer> FindFirstAsync(long punkBeerId)
+		{
+			Beer foundBeer = await BeerRepository.FindFirstAsync(punkBeerId);
+
+			return foundBeer;
 		}
 	}
 }

@@ -6,6 +6,8 @@ namespace BeerApp.Web.Services
 {
     public interface IBeerService
     {
-		Task<long> AddAsync(long punkBeerId);
-    }
+		Task<Beer> AddAsync(long punkBeerId);
+	    Task<bool> IsBeerExistAsync(long punkBeerId);
+	    Task<Beer> FindFirstAsync(long punkBeerId);
+	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,42 +27,85 @@ namespace BeerApp.Web.Services
 
 		public FavoritesService(IFavoritesRepository favoritesRepository, IBeerService beerService, IPunkApiService punkApiService)
 		{
-			this.FavoritesRepository = favoritesRepository 
+			FavoritesRepository = favoritesRepository 
 				?? throw new ArgumentNullException(nameof(favoritesRepository));
 
-			this.BeerService = beerService ?? throw new ArgumentNullException(nameof(beerService));
-			this.PunkApiService = punkApiService ?? throw new ArgumentNullException(nameof(PunkApiService));
+			BeerService = beerService ?? throw new ArgumentNullException(nameof(beerService));
+			PunkApiService = punkApiService ?? throw new ArgumentNullException(nameof(PunkApiService));
 
-			this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+			mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
 
-		public async Task AddAsync(long userId, long beerId) //what id to use?
+		public async Task<bool> AddAsync(long userId, long punkBeerId) //TODO: change to beer model in 4 phase
 		{
-			Beer addedBeer; //TODO: try add new beer
+			Beer beer = await BeerService.FindFirstAsync(punkBeerId)
+				?? await BeerService.AddAsync(punkBeerId);
+
+			bool isFavorite = await IsFavoriteAsync(userId, beer.BeerId);
+			if (isFavorite)
+			{
+				return true;
+			}
+
 			UserFavoriteBeer addedFavorite = await FavoritesRepository.AddAsync(new UserFavoriteBeer
 			{
-				BeerId = beerId,
+				BeerId = beer.BeerId,
 				UserId = userId
 			});
+
+			return addedFavorite != null;
 		}
 
-		public async Task RemoveAsync(long userId, long beerId)
+		public async Task<bool> RemoveAsync(long userId, long beerId)
 		{
+			bool isFavorite = await IsFavoriteAsync(userId, beerId);
+			if (!isFavorite)
+			{
+				return true;
+			}
+
 			UserFavoriteBeer removedFavorite = await FavoritesRepository.RemoveAsync(new UserFavoriteBeer
 			{
 				BeerId = beerId,
 				UserId = userId
 			});
+
+			return removedFavorite != null;
+		}
+
+		protected async Task<bool> IsFavoriteAsync(long userId, long beerId)
+		{
+			UserFavoriteBeer userFavoriteBeer = await FavoritesRepository.FindAsync(userId, beerId);
+
+			return userFavoriteBeer != null;
 		}
 
 		public async Task<IReadOnlyList<BeerWithDescription>> GetAllAsync(long userId)
 		{
-			long[] favoriteIds = ((IQueryable<Beer>)(await FavoritesRepository.GetAllAsync(userId)))
-				.Select(beer => beer.PunkBeerId).ToArray();
+			IEnumerable<Beer> favoriteBeers = await FavoritesRepository.GetAllAsync(userId);
 
-			IEnumerable<PunkApiBeer> beers = await PunkApiService.GetBeerByIdsAsync(favoriteIds);
+			long[] favoritePunkBeerIds = favoriteBeers
+				.Select(beer => beer.PunkBeerId)
+				.ToArray();
+			IEnumerable<PunkApiBeer> favoritePunkBeers = await PunkApiService.GetBeerByIdsAsync(favoritePunkBeerIds);
 
-			return mapper.Map<IReadOnlyList<BeerWithDescription>>(beers);
+			return Zip(favoritePunkBeers, favoriteBeers);
+		}
+
+		protected IReadOnlyList<BeerWithDescription> Zip(IEnumerable<PunkApiBeer> punkBeers, IEnumerable<Beer> beers)
+		{
+			var beersWithDescription = mapper.Map<IReadOnlyList<BeerWithDescription>>(punkBeers);
+
+			IReadOnlyList<BeerWithDescription> zipResult = beersWithDescription.Join(
+					beers,
+					bwd => bwd.PunkId,
+					b => b.PunkBeerId,
+					(bwd, b) =>
+						mapper.Map<BeerWithDescription>(b)
+				)
+				.ToList();
+
+			return zipResult;
 		}
 	}
 }

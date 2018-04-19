@@ -10,5 +10,6 @@ namespace BeerApp.DataAccess.Repositories
 	    Task<UserFavoriteBeer> AddAsync(UserFavoriteBeer favorite);
 	    Task<UserFavoriteBeer> RemoveAsync(UserFavoriteBeer favorite);
 	    Task<IReadOnlyList<Beer>> GetAllAsync(long userId);
+	    Task<UserFavoriteBeer> FindAsync(long userId, long beerId);
     }
 }

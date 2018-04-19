@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using BeerApp.DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace BeerApp.DataAccess.Repositories
@@ -21,5 +22,13 @@ namespace BeerApp.DataAccess.Repositories
 
 			return addedBeer.Entity;
 		}
+
+	    public async Task<Beer> FindFirstAsync(long punkBeerId)
+	    {
+		    Beer foundBeer = await DbContext.Beers
+			    .FirstOrDefaultAsync(beer => beer.PunkBeerId == punkBeerId);
+
+		    return foundBeer;
+	    }
     }
 }
