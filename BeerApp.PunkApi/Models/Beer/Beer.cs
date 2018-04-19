@@ -7,7 +7,7 @@ namespace BeerApp.PunkApi.Models.Beer
 	public class Beer 
 	{
 		[DataMember(Name = "id")]
-		public long Id { get; set; }
+		public long PunkId { get; set; }
 
 		[DataMember(Name = "name")]
 		public string BeerName { get; set; }

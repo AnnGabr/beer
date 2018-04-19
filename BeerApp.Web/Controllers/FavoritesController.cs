@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 
-using BeerApp.PunkApi.Services.Interfaces;
+using BeerApp.PunkApi.Services;
 using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
 
 using BeerApp.Web.Models.Beer;

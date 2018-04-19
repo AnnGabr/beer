@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 
-using BeerApp.PunkApi.Services.Interfaces;
+using BeerApp.PunkApi.Services;
 using PunkApiSearchParams = BeerApp.PunkApi.Models.Search.SearchParams;
 using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
 

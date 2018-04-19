@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 
+using BeerApp.DataAccess.Models;
+
 using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
 using PunkApiBeerIngredients = BeerApp.PunkApi.Models.Beer.Ingredients;
 
@@ -13,7 +15,6 @@ namespace BeerApp.Web.Mappers.Profiles
 		public BeerProfile()
 		{
 			CreateMap<PunkApiBeerIngredients, BeerApiBeerIngredients>();
-
 			CreateMap<PunkApiBeer, BaseBeer>();
 			CreateMap<PunkApiBeer, BeerWithDescription>();			
 			CreateMap<PunkApiBeer, DetailedBeer>()
@@ -37,6 +38,14 @@ namespace BeerApp.Web.Mappers.Profiles
 							Unit = punkApiBeer.BoilVolume.Unit
 						};
 					}
+				);
+
+			CreateMap<Beer, BeerWithDescription>()
+				.ForMember(
+					beerWithDescription => beerWithDescription.Id,
+					opts => opts.MapFrom(
+						beer => beer.BeerId
+					)
 				);
 		}
     }
