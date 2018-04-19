@@ -1,6 +1,16 @@
-﻿namespace BeerApp.Account.Mappers
+﻿using AutoMapper;
+
+using BeerApp.Account.Models;
+
+using BeerApp.DataAccess.Models;
+
+namespace BeerApp.Account.Mappers
 {
-    class UserProfile
-    {
-    }
+	internal class AccountProfile : Profile
+	{
+		public AccountProfile()
+		{
+			CreateMap<RegistrationData, User>();
+		}
+	}
 }

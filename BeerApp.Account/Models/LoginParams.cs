@@ -4,11 +4,10 @@ using System.Text;
 
 namespace BeerApp.Account.Models
 {
-    class LoginUser
+    public class LoginParams
     {
 		public string Password { get; set; }
 		public string Email { get; set; }
-
 		public bool RememberMe { get; set; }
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace BeerApp.Account.Services
 {
-    public interface IMailSender
+    internal interface IMailSender
     {
 		Task Send();
     }

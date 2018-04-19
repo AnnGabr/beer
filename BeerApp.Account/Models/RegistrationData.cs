@@ -2,9 +2,9 @@
 
 namespace BeerApp.Account.Models
 {
-    class RegisterUser
+    public class RegistrationData
     {
-		public string UserName { get; set; }
+		public string NickName { get; set; }
 		public string Password { get; set; }
 		public string Email { get; set; }
 		public DateTime? BirthDate { get; set; }
