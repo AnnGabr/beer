@@ -14,4 +14,8 @@ namespace BeerApp.DataAccess.Models
 	}
 
 	public class Role : IdentityRole<long> { }
+
+	public class UserClaim : IdentityUserClaim<long> { }
+
+	public class UserLogin : IdentityUserLogin<long> { }
 }

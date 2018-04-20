@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BeerApp.Account.Models
+﻿namespace BeerApp.Account.Models
 {
     public class LoginParams
     {

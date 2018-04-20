@@ -57,7 +57,7 @@ namespace BeerApp.Web
 				options.Password.RequiredLength = 8;
 				options.Password.RequireNonAlphanumeric = false;
 				options.Password.RequireUppercase = false;
-				options.Password.RequiredUniqueChars = 6;
+				options.Password.RequiredUniqueChars = 4;
 
 				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
 				options.Lockout.MaxFailedAccessAttempts = 10;

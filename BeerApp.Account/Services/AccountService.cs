@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using System;
-
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Security.Claims;
 using AutoMapper;
 
 using BeerApp.DataAccess.Models;
@@ -30,7 +32,7 @@ namespace BeerApp.Account.Services
 			var user = mapper.Map<User>(registrationData);
 
 			IdentityResult registration = await userManager.CreateAsync(user, registrationData.Password);
-			if (registration.Succeeded)
+			if (registration.Succeeded) //TODO: email confirm here
 			{
 				await signInManager.SignInAsync(user, false);
 
@@ -66,11 +68,23 @@ namespace BeerApp.Account.Services
 			return deleteResult.Succeeded;
 		}
 
-		public Task<bool> ValidatePasswordAsync(string password)
+		public Task<bool> ValidatePasswordAsync(string password) //TODO: validate
 		{
-			/*var isValid = await userManager.PasswordValidators.ValidateAsync("pass");
+			IList<IPasswordValidator<User>> passwordValidators = userManager.PasswordValidators;
 
-			return isValid;*/
+			foreach (IPasswordValidator<User> validator in passwordValidators)
+			{
+				
+			}
+
+			return isValid;
+		}
+
+		public async Task<bool> IsEmailRegistered(string emailAddress)
+		{
+			User user = await userManager.FindByEmailAsync(emailAddress);
+
+			return user != null;
 		}
 	}
 }
