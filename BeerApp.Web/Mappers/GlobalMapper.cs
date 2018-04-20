@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+
 using BeerApp.Web.Mappers.Profiles;
+
+using BeerApp.Account.Mappers;
 
 namespace BeerApp.Web.Mappers
 {
@@ -12,6 +15,7 @@ namespace BeerApp.Web.Mappers
 				cfg.AddProfile(new SearchProfile());
 				cfg.AddProfile(new BeerProfile());
 				cfg.AddProfile(new UserProfile());
+				cfg.AddProfile(new AccountProfile());
 			})
 			.CreateMapper();
 		}

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using BeerApp.DataAccess.Models;
+
+using BeerApp.Account.Models;
 using BeerApp.Web.Models.User;
 
 namespace BeerApp.Web.Mappers.Profiles
@@ -8,8 +9,8 @@ namespace BeerApp.Web.Mappers.Profiles
 	{
 		public UserProfile()
 		{
-			CreateMap<UserDto, User>();
-			CreateMap<User, UserDto>();
+			CreateMap<UserDto, RegistrationData>();
+			CreateMap<UserProfile, UserDto>();
 		}
 	}
 }

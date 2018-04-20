@@ -101,7 +101,7 @@ namespace BeerApp.Web.Services
 					bwd => bwd.PunkId,
 					b => b.PunkBeerId,
 					(bwd, b) =>
-						mapper.Map<BeerWithDescription>(b)
+						mapper.Map(b, bwd)
 				)
 				.ToList();
 

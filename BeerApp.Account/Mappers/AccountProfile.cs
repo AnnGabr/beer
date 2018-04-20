@@ -6,11 +6,12 @@ using BeerApp.DataAccess.Models;
 
 namespace BeerApp.Account.Mappers
 {
-	internal class AccountProfile : Profile
+	public class AccountProfile : Profile
 	{
 		public AccountProfile()
 		{
 			CreateMap<RegistrationData, User>();
+			CreateMap<User, UserProfile>();
 		}
 	}
 }
