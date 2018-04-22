@@ -79,6 +79,8 @@ namespace BeerApp.DataAccess.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
+                    b.Property<string>("NickName");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
 

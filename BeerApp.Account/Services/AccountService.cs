@@ -2,8 +2,6 @@
 using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Security.Claims;
 using AutoMapper;
 
 using BeerApp.DataAccess.Models;
@@ -12,7 +10,7 @@ using BeerApp.Account.Models;
 
 namespace BeerApp.Account.Services
 {
-	internal class AccountService : IAccountService
+	public class AccountService : IAccountService
 	{
 		private readonly IMapper mapper;
 
@@ -68,7 +66,7 @@ namespace BeerApp.Account.Services
 			return deleteResult.Succeeded;
 		}
 
-		public Task<bool> ValidatePasswordAsync(string password) //TODO: validate
+		/*public Task<bool> ValidatePasswordAsync(string password) //TODO: validate
 		{
 			IList<IPasswordValidator<User>> passwordValidators = userManager.PasswordValidators;
 
@@ -78,7 +76,7 @@ namespace BeerApp.Account.Services
 			}
 
 			return isValid;
-		}
+		}*/
 
 		public async Task<bool> IsEmailRegistered(string emailAddress)
 		{

@@ -8,9 +8,9 @@ namespace BeerApp.Web.Services
 {
 	public class BeerService : IBeerService
 	{
-		protected readonly BeerRepository BeerRepository;
+		protected readonly IBeerRepository BeerRepository;
 
-		public BeerService(BeerRepository beerRepository)
+		public BeerService(IBeerRepository beerRepository)
 		{
 			BeerRepository = beerRepository ?? throw new ArgumentNullException(nameof(beerRepository));
 		}

@@ -3,7 +3,7 @@ using BeerApp.DataAccess.Models;
 
 namespace BeerApp.DataAccess.Repositories
 {
-	internal interface IBeerRepository
+	public interface IBeerRepository
 	{
 		Task<Beer> AddAsync(Beer beer);
 		Task<Beer> FindFirstAsync(long punkBeerId);

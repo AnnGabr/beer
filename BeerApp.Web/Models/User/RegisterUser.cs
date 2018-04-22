@@ -3,14 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BeerApp.Web.Models.User
 {
-	public class UserDto
+	public class RegisterUser
 	{
 		[Required]
-		[StringLength(30, MinimumLength = 4)]
+		[StringLength(30, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
 		public string NickName { get; set; }
 
 		[Required]
-		[StringLength(30, MinimumLength = 8)]
+		[StringLength(30, ErrorMessage = "The {0} at max {1} characters long.")]
+		[DataType(DataType.Password)]
 		public string Password { get; set; }
 
 		[Required]
@@ -20,9 +21,7 @@ namespace BeerApp.Web.Models.User
 		[DataType(DataType.Date)]
 		public DateTime? BirthDate { get; set; }
 
-		[Url]
+		[Url(ErrorMessage = "Wrong url format.")]
 		public string ProfilePictureUrl { get; set; }
-
-		public bool RememberMe { get; set; } = false;
 	}
 }

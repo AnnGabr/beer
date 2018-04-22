@@ -11,7 +11,7 @@ namespace BeerApp.Account.Services
 	    Task<bool> DeleteAsync(long userId);
 		Task LogoutAsync();
 
-	    Task<bool> ValidatePasswordAsync(string password); //TODO: return object with validation arrors
+	    //Task<bool> ValidatePasswordAsync(string password); 
 	    Task<bool> IsEmailRegistered(string emailAddress);
 	}
 }

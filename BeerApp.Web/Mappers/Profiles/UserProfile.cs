@@ -9,8 +9,8 @@ namespace BeerApp.Web.Mappers.Profiles
 	{
 		public UserProfile()
 		{
-			CreateMap<UserDto, RegistrationData>();
-			CreateMap<UserProfile, UserDto>();
+			CreateMap<RegisterUser, RegistrationData>();
+			CreateMap<LoginUser, LoginParams>();
 		}
 	}
 }

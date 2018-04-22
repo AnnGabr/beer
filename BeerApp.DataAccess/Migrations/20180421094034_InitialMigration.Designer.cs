@@ -11,7 +11,7 @@ using System;
 namespace BeerApp.DataAccess.Migrations
 {
     [DbContext(typeof(BeerCatalogContext))]
-    [Migration("20180416124636_InitialMigration")]
+    [Migration("20180421094034_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,6 +79,8 @@ namespace BeerApp.DataAccess.Migrations
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NickName");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);

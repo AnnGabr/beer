@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-
-using BeerApp.PunkApi.Services;
-using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
+using Microsoft.AspNetCore.Authorization;
 
 using BeerApp.Web.Models.Beer;
-using Microsoft.AspNetCore.Authorization;
+using BeerApp.Web.Services;
 
 namespace BeerApp.Web.Controllers
 {
@@ -16,23 +14,36 @@ namespace BeerApp.Web.Controllers
 	[Route("[controller]")]
 	public class FavoritesController : Controller
     {
-		private readonly IPunkApiService punkApiService;
+		private readonly IFavoritesService favoritesService;
+		private readonly IUserService userService;
+
 		private readonly IMapper mapper;
 
-		public FavoritesController(IPunkApiService punkApiService, IMapper mapper)
+		public FavoritesController(IFavoritesService favoritesService, IMapper mapper, IUserService userService)
 	    {
-		    this.punkApiService = punkApiService ?? throw new ArgumentNullException(nameof(punkApiService));
-		    this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+		    this.favoritesService = favoritesService ?? throw new ArgumentNullException(nameof(favoritesService));
+			this.userService = userService ?? throw new ArgumentNullException(nameof(userService));
+
+			this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 	    }
 
 		[HttpGet]
-		public async Task<IActionResult> GetFavoriteBeersAsync([FromQuery] long userId)
+		public async Task<IActionResult> GetFavoriteBeersAsync()
 		{
-			long[] ids = {1, 2, 3}; //test
-			IEnumerable<PunkApiBeer> punkApiBeer = await punkApiService.GetBeerByIdsAsync(ids);
-			var favorites = mapper.Map<IReadOnlyList<BeerWithDescription>>(punkApiBeer);
+			long? currentUserId = await GetCurrentUserId();
+			if (currentUserId == null)
+			{
+				return Unauthorized();
+			}
+
+			IEnumerable<BeerWithDescription> favorites = await favoritesService.GetAllAsync((long)currentUserId);
 
 			return new ObjectResult(favorites);
+		}
+
+		private async Task<long?> GetCurrentUserId()
+		{
+			return await userService.GetCurrentUserIdAsync(HttpContext.User);
 		}
 	}
 }

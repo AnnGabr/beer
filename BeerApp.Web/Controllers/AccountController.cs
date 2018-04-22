@@ -11,6 +11,7 @@ using BeerApp.Account.Services;
 using BeerApp.Web.Models.User;
 using BeerApp.Web.Models.Response;
 using BeerApp.Web.Services;
+using BeerApp.Web.Extentions.Attributes;
 
 namespace BeerApp.Web.Controllers
 {
@@ -30,12 +31,14 @@ namespace BeerApp.Web.Controllers
 
 			this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
-
+		
 		[HttpPost]
 		[AllowAnonymous]
-		public async Task<IActionResult> Register([FromBody] UserDto user) //TODO: validate
+		//[ValidateRegistrationData]
+		public async Task<IActionResult> Register([FromBody] RegisterUser registrationUser) //TODO: validate?
 		{
-			var registrationData = mapper.Map<RegistrationData>(user);
+			var registrationData = mapper.Map<RegistrationData>(registrationUser);
+
 			bool isRegistered = await accountService.RegisterAsync(registrationData);
 			if (isRegistered)
 			{
@@ -47,8 +50,10 @@ namespace BeerApp.Web.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		public async Task<IActionResult> Login([FromBody] LoginParams loginParams)
+		public async Task<IActionResult> Login([FromBody] LoginUser loginUser)
 		{
+			var loginParams = mapper.Map<LoginParams>(loginUser);
+
 			bool isEmailRegistered = await accountService.IsEmailRegistered(loginParams.Email);
 			if (!isEmailRegistered)
 			{
@@ -75,7 +80,13 @@ namespace BeerApp.Web.Controllers
 		[HttpDelete]
 		public async Task<IActionResult> Delete()
 		{
-			bool isDeleted = await accountService.DeleteAsync(GetCurrenUserId());
+			long? currentUserId = await GetCurrenUserIdAsync();
+			if (currentUserId == null)
+			{
+				return Unauthorized();
+			}
+
+			bool isDeleted = await accountService.DeleteAsync((long)currentUserId);
 			if (isDeleted)
 			{
 				return NoContent();
@@ -84,9 +95,9 @@ namespace BeerApp.Web.Controllers
 			return BadRequest(new BadRequestResponse("Couldn`t delete account."));
 		}
 
-		private long GetCurrenUserId() //TODO: find meth with id not string
+		private async Task<long?> GetCurrenUserIdAsync() 
 		{
-			return userService.GetCurrentUserIdAsync(HttpContext.User);
+			return await userService.GetCurrentUserIdAsync(HttpContext.User);
 		}
 	}
 }

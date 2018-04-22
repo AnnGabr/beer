@@ -13,12 +13,19 @@ namespace BeerApp.Web.Services
 
 		public UserService(UserManager<User> userManager)
 		{
-			this.UserManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+			UserManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
 		}
 
-	    public async Task<long> GetCurrentUserIdAsync(ClaimsPrincipal principal)
+	    public async Task<long?> GetCurrentUserIdAsync(ClaimsPrincipal principal)
 	    {
-		    return (await UserManager.GetUserAsync(principal)).Id;
+			User user = await UserManager.GetUserAsync(principal);
+
+			return user?.Id;
 	    }
-    }
+
+		public async Task<User> GetCurrentUserAsync(ClaimsPrincipal principal)
+		{
+			return await UserManager.GetUserAsync(principal);
+		}
+	}
 }

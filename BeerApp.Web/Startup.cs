@@ -1,8 +1,4 @@
 ﻿using AutoMapper;
-using BeerApp.DataAccess;
-using BeerApp.DataAccess.Models;
-using BeerApp.PunkApi.Services;
-using BeerApp.Web.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +6,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+
+using BeerApp.Web.Mappers;
+using BeerApp.Web.Services;
+
+using BeerApp.DataAccess;
+using BeerApp.DataAccess.Models;
+using BeerApp.DataAccess.Repositories;
+
+using BeerApp.PunkApi.Services;
+
+using BeerApp.Account.Services;
 
 namespace BeerApp.Web
 {
@@ -40,18 +47,6 @@ namespace BeerApp.Web
 			.AddEntityFrameworkStores<BeerCatalogContext>()
 			.AddDefaultTokenProviders();
 
-			/*var skipHTTPS = Configuration.GetValue<bool>("LocalTest:skipHTTPS");
-			// requires using Microsoft.AspNetCore.Mvc;
-			services.Configure<MvcOptions>(options =>
-			{
-				// Set LocalTest:skipHTTPS to true to skip SSL requrement in 
-				// debug mode. This is useful when not using Visual Studio.
-				if (Environment.IsDevelopment() && !skipHTTPS)
-				{
-					options.Filters.Add(new RequireHttpsAttribute());
-				}
-			});*/
-
 			services.Configure<IdentityOptions>(options =>
 			{
 				options.Password.RequiredLength = 8;
@@ -74,7 +69,16 @@ namespace BeerApp.Web
 			});
 
 			services.AddSingleton(GlobalMapper.GetConfiguredMapper());
-			services.AddTransient<IPunkApiService, PunkApiService>();
+			
+			services.AddTransient<IBeerRepository, BeerRepository>();
+			services.AddTransient<IFavoritesRepository, FavoritesRepository>();
+
+			services.AddSingleton<IPunkApiService, PunkApiService>();
+			services.AddTransient<IBeerService, BeerService>();
+			services.AddTransient<IFavoritesService,FavoritesService>();
+
+			services.AddTransient<IAccountService, AccountService>();
+			services.AddTransient<IUserService, UserService>();
 
 			services.AddMvc();
 		}

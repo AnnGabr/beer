@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,9 +22,9 @@ namespace BeerApp.Web.Services
 		protected readonly IPunkApiService PunkApiService;
 		protected readonly IBeerService BeerService;
 
-		private readonly IMapper mapper;
+		protected readonly IMapper Mapper;
 
-		public FavoritesService(IFavoritesRepository favoritesRepository, IBeerService beerService, IPunkApiService punkApiService)
+		public FavoritesService(IFavoritesRepository favoritesRepository, IBeerService beerService, IPunkApiService punkApiService, IMapper mapper)
 		{
 			FavoritesRepository = favoritesRepository 
 				?? throw new ArgumentNullException(nameof(favoritesRepository));
@@ -33,7 +32,7 @@ namespace BeerApp.Web.Services
 			BeerService = beerService ?? throw new ArgumentNullException(nameof(beerService));
 			PunkApiService = punkApiService ?? throw new ArgumentNullException(nameof(PunkApiService));
 
-			mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+			Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
 
 		public async Task<bool> AddAsync(long userId, long punkBeerId) //TODO: change to beer model in 4 phase
@@ -44,7 +43,7 @@ namespace BeerApp.Web.Services
 			bool isFavorite = await IsFavoriteAsync(userId, beer.BeerId);
 			if (isFavorite)
 			{
-				return true;
+				return false;
 			}
 
 			UserFavoriteBeer addedFavorite = await FavoritesRepository.AddAsync(new UserFavoriteBeer
@@ -61,7 +60,7 @@ namespace BeerApp.Web.Services
 			bool isFavorite = await IsFavoriteAsync(userId, beerId);
 			if (!isFavorite)
 			{
-				return true;
+				return false;
 			}
 
 			UserFavoriteBeer removedFavorite = await FavoritesRepository.RemoveAsync(new UserFavoriteBeer
@@ -94,14 +93,14 @@ namespace BeerApp.Web.Services
 
 		protected IReadOnlyList<BeerWithDescription> Zip(IEnumerable<PunkApiBeer> punkBeers, IEnumerable<Beer> beers)
 		{
-			var beersWithDescription = mapper.Map<IReadOnlyList<BeerWithDescription>>(punkBeers);
+			var beersWithDescription = Mapper.Map<IReadOnlyList<BeerWithDescription>>(punkBeers);
 
 			IReadOnlyList<BeerWithDescription> zipResult = beersWithDescription.Join(
 					beers,
 					bwd => bwd.PunkId,
 					b => b.PunkBeerId,
 					(bwd, b) =>
-						mapper.Map(b, bwd)
+						Mapper.Map(b, bwd)
 				)
 				.ToList();
 
