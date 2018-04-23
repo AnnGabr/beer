@@ -19,11 +19,13 @@ namespace BeerApp.Web.Controllers
 	public class BeerController : Controller
 	{
 		private readonly IPunkApiService punkApiService;
+
 		private readonly IMapper mapper;
 
 		public BeerController(IPunkApiService punkApiService, IMapper mapper)
 		{
 			this.punkApiService = punkApiService ?? throw new ArgumentNullException(nameof(punkApiService));
+
 			this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
 

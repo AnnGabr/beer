@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using AutoMapper;
 
 using BeerApp.DataAccess.Models;
@@ -53,17 +54,24 @@ namespace BeerApp.Account.Services
 			await signInManager.SignOutAsync();
 		}
 
-		public async Task<bool> DeleteAsync(long id)
+		public async Task<bool> DeleteAsync(ClaimsPrincipal principal)
 		{
-			User user = await userManager.FindByIdAsync(id.ToString());
+			User user = await userManager.GetUserAsync(principal);
 			if (user == null)
 			{
-				return true;
+				return false;
 			}
 
 			IdentityResult deleteResult = await userManager.DeleteAsync(user);
 
 			return deleteResult.Succeeded;
+		}
+
+		public async Task<UserProfile> GetProfileInfo(ClaimsPrincipal principal)
+		{
+			User user = await userManager.GetUserAsync(principal);
+
+			return user == null ? null : mapper.Map<UserProfile>(user);
 		}
 
 		/*public Task<bool> ValidatePasswordAsync(string password) //TODO: validate

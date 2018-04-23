@@ -10,8 +10,6 @@ using BeerApp.Account.Services;
 
 using BeerApp.Web.Models.User;
 using BeerApp.Web.Models.Response;
-using BeerApp.Web.Services;
-using BeerApp.Web.Extentions.Attributes;
 
 namespace BeerApp.Web.Controllers
 {
@@ -20,14 +18,12 @@ namespace BeerApp.Web.Controllers
 	public class AccountController : Controller
 	{
 		private readonly IAccountService accountService;
-		private readonly IUserService userService;
 
 		private readonly IMapper mapper;
 
-		public AccountController(IAccountService accountService, IUserService userService, IMapper mapper)
+		public AccountController(IAccountService accountService, IMapper mapper)
 		{
 			this.accountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
-			this.userService = userService ?? throw new ArgumentNullException(nameof(userService));
 
 			this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
@@ -35,7 +31,7 @@ namespace BeerApp.Web.Controllers
 		[HttpPost]
 		[AllowAnonymous]
 		//[ValidateRegistrationData]
-		public async Task<IActionResult> Register([FromBody] UserToRegister userToRegister) //TODO: validate?
+		public async Task<IActionResult> Register([FromBody] UserToRegister userToRegister) //TODO: validate? email conf
 		{
 			var registrationData = mapper.Map<RegistrationData>(userToRegister);
 
@@ -66,7 +62,7 @@ namespace BeerApp.Web.Controllers
 				return NoContent();
 			}
 
-			return BadRequest(new BadRequestResponse("Wrong login or password."));
+			return NotFound(new BadRequestResponse("Wrong login or password."));
 		}
 
 		[HttpGet]
@@ -80,24 +76,25 @@ namespace BeerApp.Web.Controllers
 		[HttpDelete]
 		public async Task<IActionResult> Delete()
 		{
-			long? currentUserId = await GetCurrenUserIdAsync();
-			if (currentUserId == null)
-			{
-				return Unauthorized();
-			}
-
-			bool isDeleted = await accountService.DeleteAsync((long)currentUserId);
+			bool isDeleted = await accountService.DeleteAsync(HttpContext.User);
 			if (isDeleted)
 			{
 				return NoContent();
 			}
 
-			return BadRequest(new BadRequestResponse("Couldn`t delete account."));
+			return NotFound(new BadRequestResponse("Couldn`t delete account."));
 		}
 
-		private async Task<long?> GetCurrenUserIdAsync() 
+		[HttpGet("profile")]
+		public async Task<IActionResult> GetProfileInfo()
 		{
-			return await userService.GetCurrentUserIdAsync(HttpContext.User);
+			UserProfile userProfile = await accountService.GetProfileInfo(HttpContext.User);
+			if (userProfile == null)
+			{
+				return NotFound();
+			}
+
+			return new ObjectResult(userProfile);
 		}
 	}
 }

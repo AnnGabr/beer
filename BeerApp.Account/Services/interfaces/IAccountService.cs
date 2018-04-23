@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
 
 using BeerApp.Account.Models;
 
@@ -8,10 +9,12 @@ namespace BeerApp.Account.Services
     {
 		Task<bool> LoginAsync(LoginParams loginParams);
 		Task<bool> RegisterAsync(RegistrationData registrationData);
-	    Task<bool> DeleteAsync(long userId);
+	    Task<bool> DeleteAsync(ClaimsPrincipal principal);
 		Task LogoutAsync();
 
-	    //Task<bool> ValidatePasswordAsync(string password); 
-	    Task<bool> IsEmailRegistered(string emailAddress);
+	    Task<UserProfile> GetProfileInfo(ClaimsPrincipal principal);
+
+		//Task<bool> ValidatePasswordAsync(string password); 
+		Task<bool> IsEmailRegistered(string emailAddress);
 	}
 }

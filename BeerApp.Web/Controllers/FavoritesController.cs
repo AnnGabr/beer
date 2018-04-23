@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 
 using BeerApp.Web.Models.Beer;
@@ -38,8 +37,8 @@ namespace BeerApp.Web.Controllers
 			return new ObjectResult(favorites);
 		}
 
-	    [HttpDelete]
-	    public async Task<IActionResult> RemoveFromFavorites(long beerId)
+	    [HttpDelete("delete")]
+	    public async Task<IActionResult> RemoveFromFavorites([FromQuery] long beerId)
 	    {
 		    long? currentUserId = await GetCurrentUserId();
 		    if (currentUserId == null)
@@ -56,8 +55,8 @@ namespace BeerApp.Web.Controllers
 		    return BadRequest(new BadRequestResponse("Favorite doesn`t exist."));
 	    }
 
-	    [HttpPost]
-	    public async Task<IActionResult> AddToFavorites(long punkBeerId)
+	    [HttpPost("add")]
+	    public async Task<IActionResult> AddToFavorites([FromQuery] long punkBeerId)
 	    {
 		    long? currentUserId = await GetCurrentUserId();
 		    if (currentUserId == null)
