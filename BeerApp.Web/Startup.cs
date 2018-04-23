@@ -22,14 +22,12 @@ namespace BeerApp.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnv)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-			Environment = hostingEnv;
         }
 
         public IConfiguration Configuration { get; }
-		private IHostingEnvironment Environment { get; }
 
 		public void ConfigureServices(IServiceCollection services)
         {

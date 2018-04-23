@@ -35,9 +35,9 @@ namespace BeerApp.Web.Controllers
 		[HttpPost]
 		[AllowAnonymous]
 		//[ValidateRegistrationData]
-		public async Task<IActionResult> Register([FromBody] RegisterUser registrationUser) //TODO: validate?
+		public async Task<IActionResult> Register([FromBody] UserToRegister userToRegister) //TODO: validate?
 		{
-			var registrationData = mapper.Map<RegistrationData>(registrationUser);
+			var registrationData = mapper.Map<RegistrationData>(userToRegister);
 
 			bool isRegistered = await accountService.RegisterAsync(registrationData);
 			if (isRegistered)
@@ -50,9 +50,9 @@ namespace BeerApp.Web.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		public async Task<IActionResult> Login([FromBody] LoginUser loginUser)
+		public async Task<IActionResult> Login([FromBody] UserToLogin userToLogin)
 		{
-			var loginParams = mapper.Map<LoginParams>(loginUser);
+			var loginParams = mapper.Map<LoginParams>(userToLogin);
 
 			bool isEmailRegistered = await accountService.IsEmailRegistered(loginParams.Email);
 			if (!isEmailRegistered)

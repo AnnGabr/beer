@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BeerApp.PunkApi.Utilities
+namespace BeerApp.Utilities.UrlBuilder
 {
 	[AttributeUsage(AttributeTargets.All)]
 	public class UrlParamAttribute : Attribute

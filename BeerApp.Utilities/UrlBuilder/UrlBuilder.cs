@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using BeerApp.PunkApi.Utilities.interfaces;
 
-namespace BeerApp.PunkApi.Utilities
+namespace BeerApp.Utilities.UrlBuilder
 {
 	public class UrlBuilder
 	{

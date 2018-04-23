@@ -2,7 +2,7 @@
 
 namespace BeerApp.Web.Models.User
 {
-    public class LoginUser
+    public class UserToLogin
     {
 		[Required]
 		public string Password { get; set; }

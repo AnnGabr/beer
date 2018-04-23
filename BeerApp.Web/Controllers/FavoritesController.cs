@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 
 using BeerApp.Web.Models.Beer;
+using BeerApp.Web.Models.Response;
 using BeerApp.Web.Services;
 
 namespace BeerApp.Web.Controllers
@@ -17,14 +18,10 @@ namespace BeerApp.Web.Controllers
 		private readonly IFavoritesService favoritesService;
 		private readonly IUserService userService;
 
-		private readonly IMapper mapper;
-
-		public FavoritesController(IFavoritesService favoritesService, IMapper mapper, IUserService userService)
+		public FavoritesController(IFavoritesService favoritesService, IUserService userService)
 	    {
 		    this.favoritesService = favoritesService ?? throw new ArgumentNullException(nameof(favoritesService));
 			this.userService = userService ?? throw new ArgumentNullException(nameof(userService));
-
-			this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 	    }
 
 		[HttpGet]
@@ -40,6 +37,42 @@ namespace BeerApp.Web.Controllers
 
 			return new ObjectResult(favorites);
 		}
+
+	    [HttpDelete]
+	    public async Task<IActionResult> RemoveFromFavorites(long beerId)
+	    {
+		    long? currentUserId = await GetCurrentUserId();
+		    if (currentUserId == null)
+		    {
+			    return Unauthorized();
+		    }
+
+		    bool deleted = await favoritesService.RemoveAsync((long) currentUserId, beerId);
+		    if (deleted)
+		    {
+			    return NoContent();
+		    }
+
+		    return BadRequest(new BadRequestResponse("Favorite doesn`t exist."));
+	    }
+
+	    [HttpPost]
+	    public async Task<IActionResult> AddToFavorites(long punkBeerId)
+	    {
+		    long? currentUserId = await GetCurrentUserId();
+		    if (currentUserId == null)
+		    {
+			    return Unauthorized();
+		    }
+
+		    bool added = await favoritesService.AddAsync((long) currentUserId, punkBeerId);
+		    if (added)
+		    {
+			    return NoContent();
+		    }
+
+		    return BadRequest(new BadRequestResponse("Can`t add to favorites."));
+	    }
 
 		private async Task<long?> GetCurrentUserId()
 		{

@@ -1,5 +1,4 @@
-﻿using BeerApp.PunkApi.Utilities;
-using BeerApp.PunkApi.Utilities.interfaces;
+﻿using BeerApp.Utilities.UrlBuilder;
 
 namespace BeerApp.PunkApi.Models.Search
 {
