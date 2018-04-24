@@ -11,8 +11,8 @@ using System;
 namespace BeerApp.DataAccess.Migrations
 {
     [DbContext(typeof(BeerCatalogContext))]
-    [Migration("20180421094034_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20180424214940_initialMigration")]
+    partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
