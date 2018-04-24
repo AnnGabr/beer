@@ -11,7 +11,6 @@ using BeerApp.Web.Services;
 namespace BeerApp.Web.Controllers
 {
 	[Authorize]
-	[Route("[controller]")]
 	public class FavoritesController : Controller
     {
 		private readonly IFavoritesService favoritesService;
@@ -24,7 +23,7 @@ namespace BeerApp.Web.Controllers
 	    }
 
 		[HttpGet]
-		public async Task<IActionResult> GetFavoriteBeersAsync()
+		public async Task<IActionResult> Get()
 		{
 			long? currentUserId = await GetCurrentUserId();
 			if (currentUserId == null)
@@ -37,8 +36,8 @@ namespace BeerApp.Web.Controllers
 			return new ObjectResult(favorites);
 		}
 
-	    [HttpDelete("delete")]
-	    public async Task<IActionResult> RemoveFromFavorites([FromQuery] long beerId)
+	    [HttpDelete]
+	    public async Task<IActionResult> Delete([FromQuery] long beerId)
 	    {
 		    long? currentUserId = await GetCurrentUserId();
 		    if (currentUserId == null)
@@ -55,8 +54,8 @@ namespace BeerApp.Web.Controllers
 		    return BadRequest(new BadRequestResponse("Favorite doesn`t exist."));
 	    }
 
-	    [HttpPost("add")]
-	    public async Task<IActionResult> AddToFavorites([FromQuery] long punkBeerId)
+	    [HttpPost]
+	    public async Task<IActionResult> Add([FromQuery] long punkBeerId)
 	    {
 		    long? currentUserId = await GetCurrentUserId();
 		    if (currentUserId == null)

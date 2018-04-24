@@ -11,11 +11,10 @@ namespace BeerApp.Web.Models.User
 
 		[Required]
 		[StringLength(30, ErrorMessage = "The {0} at max {1} characters long.")]
-		[DataType(DataType.Password)]
 		public string Password { get; set; }
 
 		[Required]
-		[DataType(DataType.EmailAddress)]
+		[EmailAddress]
 		public string Email { get; set; }
 
 		[DataType(DataType.Date)]

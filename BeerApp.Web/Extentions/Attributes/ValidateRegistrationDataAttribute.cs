@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace BeerApp.Web.Extentions.Attributes
@@ -9,7 +10,9 @@ namespace BeerApp.Web.Extentions.Attributes
 		{
 			if (!context.ModelState.IsValid)
 			{
-				context.Result = new BadRequestObjectResult(context.ModelState);
+				context.Result = new BadRequestObjectResult(context.ModelState.Values
+					.SelectMany(value => value.Errors.Select(error => error.ErrorMessage))
+					.ToArray());
 			}
 		}
 	}

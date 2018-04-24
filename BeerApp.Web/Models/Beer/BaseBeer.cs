@@ -2,7 +2,7 @@
 {
     public class BaseBeer
     {
-	    public long Id { get; set; }
+	    public long? Id { get; set; }
 		public long PunkId { get; set; }
 
 	    public string BeerName { get; set; }

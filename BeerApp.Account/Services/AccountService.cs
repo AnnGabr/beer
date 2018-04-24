@@ -4,9 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using AutoMapper;
-
+using BeerApp.Account.Extensions;
 using BeerApp.DataAccess.Models;
-
 using BeerApp.Account.Models;
 
 namespace BeerApp.Account.Services
@@ -26,21 +25,22 @@ namespace BeerApp.Account.Services
 			this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
 
-		public async Task<bool> RegisterAsync(RegistrationData registrationData)
+		public async Task<IReadOnlyList<string>> RegisterAsync(RegistrationData registrationData)
 		{
 			var user = mapper.Map<User>(registrationData);
+			user.UserName = registrationData.Email;
 
-			IdentityResult registration = await userManager.CreateAsync(user, registrationData.Password);
-			if (registration.Succeeded) //TODO: email confirm here
+			IdentityResult registrationResult = await userManager.CreateAsync(user, registrationData.Password);
+			if (registrationResult.Succeeded) //TODO: email confirm here
 			{
 				await signInManager.SignInAsync(user, false);
 
-				return true;
+				return null;
 			}
 
-			return false;
+			return registrationResult.GetValidationErrors();
 		}
-
+	
 		public async Task<bool> LoginAsync(LoginParams loginParams)
 		{
 			SignInResult loginResult = await signInManager
@@ -73,18 +73,6 @@ namespace BeerApp.Account.Services
 
 			return user == null ? null : mapper.Map<UserProfile>(user);
 		}
-
-		/*public Task<bool> ValidatePasswordAsync(string password) //TODO: validate
-		{
-			IList<IPasswordValidator<User>> passwordValidators = userManager.PasswordValidators;
-
-			foreach (IPasswordValidator<User> validator in passwordValidators)
-			{
-				
-			}
-
-			return isValid;
-		}*/
 
 		public async Task<bool> IsEmailRegistered(string emailAddress)
 		{

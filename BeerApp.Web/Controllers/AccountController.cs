@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,14 +8,13 @@ using AutoMapper;
 
 using BeerApp.Account.Models;
 using BeerApp.Account.Services;
-
+using BeerApp.Web.Extentions.Attributes;
 using BeerApp.Web.Models.User;
 using BeerApp.Web.Models.Response;
 
 namespace BeerApp.Web.Controllers
 {
 	[Authorize]
-	[Route("[controller]")]
 	public class AccountController : Controller
 	{
 		private readonly IAccountService accountService;
@@ -30,18 +30,18 @@ namespace BeerApp.Web.Controllers
 		
 		[HttpPost]
 		[AllowAnonymous]
-		//[ValidateRegistrationData]
+		[ValidateRegistrationData]
 		public async Task<IActionResult> Register([FromBody] UserToRegister userToRegister) //TODO: validate? email conf
 		{
 			var registrationData = mapper.Map<RegistrationData>(userToRegister);
 
-			bool isRegistered = await accountService.RegisterAsync(registrationData);
-			if (isRegistered)
+			IEnumerable<string> registrationErrors = await accountService.RegisterAsync(registrationData);
+			if (registrationErrors == null)
 			{
 				return Ok("Registered successfully");
 			}
 
-			return BadRequest("Registration failed.");
+			return BadRequest(registrationErrors);
 		}
 
 		[HttpPost]
@@ -85,8 +85,8 @@ namespace BeerApp.Web.Controllers
 			return NotFound(new BadRequestResponse("Couldn`t delete account."));
 		}
 
-		[HttpGet("profile")]
-		public async Task<IActionResult> GetProfileInfo()
+		[HttpGet]
+		public async Task<IActionResult> Profile()
 		{
 			UserProfile userProfile = await accountService.GetProfileInfo(HttpContext.User);
 			if (userProfile == null)

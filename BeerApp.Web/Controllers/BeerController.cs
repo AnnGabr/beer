@@ -2,20 +2,16 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-
 using BeerApp.PunkApi.Services;
 using PunkApiSearchParams = BeerApp.PunkApi.Models.Search.SearchParams;
 using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
-
 using BeerApiSearchParams = BeerApp.Web.Models.Search.SearchParams;
 using BeerApp.Web.Models.Beer;
 
 namespace BeerApp.Web.Controllers
 {
-	[Route("[controller]")]
 	public class BeerController : Controller
 	{
 		private readonly IPunkApiService punkApiService;
@@ -29,8 +25,8 @@ namespace BeerApp.Web.Controllers
 			this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
 
-		[HttpGet("search")]
-		public async Task<IActionResult> SearchBeers([FromQuery] BeerApiSearchParams searchParams)
+		[HttpGet]
+		public async Task<IActionResult> Search([FromQuery] BeerApiSearchParams searchParams)
 		{
 			try
 			{
@@ -52,8 +48,8 @@ namespace BeerApp.Web.Controllers
 			return mapper.Map<IReadOnlyList<BaseBeer>>(searchResult);
 		}
 
-		[HttpGet("{id}")]
-		public async Task<IActionResult> GetBeerByIdAsync(long id)
+		[HttpGet]
+		public async Task<IActionResult> SearchById(long id)
 		{
 			try
 			{
