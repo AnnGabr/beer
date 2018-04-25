@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-
 using BeerApp.Account.Models;
 using BeerApp.Web.Models.User;
 

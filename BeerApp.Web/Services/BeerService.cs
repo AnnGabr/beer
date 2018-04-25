@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-
 using BeerApp.DataAccess.Models;
 using BeerApp.DataAccess.Repositories;
 

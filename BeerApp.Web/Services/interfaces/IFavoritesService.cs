@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using BeerApp.Web.Models.Beer;
 
 namespace BeerApp.Web.Services

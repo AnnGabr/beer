@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using AutoMapper;
-
 using BeerApp.DataAccess.Models;
 using BeerApp.DataAccess.Repositories;
-
 using BeerApp.PunkApi.Services;
 using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
-
 using BeerApp.Web.Models.Beer;
 
 namespace BeerApp.Web.Services

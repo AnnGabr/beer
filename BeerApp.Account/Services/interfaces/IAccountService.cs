@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-
 using BeerApp.Account.Models;
 
 namespace BeerApp.Account.Services

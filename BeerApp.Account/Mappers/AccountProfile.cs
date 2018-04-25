@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-
 using BeerApp.Account.Models;
-
 using BeerApp.DataAccess.Models;
 
 namespace BeerApp.Account.Mappers

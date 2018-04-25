@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-
 using BeerApp.DataAccess.Models;
-
 using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
 using PunkApiBeerIngredients = BeerApp.PunkApi.Models.Beer.Ingredients;
-
 using BeerApp.Web.Models.Beer;
 using BeerApiBeerIngredients = BeerApp.Web.Models.Beer.Ingredients;
 

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using AutoMapper;
-
 using BeerApp.Account.Models;
 using BeerApp.Account.Services;
 using BeerApp.Web.Extentions.Attributes;

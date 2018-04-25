@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-
 using BeerApp.Web.Models.Beer;
 using BeerApp.Web.Models.Response;
 using BeerApp.Web.Services;

@@ -4,11 +4,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
-
 using BeerApp.PunkApi.Extensions;
 using BeerApp.PunkApi.Models.Beer;
 using BeerApp.PunkApi.Models.Search;
-
 using BeerApp.Utilities.UrlBuilder;
 
 namespace BeerApp.PunkApi.Services
