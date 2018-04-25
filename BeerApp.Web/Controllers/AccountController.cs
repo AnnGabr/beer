@@ -28,8 +28,8 @@ namespace BeerApp.Web.Controllers
 		
 		[HttpPost]
 		[AllowAnonymous]
-		[ValidateRegistrationData]
-		public async Task<IActionResult> Register([FromBody] UserToRegister userToRegister) //TODO: validate? email conf
+		[ValidateBody]
+		public async Task<IActionResult> Register([FromBody] UserToRegister userToRegister) //TODO: email conf
 		{
 			var registrationData = mapper.Map<RegistrationData>(userToRegister);
 
@@ -44,6 +44,7 @@ namespace BeerApp.Web.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
+		[ValidateBody]
 		public async Task<IActionResult> Login([FromBody] UserToLogin userToLogin)
 		{
 			var loginParams = mapper.Map<LoginParams>(userToLogin);
@@ -51,7 +52,7 @@ namespace BeerApp.Web.Controllers
 			bool isEmailRegistered = await accountService.IsEmailRegistered(loginParams.Email);
 			if (!isEmailRegistered)
 			{
-				return BadRequest(new BadRequestResponse("Couldn`t find account with given email."));
+				return NotFound("Couldn`t find account with given email.");
 			}
 
 			bool isLoginSucceeded = await accountService.LoginAsync(loginParams);
@@ -60,7 +61,7 @@ namespace BeerApp.Web.Controllers
 				return NoContent();
 			}
 
-			return NotFound(new BadRequestResponse("Wrong login or password."));
+			return NotFound("Wrong login or password.");
 		}
 
 		[HttpGet]

@@ -36,8 +36,8 @@ namespace BeerApp.Web.Services
 			Beer beer = await BeerService.FindFirstAsync(punkBeerId)
 				?? await BeerService.AddAsync(punkBeerId);
 
-			bool isFavorite = await IsFavoriteAsync(userId, beer.BeerId);
-			if (isFavorite)
+			UserFavoriteBeer favoriteBeer = await GetFavoriteAsync(userId, beer.BeerId);
+			if (favoriteBeer != null)
 			{
 				return false;
 			}
@@ -53,26 +53,22 @@ namespace BeerApp.Web.Services
 
 		public async Task<bool> RemoveAsync(long userId, long beerId)
 		{
-			bool isFavorite = await IsFavoriteAsync(userId, beerId);
-			if (!isFavorite)
+			UserFavoriteBeer favoriteBeer = await GetFavoriteAsync(userId, beerId);
+			if (favoriteBeer == null)
 			{
 				return false;
 			}
 
-			UserFavoriteBeer removedFavorite = await FavoritesRepository.RemoveAsync(new UserFavoriteBeer
-			{
-				BeerId = beerId,
-				UserId = userId
-			});
+			UserFavoriteBeer removedFavorite = await FavoritesRepository.RemoveAsync(favoriteBeer);
 
 			return removedFavorite != null;
 		}
 
-		protected async Task<bool> IsFavoriteAsync(long userId, long beerId)
+		protected async Task<UserFavoriteBeer> GetFavoriteAsync(long userId, long beerId)
 		{
 			UserFavoriteBeer userFavoriteBeer = await FavoritesRepository.FindAsync(userId, beerId);
 
-			return userFavoriteBeer != null;
+			return userFavoriteBeer;
 		}
 
 		public async Task<IReadOnlyList<BeerWithDescription>> GetAllAsync(long userId)

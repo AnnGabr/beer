@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace BeerApp.Web.Extentions.Attributes
 {
-	public class ValidateRegistrationDataAttribute : ActionFilterAttribute
+	public class ValidateBodyAttribute : ActionFilterAttribute
 	{
 		public override void OnActionExecuting(ActionExecutingContext context)
 		{
