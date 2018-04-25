@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -30,9 +31,16 @@ namespace BeerApp.Web.Controllers
 				return Unauthorized();
 			}
 
-			IEnumerable<BeerWithDescription> favorites = await favoritesService.GetAllAsync((long)currentUserId);
+			try
+			{
+				IEnumerable<IBeer> favorites = await favoritesService.GetAllAsync((long) currentUserId);
 
-			return new ObjectResult(favorites);
+				return new ObjectResult(favorites);
+			}
+			catch (HttpRequestException exp)
+			{
+				return BadRequest(exp.Message);
+			}		
 		}
 
 	    [HttpDelete]
@@ -50,7 +58,7 @@ namespace BeerApp.Web.Controllers
 			    return NoContent();
 		    }
 
-		    return BadRequest(new BadRequestResponse("Favorite doesn`t exist."));
+		    return NotFound("Favorite doesn`t exist.");
 	    }
 
 	    [HttpPost]

@@ -9,18 +9,21 @@ using PunkApiSearchParams = BeerApp.PunkApi.Models.Search.SearchParams;
 using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
 using BeerApiSearchParams = BeerApp.Web.Models.Search.SearchParams;
 using BeerApp.Web.Models.Beer;
+using BeerApp.Web.Services;
 
 namespace BeerApp.Web.Controllers
 {
 	public class BeerController : Controller
 	{
 		private readonly IPunkApiService punkApiService;
+		private readonly IBeerService beerService;
 
 		private readonly IMapper mapper;
 
-		public BeerController(IPunkApiService punkApiService, IMapper mapper)
+		public BeerController(IPunkApiService punkApiService, IMapper mapper, IBeerService beerService)
 		{
 			this.punkApiService = punkApiService ?? throw new ArgumentNullException(nameof(punkApiService));
+			this.beerService = beerService ?? throw new ArgumentNullException(nameof(beerService));
 
 			this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
@@ -30,7 +33,7 @@ namespace BeerApp.Web.Controllers
 		{
 			try
 			{
-				IEnumerable<BaseBeer> searchResult = await GetSearchResultAsync(searchParams);
+				IEnumerable<IBeer> searchResult = await GetSearchResultAsync(searchParams);
 
 				return new ObjectResult(searchResult);
 			}
@@ -49,14 +52,13 @@ namespace BeerApp.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> SearchById(long id)
+		public async Task<IActionResult> SearchById([FromQuery] long punkBeerId)
 		{
 			try
 			{
-				PunkApiBeer punkApiBeer = await punkApiService.GetBeerByIdAsync(id);
-				var beerApiBeer = mapper.Map<DetailedBeer>(punkApiBeer);
+				IBeer beer = await beerService.Get(punkBeerId);
 
-				return new ObjectResult(beerApiBeer);
+				return new ObjectResult(beer);
 			}
 			catch (HttpRequestException exp)
 			{

@@ -6,7 +6,7 @@ using BeerApp.DataAccess.Models;
 
 namespace BeerApp.Web.Services
 {
-    internal class UserService : IUserService
+    public class UserService : IUserService
     {
 	    protected readonly UserManager<User> UserManager;
 

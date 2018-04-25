@@ -80,23 +80,14 @@ namespace BeerApp.Web.Services
 				.ToArray();
 			IEnumerable<PunkApiBeer> favoritePunkBeers = await PunkApiService.GetBeerByIdsAsync(favoritePunkBeerIds);
 
-			return Zip(favoritePunkBeers, favoriteBeers);
+			return BeerService.ZipMany<BeerWithDescription>(favoritePunkBeers, favoriteBeers);
 		}
 
-		protected IReadOnlyList<BeerWithDescription> Zip(IEnumerable<PunkApiBeer> punkBeers, IEnumerable<Beer> beers)
+		protected long[] GetAllBeerIds(IEnumerable<Beer> beers)
 		{
-			var beersWithDescription = Mapper.Map<IReadOnlyList<BeerWithDescription>>(punkBeers);
-
-			IReadOnlyList<BeerWithDescription> zipResult = beersWithDescription.Join(
-					beers,
-					bwd => bwd.PunkId,
-					b => b.PunkBeerId,
-					(bwd, b) =>
-						Mapper.Map(b, bwd)
-				)
-				.ToList();
-
-			return zipResult;
+			return beers
+				.Select(beer => beer.BeerId)
+				.ToArray();
 		}
 	}
 }

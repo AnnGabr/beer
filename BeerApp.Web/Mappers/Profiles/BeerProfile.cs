@@ -37,11 +37,11 @@ namespace BeerApp.Web.Mappers.Profiles
 					}
 				);
 
-			CreateMap<Beer, BeerWithDescription>()
+			CreateMap<Beer, IBeer>()
 				.ForMember(
-					beerWithDescription => beerWithDescription.Id,
+					ib => ib.Id,
 					opts => opts.MapFrom(
-						beer => beer.BeerId
+						b => b.BeerId
 					)
 				);
 		}
