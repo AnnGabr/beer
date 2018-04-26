@@ -3,37 +3,27 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using BeerApp.PunkApi.Services;
-using PunkApiSearchParams = BeerApp.PunkApi.Models.Search.SearchParams;
-using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
-using BeerApiSearchParams = BeerApp.Web.Models.Search.SearchParams;
 using BeerApp.Web.Models.Beer;
+using BeerApp.Web.Models.Search;
 using BeerApp.Web.Services;
 
 namespace BeerApp.Web.Controllers
 {
 	public class BeerController : Controller
 	{
-		private readonly IPunkApiService punkApiService;
 		private readonly IBeerService beerService;
 
-		private readonly IMapper mapper;
-
-		public BeerController(IPunkApiService punkApiService, IMapper mapper, IBeerService beerService)
+		public BeerController(IBeerService beerService)
 		{
-			this.punkApiService = punkApiService ?? throw new ArgumentNullException(nameof(punkApiService));
 			this.beerService = beerService ?? throw new ArgumentNullException(nameof(beerService));
-
-			this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Search([FromQuery] BeerApiSearchParams searchParams)
+		public async Task<IActionResult> Search([FromQuery] SearchParams searchParams)
 		{
 			try
 			{
-				IEnumerable<IBeer> searchResult = await GetSearchResultAsync(searchParams);
+				IEnumerable<IBeer> searchResult = await beerService.SearchAsync(searchParams);
 
 				return new ObjectResult(searchResult);
 			}
@@ -43,20 +33,12 @@ namespace BeerApp.Web.Controllers
 			}
 		}
 
-		private async Task<IEnumerable<BaseBeer>> GetSearchResultAsync(BeerApiSearchParams searchParams)
-		{
-			IEnumerable<PunkApiBeer> searchResult = await punkApiService
-				.GetSearchResultAsync(mapper.Map<PunkApiSearchParams>(searchParams));
-
-			return mapper.Map<IReadOnlyList<BaseBeer>>(searchResult);
-		}
-
 		[HttpGet]
 		public async Task<IActionResult> SearchById([FromQuery] long punkBeerId)
 		{
 			try
 			{
-				IBeer beer = await beerService.Get(punkBeerId);
+				IBeer beer = await beerService.SearchOneAsync(punkBeerId);
 
 				return new ObjectResult(beer);
 			}

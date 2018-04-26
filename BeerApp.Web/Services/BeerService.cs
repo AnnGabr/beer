@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using AutoMapper;
 using BeerApp.DataAccess.Models;
 using BeerApp.DataAccess.Repositories;
-using BeerApp.PunkApi.Models.Search;
 using BeerApp.PunkApi.Services;
 using BeerApp.Web.Models.Beer;
+using BeerApp.Web.Models.Search;
 using PunkApiSearchParams = BeerApp.PunkApi.Models.Search.SearchParams;
 using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
-using BeerApiSearchParams = BeerApp.Web.Models.Search.SearchParams;
 
 namespace BeerApp.Web.Services
 {
@@ -51,50 +49,54 @@ namespace BeerApp.Web.Services
 			return foundBeer;
 		}
 
-		public async Task<DetailedBeer> Get(long punkBeerId)
+		public async Task<DetailedBeer> SearchOneAsync(long punkBeerId)
 		{
-			PunkApiBeer punkApiBeer = await PunkApiService.GetBeerByIdAsync(punkBeerId);
-			if (punkApiBeer == null)
+			PunkApiBeer punkBeer = await PunkApiService.GetBeerByIdAsync(punkBeerId);
+			if (punkBeer == null)
 			{
 				return null;
 			}
 
-			Beer beer = await BeerRepository.FindFirstAsync(punkBeerId);
-			if (beer == null)
-			{
-				return Mapper.Map<DetailedBeer>(punkApiBeer);
-			}
-
-			return ZipSingle<DetailedBeer>(punkApiBeer, beer);
+			Beer beer = await FindFirstAsync(punkBeerId);
+			return beer == null 
+				? Mapper.Map<DetailedBeer>(punkBeer) 
+				: ZipSingle<DetailedBeer>(punkBeer, beer);
 		}
 
-		/*public async Task<BaseBeer> Get(SearchParams searchParams) //TODO: zip searched
+		public async Task<IReadOnlyList<BaseBeer>> SearchAsync(SearchParams searchParams) //TODO: zip searched
 		{
-			IEnumerable<PunkApiBeer> punkApiBeers = await PunkApiService
+			IEnumerable<PunkApiBeer> punkBeers = await PunkApiService
 				.GetSearchResultAsync(Mapper.Map<PunkApiSearchParams>(searchParams));
 
-			IEnumerable<Beer> beers = new List<Beer>();
+			long[] punkBeerIds = punkBeers
+				.Select(beer => beer.PunkId)
+				.ToArray();
+			IEnumerable<Beer> beers = await BeerRepository.FindAll(punkBeerIds);
 
-			return ZipMany<BaseBeer>(punkApiBeers, beers);
-		}*/
+			return ZipMany<BaseBeer>(punkBeers, beers);
+		}
 
 		public TOut ZipSingle<TOut>(PunkApiBeer punkBeer, Beer beer) where TOut : IBeer
 		{
-			var outBeer = Mapper.Map<TOut>(punkBeer);
+			var mappedPunkBeer = Mapper.Map<TOut>(punkBeer);
 
-			return Mapper.Map(beer, outBeer);
+			return Mapper.Map(beer, mappedPunkBeer);
 		}
 
 		public IReadOnlyList<TOut> ZipMany<TOut>(IEnumerable<PunkApiBeer> punkBeers, IEnumerable<Beer> beers) where TOut : IBeer
 		{
-			var outBeers = Mapper.Map<IReadOnlyList<TOut>>(punkBeers);
-			return outBeers.Join(
+			var mappedPunkBeers = Mapper.Map<IReadOnlyList<TOut>>(punkBeers);
+			return mappedPunkBeers.GroupJoin(
 					beers,
-					ob => ob.PunkId,
-					b => b.PunkBeerId,
-					(ob, b) =>
-						AutoMapper.Mapper.Map(b, ob)
-				)
+					mappedPunkBeer => mappedPunkBeer.PunkId,
+					beerToJoin => beerToJoin.PunkBeerId,
+					(mpb, jb) =>
+						new { MappedPunkBeer = mpb, JoinedBeers = jb })
+				.SelectMany(
+					joinResult => joinResult.JoinedBeers.DefaultIfEmpty(),
+					(joinResult, joinedBeer) => joinedBeer == null 
+						? Mapper.Map<TOut>(joinResult.MappedPunkBeer) 
+						: Mapper.Map(joinedBeer, joinResult.MappedPunkBeer))
 				.ToList();
 		}
 	}

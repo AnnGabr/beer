@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BeerApp.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
@@ -30,5 +32,14 @@ namespace BeerApp.DataAccess.Repositories
 
 		    return foundBeer;
 	    }
-    }
+
+	    public async Task<IReadOnlyList<Beer>> FindAll(long[] punkBeerIds)
+	    {
+		    IReadOnlyList<Beer> foundBeers = await DbContext.Beers
+				.Where(beer => punkBeerIds.Contains(beer.PunkBeerId))
+				.ToListAsync();
+
+		    return foundBeers;
+	    }
+	}
 }

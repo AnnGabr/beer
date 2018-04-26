@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using BeerApp.DataAccess.Models;
 
 namespace BeerApp.DataAccess.Repositories
@@ -7,5 +8,6 @@ namespace BeerApp.DataAccess.Repositories
 	{
 		Task<Beer> AddAsync(Beer beer);
 		Task<Beer> FindFirstAsync(long punkBeerId);
+		Task<IReadOnlyList<Beer>> FindAll(long[] punkBeerIds);
 	}
 }
