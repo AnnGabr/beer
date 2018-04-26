@@ -23,7 +23,7 @@ namespace BeerApp.Web.Controllers
 	    }
 
 		[HttpGet]
-		public async Task<IActionResult> Get()
+		public async Task<IActionResult> Get() //TODO: get by page!
 		{
 			long? currentUserId = await GetCurrentUserId();
 			if (currentUserId == null)

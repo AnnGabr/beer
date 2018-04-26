@@ -21,5 +21,8 @@ namespace BeerApp.PunkApi.Models.Search
 
 		[UrlParam(Name = "ibu_lt")]
 		public int? Ibu { get; set; }
+
+		[UrlParam(Name = "ids")]
+		public string BeerIds { get; set; }
 	}
 }

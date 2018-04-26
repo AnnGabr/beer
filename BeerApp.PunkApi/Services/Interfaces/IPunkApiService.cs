@@ -9,6 +9,5 @@ namespace BeerApp.PunkApi.Services
     {
 	    Task<IReadOnlyList<Beer>> GetSearchResultAsync(SearchParams searchParams);
 	    Task<Beer> GetBeerByIdAsync(long beerId);
-	    Task<IReadOnlyList<Beer>> GetBeerByIdsAsync(long[] beerIds);
 	}
 }

@@ -7,7 +7,9 @@ using BeerApp.DataAccess.Models;
 using BeerApp.DataAccess.Repositories;
 using BeerApp.PunkApi.Services;
 using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
+using PunkApiSearchParams = BeerApp.PunkApi.Models.Search.SearchParams;
 using BeerApp.Web.Models.Beer;
+using BeerApp.Web.Models.Search;
 
 namespace BeerApp.Web.Services
 {
@@ -78,7 +80,8 @@ namespace BeerApp.Web.Services
 			long[] favoritePunkBeerIds = favoriteBeers
 				.Select(beer => beer.PunkBeerId)
 				.ToArray();
-			IEnumerable<PunkApiBeer> favoritePunkBeers = await PunkApiService.GetBeerByIdsAsync(favoritePunkBeerIds);
+			var searchParams = new FavoritesSearchParams(favoritePunkBeerIds);
+			IEnumerable<PunkApiBeer> favoritePunkBeers = await PunkApiService.GetSearchResultAsync(Mapper.Map<PunkApiSearchParams>(searchParams));
 
 			return BeerService.ZipMany<BeerWithDescription>(favoritePunkBeers, favoriteBeers);
 		}
