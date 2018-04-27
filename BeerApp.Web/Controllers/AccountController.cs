@@ -8,7 +8,7 @@ using BeerApp.Account.Models;
 using BeerApp.Account.Services;
 using BeerApp.Web.Extentions.Attributes;
 using BeerApp.Web.Models.User;
-using BeerApp.Web.Models.Response;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace BeerApp.Web.Controllers
 {
@@ -55,10 +55,14 @@ namespace BeerApp.Web.Controllers
 				return NotFound("Couldn`t find account with given email.");
 			}
 
-			bool isLoginSucceeded = await accountService.LoginAsync(loginParams);
-			if (isLoginSucceeded)
+			SignInResult signInResult = await accountService.LoginAsync(loginParams);
+			if (signInResult.Succeeded)
 			{
 				return NoContent();
+			}
+			if (signInResult.IsNotAllowed)
+			{
+				return BadRequest("Email not confirmed.");
 			}
 
 			return NotFound("Wrong login or password.");
@@ -81,7 +85,7 @@ namespace BeerApp.Web.Controllers
 				return NoContent();
 			}
 
-			return NotFound(new BadRequestResponse("Couldn`t delete account."));
+			return NotFound("Couldn`t delete account.");
 		}
 
 		[HttpGet]

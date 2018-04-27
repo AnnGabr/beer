@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
-using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using AutoMapper;
@@ -12,28 +11,29 @@ namespace BeerApp.Account.Services
 {
 	public class AccountService : IAccountService
 	{
-		private readonly IMapper mapper;
+		protected readonly IMapper Mapper;
 
-		private readonly UserManager<User> userManager;
-		private readonly SignInManager<User> signInManager;
+		protected readonly UserManager<User> UserManager;
+		protected readonly SignInManager<User> SignInManager;
 
 		public AccountService(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper)
 		{
-			this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-			this.signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+			UserManager = userManager;
+			SignInManager = signInManager;
 
-			this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+			Mapper = mapper;
 		}
 
 		public async Task<IReadOnlyList<string>> RegisterAsync(RegistrationData registrationData)
 		{
-			var user = mapper.Map<User>(registrationData);
+			var user = Mapper.Map<User>(registrationData);
 			user.UserName = registrationData.Email;
 
-			IdentityResult registrationResult = await userManager.CreateAsync(user, registrationData.Password);
+			IdentityResult registrationResult = await UserManager.CreateAsync(user, registrationData.Password);
 			if (registrationResult.Succeeded) //TODO: email confirm here
 			{
-				await signInManager.SignInAsync(user, false);
+				/*IMailSender mailSender = new SendgridMailSender();
+				await mailSender.Send();*/
 
 				return null;
 			}
@@ -41,42 +41,43 @@ namespace BeerApp.Account.Services
 			return registrationResult.GetValidationErrors();
 		}
 	
-		public async Task<bool> LoginAsync(LoginParams loginParams)
+		public async Task<SignInResult> LoginAsync(LoginParams loginParams)
 		{
-			SignInResult loginResult = await signInManager
+			await LogoutAsync();
+			SignInResult loginResult = await SignInManager
 				.PasswordSignInAsync(loginParams.Email, loginParams.Password, loginParams.RememberMe, true); //lockout active!
-
-			return loginResult.Succeeded;
+			
+			return loginResult;
 		}
 
 		public async Task LogoutAsync()
 		{
-			await signInManager.SignOutAsync();
+			await SignInManager.SignOutAsync();
 		}
 
 		public async Task<bool> DeleteAsync(ClaimsPrincipal principal)
 		{
-			User user = await userManager.GetUserAsync(principal);
+			User user = await UserManager.GetUserAsync(principal);
 			if (user == null)
 			{
 				return false;
 			}
 
-			IdentityResult deleteResult = await userManager.DeleteAsync(user);
+			IdentityResult deleteResult = await UserManager.DeleteAsync(user);
 
 			return deleteResult.Succeeded;
 		}
 
 		public async Task<UserProfile> GetProfileInfo(ClaimsPrincipal principal)
 		{
-			User user = await userManager.GetUserAsync(principal);
+			User user = await UserManager.GetUserAsync(principal);
 
-			return user == null ? null : mapper.Map<UserProfile>(user);
+			return user == null ? null : Mapper.Map<UserProfile>(user);
 		}
 
 		public async Task<bool> IsEmailRegistered(string emailAddress)
 		{
-			User user = await userManager.FindByEmailAsync(emailAddress);
+			User user = await UserManager.FindByEmailAsync(emailAddress);
 
 			return user != null;
 		}

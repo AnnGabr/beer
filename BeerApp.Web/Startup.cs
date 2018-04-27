@@ -56,7 +56,7 @@ namespace BeerApp.Web
 	    private void ConfigureIdentity(IServiceCollection services)
 	    {
 			services.AddIdentity<User, Role>(config => {
-				    //config.SignIn.RequireConfirmedEmail = true;
+				    config.SignIn.RequireConfirmedEmail = true;
 			    })
 			    .AddEntityFrameworkStores<BeerCatalogContext>()
 			    .AddDefaultTokenProviders();
@@ -66,7 +66,7 @@ namespace BeerApp.Web
 			    options.Password.RequiredLength = 6;
 			    options.Password.RequireNonAlphanumeric = false;
 			    options.Password.RequireUppercase = false;
-			    options.Password.RequiredUniqueChars = 4;
+			    options.Password.RequiredUniqueChars = 3;
 			    options.Password.RequireLowercase = true;
 
 				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
