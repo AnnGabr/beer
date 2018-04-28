@@ -13,35 +13,46 @@ namespace BeerApp.Account.Services
 	{
 		protected readonly IMapper Mapper;
 
+		protected readonly IVarificationEmailSender VarificationEmailSender;
+
 		protected readonly UserManager<User> UserManager;
 		protected readonly SignInManager<User> SignInManager;
-
-		public AccountService(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper)
+		
+		public AccountService(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, IVarificationEmailSender varificationEmailSender)
 		{
+			Mapper = mapper;
+			VarificationEmailSender = varificationEmailSender;
 			UserManager = userManager;
 			SignInManager = signInManager;
-
-			Mapper = mapper;
 		}
 
-		public async Task<IReadOnlyList<string>> RegisterAsync(RegistrationData registrationData)
+		public async Task<IReadOnlyList<string>> RegisterAsync(RegisterCredentials registerCredentials)
 		{
-			var user = Mapper.Map<User>(registrationData);
-			user.UserName = registrationData.Email;
+			var user = Mapper.Map<User>(registerCredentials);
+			user.UserName = registerCredentials.Email;
 
-			IdentityResult registrationResult = await UserManager.CreateAsync(user, registrationData.Password);
+			IdentityResult registrationResult = await UserManager.CreateAsync(user, registerCredentials.Password);
 			if (registrationResult.Succeeded) //TODO: email confirm here
 			{
-				/*IMailSender mailSender = new SendgridMailSender();
-				await mailSender.Send();*/
+				string emailVarificationCode = await UserManager.GenerateEmailConfirmationTokenAsync(user);
+				//string confirmationUrl = $"{host}/account/email/{}/{}"; TODO: generate url
 
-				return null;
+				SendEmailResponse response = await VarificationEmailSender.SendUserVarificationEmailAsync(new SendEmailDetails()
+				{
+					ToName = user.NickName,
+					ToEmail = user.Email,
+					FromEmail = "ann.gabrusionok@gmail.com",
+					FromName = "AnnGabr",
+					Subject = "Varify Your Email - Beer Catalog."
+				}, "https://www.youtube.com/watch?v=iYFP26_zI98");
+
+				return response.Errors;
 			}
 
 			return registrationResult.GetValidationErrors();
 		}
 	
-		public async Task<SignInResult> LoginAsync(LoginParams loginParams)
+		public async Task<SignInResult> LoginAsync(LoginCredentials loginParams)
 		{
 			await LogoutAsync();
 			SignInResult loginResult = await SignInManager

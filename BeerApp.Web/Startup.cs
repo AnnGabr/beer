@@ -56,8 +56,8 @@ namespace BeerApp.Web
 	    private void ConfigureIdentity(IServiceCollection services)
 	    {
 			services.AddIdentity<User, Role>(config => {
-				    config.SignIn.RequireConfirmedEmail = true;
-			    })
+				    config.SignIn.RequireConfirmedEmail = true; 
+			})
 			    .AddEntityFrameworkStores<BeerCatalogContext>()
 			    .AddDefaultTokenProviders();
 
@@ -107,7 +107,11 @@ namespace BeerApp.Web
 		    services.AddTransient<IBeerService, BeerService>();
 		    services.AddTransient<IFavoritesService, FavoritesService>();
 
-		    services.AddTransient<IAccountService, AccountService>();
+		    services.AddTransient<IEmailSender, SendGridEmailSender>();
+		    services.Configure<SendGridOptions>(Configuration);
+		    services.AddTransient<IVarificationEmailSender, VarificationEmailSender>();
+
+			services.AddTransient<IAccountService, AccountService>();
 		    services.AddTransient<IUserService, UserService>();
 		}
 

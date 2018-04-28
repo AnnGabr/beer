@@ -8,8 +8,8 @@ namespace BeerApp.Account.Services
 {
     public interface IAccountService
     {
-		Task<SignInResult> LoginAsync(LoginParams loginParams);
-		Task<IReadOnlyList<string>> RegisterAsync(RegistrationData registrationData);
+		Task<SignInResult> LoginAsync(LoginCredentials loginParams);
+		Task<IReadOnlyList<string>> RegisterAsync(RegisterCredentials registerCredentials);
 	    Task<bool> DeleteAsync(ClaimsPrincipal principal);
 		Task LogoutAsync();
 

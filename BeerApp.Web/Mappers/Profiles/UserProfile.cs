@@ -8,8 +8,8 @@ namespace BeerApp.Web.Mappers.Profiles
 	{
 		public UserProfile()
 		{
-			CreateMap<UserToRegister, RegistrationData>();
-			CreateMap<UserToLogin, LoginParams>();
+			CreateMap<UserToRegister, RegisterCredentials>();
+			CreateMap<UserToLogin, LoginCredentials>();
 		}
 	}
 }

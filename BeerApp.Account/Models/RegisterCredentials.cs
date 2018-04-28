@@ -2,7 +2,7 @@
 
 namespace BeerApp.Account.Models
 {
-    public class RegistrationData
+    public class RegisterCredentials
     {
 		public string NickName { get; set; }
 		public string Password { get; set; }

@@ -31,9 +31,9 @@ namespace BeerApp.Web.Controllers
 		[ValidateBody]
 		public async Task<IActionResult> Register([FromBody] UserToRegister userToRegister) //TODO: email conf
 		{
-			var registrationData = mapper.Map<RegistrationData>(userToRegister);
+			var registerCredentials = mapper.Map<RegisterCredentials>(userToRegister);
 
-			IEnumerable<string> registrationErrors = await accountService.RegisterAsync(registrationData);
+			IEnumerable<string> registrationErrors = await accountService.RegisterAsync(registerCredentials);
 			if (registrationErrors == null)
 			{
 				return Ok("Registered successfully");
@@ -47,7 +47,7 @@ namespace BeerApp.Web.Controllers
 		[ValidateBody]
 		public async Task<IActionResult> Login([FromBody] UserToLogin userToLogin)
 		{
-			var loginParams = mapper.Map<LoginParams>(userToLogin);
+			var loginParams = mapper.Map<LoginCredentials>(userToLogin);
 
 			bool isEmailRegistered = await accountService.IsEmailRegistered(loginParams.Email);
 			if (!isEmailRegistered)

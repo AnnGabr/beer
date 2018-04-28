@@ -1,6 +1,6 @@
 ﻿namespace BeerApp.Account.Models
 {
-    public class LoginParams
+    public class LoginCredentials
     {
 		public string Password { get; set; }
 		public string Email { get; set; }

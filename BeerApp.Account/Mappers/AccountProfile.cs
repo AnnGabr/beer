@@ -8,7 +8,7 @@ namespace BeerApp.Account.Mappers
 	{
 		public AccountProfile()
 		{
-			CreateMap<RegistrationData, User>();
+			CreateMap<RegisterCredentials, User>();
 			CreateMap<User, UserProfile>();
 		}
 	}
