@@ -26,5 +26,10 @@ namespace BeerApp.Web.Services
 		{
 			return await UserManager.GetUserAsync(principal);
 		}
+
+		public async Task<User> GetUserByIdAsync(string id)
+		{
+			return await UserManager.FindByIdAsync(id);
+		}
 	}
 }

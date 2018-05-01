@@ -6,6 +6,7 @@ using AutoMapper;
 using BeerApp.Account.Extensions;
 using BeerApp.DataAccess.Models;
 using BeerApp.Account.Models;
+using System.Web;
 
 namespace BeerApp.Account.Services
 {
@@ -13,12 +14,12 @@ namespace BeerApp.Account.Services
 	{
 		protected readonly IMapper Mapper;
 
-		protected readonly IVarificationEmailSender VarificationEmailSender;
+		protected readonly IVerificationEmailSender VarificationEmailSender;
 
 		protected readonly UserManager<User> UserManager;
 		protected readonly SignInManager<User> SignInManager;
 		
-		public AccountService(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, IVarificationEmailSender varificationEmailSender)
+		public AccountService(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, IVerificationEmailSender varificationEmailSender)
 		{
 			Mapper = mapper;
 			VarificationEmailSender = varificationEmailSender;
@@ -26,37 +27,32 @@ namespace BeerApp.Account.Services
 			SignInManager = signInManager;
 		}
 
-		public async Task<IReadOnlyList<string>> RegisterAsync(RegisterCredentials registerCredentials)
+		public async Task<IReadOnlyList<string>> RegisterAsync(RegisterCredentials registerCredentials, string host)
 		{
 			var user = Mapper.Map<User>(registerCredentials);
 			user.UserName = registerCredentials.Email;
 
 			IdentityResult registrationResult = await UserManager.CreateAsync(user, registerCredentials.Password);
-			if (registrationResult.Succeeded) //TODO: email confirm here
+			if (registrationResult.Succeeded) 
 			{
-				string emailVarificationCode = await UserManager.GenerateEmailConfirmationTokenAsync(user);
-				//string confirmationUrl = $"{host}/account/email/{}/{}"; TODO: generate url
+				string emailVerificationCode = await UserManager.GenerateEmailConfirmationTokenAsync(user);
+				string confirmationUrl = 
+					$"http://{host}/account/confirm/email/{user.Id.ToString()}/{HttpUtility.UrlEncode(emailVerificationCode)}";
 
-				SendEmailResponse response = await VarificationEmailSender.SendUserVarificationEmailAsync(new SendEmailDetails()
-				{
-					ToName = user.NickName,
-					ToEmail = user.Email,
-					FromEmail = "ann.gabrusionok@gmail.com",
-					FromName = "AnnGabr",
-					Subject = "Varify Your Email - Beer Catalog."
-				}, "https://www.youtube.com/watch?v=iYFP26_zI98");
-
+				SendEmailResponse response = await VarificationEmailSender
+					.SendUserVarificationEmailAsync(user.NickName, user.Email, confirmationUrl);
+				
 				return response.Errors;
 			}
 
 			return registrationResult.GetValidationErrors();
 		}
 	
-		public async Task<SignInResult> LoginAsync(LoginCredentials loginParams)
+		public async Task<SignInResult> LoginAsync(LoginCredentials LoginCredentials)
 		{
 			await LogoutAsync();
 			SignInResult loginResult = await SignInManager
-				.PasswordSignInAsync(loginParams.Email, loginParams.Password, loginParams.RememberMe, true); //lockout active!
+				.PasswordSignInAsync(LoginCredentials.Email, LoginCredentials.Password, LoginCredentials.RememberMe, true);
 			
 			return loginResult;
 		}
@@ -91,6 +87,13 @@ namespace BeerApp.Account.Services
 			User user = await UserManager.FindByEmailAsync(emailAddress);
 
 			return user != null;
+		}
+
+		public async Task<bool> ConfirmEmailAsync(User user, string emailToken)
+		{
+			IdentityResult result = await UserManager.ConfirmEmailAsync(user, emailToken);
+
+			return result.Succeeded;
 		}
 	}
 }

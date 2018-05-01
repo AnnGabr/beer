@@ -56,7 +56,7 @@ namespace BeerApp.Web
 	    private void ConfigureIdentity(IServiceCollection services)
 	    {
 			services.AddIdentity<User, Role>(config => {
-				    config.SignIn.RequireConfirmedEmail = true; 
+				 config.SignIn.RequireConfirmedEmail = true; 
 			})
 			    .AddEntityFrameworkStores<BeerCatalogContext>()
 			    .AddDefaultTokenProviders();
@@ -100,22 +100,37 @@ namespace BeerApp.Web
 	    {
 			services.AddSingleton(GlobalMapper.GetConfiguredMapper());
 
-		    services.AddTransient<IBeerRepository, BeerRepository>();
-		    services.AddTransient<IFavoritesRepository, FavoritesRepository>();
+		    services.AddScoped<IBeerRepository, BeerRepository>();
+		    services.AddScoped<IFavoritesRepository, FavoritesRepository>();
 
 		    services.AddSingleton<IPunkApiService, PunkApiService>();
 		    services.AddTransient<IBeerService, BeerService>();
 		    services.AddTransient<IFavoritesService, FavoritesService>();
 
-		    services.AddTransient<IEmailSender, SendGridEmailSender>();
-		    services.Configure<SendGridOptions>(Configuration);
-		    services.AddTransient<IVarificationEmailSender, VarificationEmailSender>();
+			ConfigureEmailService(services);		
 
 			services.AddTransient<IAccountService, AccountService>();
 		    services.AddTransient<IUserService, UserService>();
 		}
 
-	    private void ConfigureMvc(IServiceCollection services)
+		private void ConfigureEmailService(IServiceCollection services)
+		{
+			services.AddTransient<IEmailSender, SendGridEmailSender>();
+
+			services.Configure<SendGridOptions>(options => {
+				options.SendGridKey = Configuration["SendGridKey"];
+			});
+
+			services.AddTransient<IVerificationEmailSender, VerificationEmailSender>();
+
+			services.Configure<VerificationEmailOptions>(options => {
+				options.FromEmail = Configuration["VarificationEmailDetails:FromEmail"];
+				options.FromName = Configuration["VarificationEmailDetails:FromName"];
+				options.Subject = Configuration["VarificationEmailDetails:Subject"];
+			});
+		}
+
+		private void ConfigureMvc(IServiceCollection services)
 	    {
 			services.AddMvc();
 		}

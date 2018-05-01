@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +8,8 @@ using BeerApp.Account.Services;
 using BeerApp.Web.Extentions.Attributes;
 using BeerApp.Web.Models.User;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
+using BeerApp.Web.Services;
+using BeerApp.DataAccess.Models;
 
 namespace BeerApp.Web.Controllers
 {
@@ -16,27 +17,28 @@ namespace BeerApp.Web.Controllers
 	public class AccountController : Controller
 	{
 		private readonly IAccountService accountService;
-
+		private readonly IUserService userService;
 		private readonly IMapper mapper;
 
-		public AccountController(IAccountService accountService, IMapper mapper)
+		public AccountController(IAccountService accountService, IUserService userService, IMapper mapper)
 		{
-			this.accountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
-
-			this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+			this.accountService = accountService;
+			this.userService = userService;
+			this.mapper = mapper;
 		}
 		
 		[HttpPost]
 		[AllowAnonymous]
 		[ValidateBody]
-		public async Task<IActionResult> Register([FromBody] UserToRegister userToRegister) //TODO: email conf
+		public async Task<IActionResult> Register([FromBody] UserToRegister userToRegister) 
 		{
 			var registerCredentials = mapper.Map<RegisterCredentials>(userToRegister);
 
-			IEnumerable<string> registrationErrors = await accountService.RegisterAsync(registerCredentials);
+			IEnumerable<string> registrationErrors = await accountService
+				.RegisterAsync(registerCredentials, Request.Host.Value);
 			if (registrationErrors == null)
 			{
-				return Ok("Registered successfully");
+				return NoContent();
 			}
 
 			return BadRequest(registrationErrors);
@@ -52,7 +54,7 @@ namespace BeerApp.Web.Controllers
 			bool isEmailRegistered = await accountService.IsEmailRegistered(loginParams.Email);
 			if (!isEmailRegistered)
 			{
-				return NotFound("Couldn`t find account with given email.");
+				return Content("Couldn`t find account with given email.");
 			}
 
 			SignInResult signInResult = await accountService.LoginAsync(loginParams);
@@ -62,15 +64,15 @@ namespace BeerApp.Web.Controllers
 			}
 			if (signInResult.IsNotAllowed)
 			{
-				return BadRequest("Email not confirmed.");
+				return Content("Email not confirmed."); //TODO: different response
 			}
 
-			return NotFound("Wrong login or password.");
+			return Content("Wrong login or password.");
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> Logout()
-		{
+		{ 
 			await accountService.LogoutAsync();
 
 			return NoContent();
@@ -85,7 +87,7 @@ namespace BeerApp.Web.Controllers
 				return NoContent();
 			}
 
-			return NotFound("Couldn`t delete account.");
+			return Content("Couldn`t delete account.");
 		}
 
 		[HttpGet]
@@ -94,10 +96,32 @@ namespace BeerApp.Web.Controllers
 			UserProfile userProfile = await accountService.GetProfileInfo(HttpContext.User);
 			if (userProfile == null)
 			{
-				return NotFound();
+				return Content("User profile wasn`t found.");
 			}
 
 			return new ObjectResult(userProfile);
+		}
+
+		[Route("account/confirm/email/{userId}/{emailToken}")]
+		[HttpGet]
+		[AllowAnonymous]
+		public async Task<IActionResult> VarifyEmailAsync(string userId, string emailToken)
+		{
+			User user = await userService.GetUserByIdAsync(userId);
+			if (user == null)
+			{
+				return Content("User not found");
+			}
+
+			emailToken = emailToken.Replace("%2f", "/").Replace("%2F", "/");
+
+			bool isConfirmed = await accountService.ConfirmEmailAsync(user, emailToken);
+			if (isConfirmed)
+			{
+				return NoContent();
+			}
+
+			return Content("Invalid email varification token.");
 		}
 	}
 }
