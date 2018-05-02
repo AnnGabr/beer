@@ -24,13 +24,10 @@ namespace BeerApp.Web.Services
 
 		public FavoritesService(IFavoritesRepository favoritesRepository, IBeerService beerService, IPunkApiService punkApiService, IMapper mapper)
 		{
-			FavoritesRepository = favoritesRepository 
-				?? throw new ArgumentNullException(nameof(favoritesRepository));
-
-			BeerService = beerService ?? throw new ArgumentNullException(nameof(beerService));
-			PunkApiService = punkApiService ?? throw new ArgumentNullException(nameof(PunkApiService));
-
-			Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+			FavoritesRepository = favoritesRepository;
+			BeerService = beerService;
+			PunkApiService = punkApiService;
+			Mapper = mapper;
 		}
 
 		public async Task<bool> AddAsync(long userId, long punkBeerId) //TODO: change to beer model in 4 phase

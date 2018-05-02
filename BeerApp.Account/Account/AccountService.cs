@@ -37,7 +37,7 @@ namespace BeerApp.Account.Services
 			{
 				string emailVerificationCode = await UserManager.GenerateEmailConfirmationTokenAsync(user);
 				string confirmationUrl = 
-					$"http://{host}/account/confirm/email/{user.Id.ToString()}/{HttpUtility.UrlEncode(emailVerificationCode)}";
+					$"http://{host}/account/confirm/email/{user.Id}/{HttpUtility.UrlEncode(emailVerificationCode)}";
 
 				SendEmailResponse response = await VarificationEmailSender
 					.SendUserVarificationEmailAsync(user.NickName, user.Email, confirmationUrl);
@@ -48,11 +48,11 @@ namespace BeerApp.Account.Services
 			return registrationResult.GetValidationErrors();
 		}
 	
-		public async Task<SignInResult> LoginAsync(LoginCredentials LoginCredentials)
+		public async Task<SignInResult> LoginAsync(LoginCredentials loginCredentials)
 		{
 			await LogoutAsync();
 			SignInResult loginResult = await SignInManager
-				.PasswordSignInAsync(LoginCredentials.Email, LoginCredentials.Password, LoginCredentials.RememberMe, true);
+				.PasswordSignInAsync(loginCredentials.Email, loginCredentials.Password, loginCredentials.RememberMe, true);
 			
 			return loginResult;
 		}

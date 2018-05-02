@@ -13,7 +13,7 @@ namespace BeerApp.PunkApi.Services
 {
     public class PunkApiService : IPunkApiService
     {
-	    public readonly string RootUrl = "https://api.punkapi.com/v2/beers";
+	    public const string RootUrl = "https://api.punkapi.com/v2/beers";
 
 		protected readonly HttpClient Client = new HttpClient();
 

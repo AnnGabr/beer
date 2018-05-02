@@ -22,10 +22,9 @@ namespace BeerApp.Web.Services
 
 		public BeerService(IBeerRepository beerRepository, IPunkApiService punkApiService, IMapper mapper)
 		{
-			BeerRepository = beerRepository ?? throw new ArgumentNullException(nameof(beerRepository));
-			PunkApiService = punkApiService ?? throw new ArgumentNullException(nameof(PunkApiService));
-
-			Mapper = mapper ?? throw new ArgumentNullException(nameof(Mapper));
+			BeerRepository = beerRepository;
+			PunkApiService = punkApiService;
+			Mapper = mapper;
 		}
 
 		public async Task<Beer> AddAsync(long punkBeerId)

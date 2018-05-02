@@ -54,7 +54,7 @@ namespace BeerApp.Web.Controllers
 			bool isEmailRegistered = await accountService.IsEmailRegistered(loginParams.Email);
 			if (!isEmailRegistered)
 			{
-				return Content("Couldn`t find account with given email.");
+				return BadRequest("Couldn`t find account with given email.");
 			}
 
 			SignInResult signInResult = await accountService.LoginAsync(loginParams);
@@ -62,12 +62,12 @@ namespace BeerApp.Web.Controllers
 			{
 				return NoContent();
 			}
-			if (signInResult.IsNotAllowed)
-			{
-				return Content("Email not confirmed."); //TODO: different response
-			}
 
-			return Content("Wrong login or password.");
+			return BadRequest(
+				signInResult.IsNotAllowed 
+					? "Email not confirmed." 
+					: "Wrong login or password."
+			);
 		}
 
 		[HttpGet]
@@ -96,7 +96,7 @@ namespace BeerApp.Web.Controllers
 			UserProfile userProfile = await accountService.GetProfileInfo(HttpContext.User);
 			if (userProfile == null)
 			{
-				return Content("User profile wasn`t found.");
+				return Unauthorized();
 			}
 
 			return new ObjectResult(userProfile);

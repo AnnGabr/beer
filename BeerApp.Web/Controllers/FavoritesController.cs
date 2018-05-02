@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using BeerApp.Web.Models.Beer;
-using BeerApp.Web.Models.Response;
 using BeerApp.Web.Services;
 
 namespace BeerApp.Web.Controllers
@@ -18,12 +16,12 @@ namespace BeerApp.Web.Controllers
 
 		public FavoritesController(IFavoritesService favoritesService, IUserService userService)
 	    {
-		    this.favoritesService = favoritesService ?? throw new ArgumentNullException(nameof(favoritesService));
-			this.userService = userService ?? throw new ArgumentNullException(nameof(userService));
+		    this.favoritesService = favoritesService;
+			this.userService = userService;
 	    }
 
 		[HttpGet]
-		public async Task<IActionResult> Get() //TODO: get by page!
+		public async Task<IActionResult> Get() 
 		{
 			long? currentUserId = await GetCurrentUserId();
 			if (currentUserId == null)
@@ -58,7 +56,7 @@ namespace BeerApp.Web.Controllers
 			    return NoContent();
 		    }
 
-		    return NotFound("Favorite doesn`t exist.");
+		    return BadRequest("Favorite doesn`t exist.");
 	    }
 
 	    [HttpPost]
@@ -76,7 +74,7 @@ namespace BeerApp.Web.Controllers
 			    return NoContent();
 		    }
 
-		    return BadRequest(new BadRequestResponse("Can`t add to favorites."));
+		    return BadRequest("Can`t add to favorites.");
 	    }
 
 		private async Task<long?> GetCurrentUserId()

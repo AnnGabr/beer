@@ -14,7 +14,7 @@ namespace BeerApp.DataAccess.Repositories
 
 	    public FavoritesRepository(BeerCatalogContext beerCatalogContext)
 	    {
-		    DbContext = beerCatalogContext ?? throw new ArgumentNullException(nameof(beerCatalogContext));
+		    DbContext = beerCatalogContext;
 	    }
 
 	    public async Task<UserFavoriteBeer> AddAsync(UserFavoriteBeer favorite)

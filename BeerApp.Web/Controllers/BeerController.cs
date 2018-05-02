@@ -15,7 +15,7 @@ namespace BeerApp.Web.Controllers
 
 		public BeerController(IBeerService beerService)
 		{
-			this.beerService = beerService ?? throw new ArgumentNullException(nameof(beerService));
+			this.beerService = beerService;
 		}
 
 		[HttpGet]

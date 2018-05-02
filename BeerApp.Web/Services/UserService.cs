@@ -12,7 +12,7 @@ namespace BeerApp.Web.Services
 
 		public UserService(UserManager<User> userManager)
 		{
-			UserManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+			UserManager = userManager;
 		}
 
 	    public async Task<long?> GetCurrentUserIdAsync(ClaimsPrincipal principal)
