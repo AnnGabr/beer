@@ -131,7 +131,7 @@ namespace BeerApp.Web
 		}
 
 		private void ConfigureMvc(IServiceCollection services)
-	    {
+		{
 			services.AddMvc();
 		}
 

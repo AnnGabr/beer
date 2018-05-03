@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using BeerApp.Web.Extentions.Attributes;
 
 namespace BeerApp.Web.Models.User
 {
@@ -17,7 +18,7 @@ namespace BeerApp.Web.Models.User
 		[EmailAddress]
 		public string Email { get; set; }
 
-		[DataType(DataType.Date)]
+		[BirthDate(ErrorMessage = "Wrong birth date.")]
 		public DateTime? BirthDate { get; set; }
 
 		[Url(ErrorMessage = "Wrong url format.")]

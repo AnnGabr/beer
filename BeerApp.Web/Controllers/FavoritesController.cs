@@ -20,8 +20,9 @@ namespace BeerApp.Web.Controllers
 			this.userService = userService;
 	    }
 
+	    [Route("favorites")]
 		[HttpGet]
-		public async Task<IActionResult> Get() 
+		public async Task<IActionResult> GetAsync() 
 		{
 			long? currentUserId = await GetCurrentUserId();
 			if (currentUserId == null)
@@ -41,8 +42,9 @@ namespace BeerApp.Web.Controllers
 			}		
 		}
 
-	    [HttpDelete]
-	    public async Task<IActionResult> Delete([FromQuery] long beerId)
+	    [Route("favorites/{beerId}")]
+		[HttpDelete]
+	    public async Task<IActionResult> DeleteAsync(long beerId)
 	    {
 		    long? currentUserId = await GetCurrentUserId();
 		    if (currentUserId == null)
@@ -59,8 +61,9 @@ namespace BeerApp.Web.Controllers
 		    return BadRequest("Favorite doesn`t exist.");
 	    }
 
+		[Route("favorites/{punkBeerId}")]
 	    [HttpPost]
-	    public async Task<IActionResult> Add([FromQuery] long punkBeerId)
+	    public async Task<IActionResult> AddAsync(long punkBeerId)
 	    {
 		    long? currentUserId = await GetCurrentUserId();
 		    if (currentUserId == null)

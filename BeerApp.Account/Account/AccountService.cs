@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Web;
 using AutoMapper;
 using BeerApp.Account.Extensions;
 using BeerApp.DataAccess.Models;
 using BeerApp.Account.Models;
-using System.Web;
 
 namespace BeerApp.Account.Services
 {

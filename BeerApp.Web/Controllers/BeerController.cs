@@ -19,7 +19,8 @@ namespace BeerApp.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Search([FromQuery] SearchParams searchParams)
+		[Route("beer")]
+		public async Task<IActionResult> SearchAsync([FromQuery] SearchParams searchParams)
 		{
 			try
 			{
@@ -34,7 +35,8 @@ namespace BeerApp.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> SearchById([FromQuery] long punkBeerId)
+		[Route("beer/{punkBeerId}")]
+		public async Task<IActionResult> GetByIdAsync(long punkBeerId)
 		{
 			try
 			{

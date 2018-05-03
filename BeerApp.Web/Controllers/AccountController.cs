@@ -110,7 +110,7 @@ namespace BeerApp.Web.Controllers
 			User user = await userService.GetUserByIdAsync(userId);
 			if (user == null)
 			{
-				return Content("User not found");
+				return Content("User not found.");
 			}
 
 			emailToken = emailToken.Replace("%2f", "/").Replace("%2F", "/");
