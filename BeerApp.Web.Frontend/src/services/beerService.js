@@ -1,18 +1,19 @@
 import * as api from '../api/fetchApi';
 
-const ROOT_URL = 'https://api.punkapi.com/v2/beers';
+const BEER_ROOT_URL = 'beer';
+const FAVORITES_ROOT_URL = 'favorites';
 
 function getBeersByIds(ids) {
-    const url = `${ROOT_URL}?${getBeerIdsUrlPart(ids)}`;
+    const url = `${FAVORITES_ROOT_URL}?${getBeerIdsUrlPart(ids)}`;
     return api.get(url);
 }
 
 function searchBeers(urlParams) {
-    const url = buildSearchUrl(urlParams);
+    const url = buildSearchQuery(urlParams);
     return api.get(url);
 }
 
-const buildSearchUrl = ({
+const buildSearchQuery = ({
     pageNumber,
     beersPerPageCount,
     beerName,
@@ -40,7 +41,7 @@ const buildSearchUrl = ({
         urlParts.push(getColorEbcUrlPart(colorEbc));
     }
 
-    let url = ROOT_URL;
+    let url = BEER_ROOT_URL;
     if (urlParts.length !== 0) {
         url += `?${urlParts.join('&')}`;
     }
@@ -48,20 +49,20 @@ const buildSearchUrl = ({
     return url;
 };
 
-const getBeersPerPageCountUrlPart = beersPerPageCount => `per_page=${beersPerPageCount}`;
+const getBeersPerPageCountUrlPart = beersPerPageCount => `perPage=${beersPerPageCount}`;
 
 const getPageNumberUrlPart = pageNumber => `page=${pageNumber}`;
 
 const getBeerIdsUrlPart = beerIds => `ids=${beerIds.join('|')}`;
 
-const getBeerNameUrlPart = beerName => `beer_name=${beerName.trim().replace(/\s+/gi, '_')}`;
+const getBeerNameUrlPart = beerName => `beerName=${beerName.trim().replace(/\s+/gi, '_')}`;
 
-const getAlcoholVolumeUrlPart = alcoholVolume => `abv_lt=${alcoholVolume}`;
+const getAlcoholVolumeUrlPart = alcoholVolume => `abv=${alcoholVolume}`;
 
 const getInternationalBitternessUnitsUrlPart = internationalBitternessUnits =>
-    `ibu_lt=${internationalBitternessUnits}`;
+    `ibu=${internationalBitternessUnits}`;
 
-const getColorEbcUrlPart = colorEbc => `ebc_lt=${colorEbc}`;
+const getColorEbcUrlPart = colorEbc => `ebc=${colorEbc}`;
 
 export default {
     searchBeers,
