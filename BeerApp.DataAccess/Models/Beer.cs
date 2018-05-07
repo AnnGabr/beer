@@ -8,10 +8,10 @@ namespace BeerApp.DataAccess.Models
 	{
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public long BeerId { get; set; }
+		public int BeerId { get; set; }
 
 		[Required]
-		public long PunkBeerId { get; set; }
+		public int PunkBeerId { get; set; }
 
 		public IList<UserFavoriteBeer> UserFavoriteBeers { get; set; }
 	}

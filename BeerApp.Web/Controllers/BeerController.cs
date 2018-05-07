@@ -36,7 +36,7 @@ namespace BeerApp.Web.Controllers
 
 		[HttpGet]
 		[Route("beer/{punkBeerId}")]
-		public async Task<IActionResult> GetByIdAsync(long punkBeerId)
+		public async Task<IActionResult> GetByIdAsync(int punkBeerId)
 		{
 			try
 			{

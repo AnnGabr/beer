@@ -26,7 +26,14 @@ namespace BeerApp.PunkApi.Services
 			return await GetBeersAsync(requestUri);
 		}
 
-	    public async Task<Beer> GetBeerByIdAsync(long beerId)
+	    public async Task<IReadOnlyList<Beer>> GetBeerByIdsAsync(int[] beerIds)
+	    {
+			string requestUri = $"{RootUrl}?ids={string.Join("|", beerIds)}";
+
+			return await GetBeersAsync(requestUri);
+		}
+
+		public async Task<Beer> GetBeerByIdAsync(int beerId)
 	    {
 		    string requestUri = $"{RootUrl}/{beerId}";
 

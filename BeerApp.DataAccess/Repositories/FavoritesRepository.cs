@@ -33,7 +33,7 @@ namespace BeerApp.DataAccess.Repositories
 		    return removedFavorite.Entity;
 	    }
 
-	    public async Task<IReadOnlyList<Beer>> GetAllAsync(long userId)
+	    public async Task<IReadOnlyList<Beer>> GetAllAsync(int userId)
 	    {
 		    IReadOnlyList<Beer> beers = await DbContext.UserFavoriteBeers
 			    .Where(favorite => favorite.UserId == userId)
@@ -48,7 +48,7 @@ namespace BeerApp.DataAccess.Repositories
 		    return beers;
 	    }
 
-	    public async Task<UserFavoriteBeer> FindAsync(long userId, long beerId)
+	    public async Task<UserFavoriteBeer> FindAsync(int userId, int beerId)
 	    {
 		    UserFavoriteBeer userFavoriteBeer = await DbContext.UserFavoriteBeers
 			    .FirstOrDefaultAsync(favorite => favorite.UserId == userId && favorite.BeerId == beerId);

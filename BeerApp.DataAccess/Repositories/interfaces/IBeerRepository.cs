@@ -7,7 +7,7 @@ namespace BeerApp.DataAccess.Repositories
 	public interface IBeerRepository
 	{
 		Task<Beer> AddAsync(Beer beer);
-		Task<Beer> FindFirstAsync(long punkBeerId);
-		Task<IReadOnlyList<Beer>> FindAll(long[] punkBeerIds);
+		Task<Beer> FindFirstAsync(int punkBeerId);
+		Task<IReadOnlyList<Beer>> FindAll(int[] punkBeerIds);
 	}
 }

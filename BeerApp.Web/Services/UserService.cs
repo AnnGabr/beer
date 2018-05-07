@@ -15,7 +15,7 @@ namespace BeerApp.Web.Services
 			UserManager = userManager;
 		}
 
-	    public async Task<long?> GetCurrentUserIdAsync(ClaimsPrincipal principal)
+	    public async Task<int?> GetCurrentUserIdAsync(ClaimsPrincipal principal)
 	    {
 			User user = await UserManager.GetUserAsync(principal);
 

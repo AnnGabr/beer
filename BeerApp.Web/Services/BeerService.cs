@@ -27,28 +27,28 @@ namespace BeerApp.Web.Services
 			Mapper = mapper;
 		}
 
-		public async Task<Beer> AddAsync(long punkBeerId)
+		public async Task<Beer> AddAsync(int punkBeerId)
 		{
 			Beer addedBeer = await BeerRepository.AddAsync(new Beer { PunkBeerId = punkBeerId });
 
 			return addedBeer;
 		}
 
-		public async Task<bool> IsBeerExistAsync(long punkBeerId)
+		public async Task<bool> IsBeerExistAsync(int punkBeerId)
 		{
 			Beer isBeerExist = await FindFirstAsync(punkBeerId);
 
 			return isBeerExist != null;
 		}
 
-		public async Task<Beer> FindFirstAsync(long punkBeerId)
+		public async Task<Beer> FindFirstAsync(int punkBeerId)
 		{
 			Beer foundBeer = await BeerRepository.FindFirstAsync(punkBeerId);
 
 			return foundBeer;
 		}
 
-		public async Task<DetailedBeer> SearchOneAsync(long punkBeerId)
+		public async Task<DetailedBeer> SearchOneAsync(int punkBeerId)
 		{
 			PunkApiBeer punkBeer = await PunkApiService.GetBeerByIdAsync(punkBeerId);
 			if (punkBeer == null)
@@ -62,12 +62,12 @@ namespace BeerApp.Web.Services
 				: ZipSingle<DetailedBeer>(punkBeer, beer);
 		}
 
-		public async Task<IReadOnlyList<BaseBeer>> SearchAsync(SearchParams searchParams) //TODO: zip searched
+		public async Task<IReadOnlyList<BaseBeer>> SearchAsync(SearchParams searchParams)
 		{
 			IEnumerable<PunkApiBeer> punkBeers = await PunkApiService
 				.GetSearchResultAsync(Mapper.Map<PunkApiSearchParams>(searchParams));
 
-			long[] punkBeerIds = punkBeers
+			int[] punkBeerIds = punkBeers
 				.Select(beer => beer.PunkId)
 				.ToArray();
 			IEnumerable<Beer> beers = await BeerRepository.FindAll(punkBeerIds);

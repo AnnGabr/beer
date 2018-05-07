@@ -9,11 +9,11 @@ namespace BeerApp.Web.Services
 {
     public interface IBeerService
     {
-		Task<Beer> AddAsync(long punkBeerId);
-	    Task<bool> IsBeerExistAsync(long punkBeerId);
-	    Task<Beer> FindFirstAsync(long punkBeerId);
+		Task<Beer> AddAsync(int punkBeerId);
+	    Task<bool> IsBeerExistAsync(int punkBeerId);
+	    Task<Beer> FindFirstAsync(int punkBeerId);
 
-	    Task<DetailedBeer> SearchOneAsync(long punkBeerId);
+	    Task<DetailedBeer> SearchOneAsync(int punkBeerId);
 	    Task<IReadOnlyList<BaseBeer>> SearchAsync(SearchParams searchParams);
 
 		TOut ZipSingle<TOut>(PunkApiBeer punkBeer, Beer beer) where TOut : IBeer;

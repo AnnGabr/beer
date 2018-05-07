@@ -11,8 +11,8 @@ using System;
 namespace BeerApp.DataAccess.Migrations
 {
     [DbContext(typeof(BeerCatalogContext))]
-    [Migration("20180424214940_initialMigration")]
-    partial class initialMigration
+    [Migration("20180507062121_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,10 +23,10 @@ namespace BeerApp.DataAccess.Migrations
 
             modelBuilder.Entity("BeerApp.DataAccess.Models.Beer", b =>
                 {
-                    b.Property<long>("BeerId")
+                    b.Property<int>("BeerId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("PunkBeerId");
+                    b.Property<int>("PunkBeerId");
 
                     b.HasKey("BeerId");
 
@@ -38,7 +38,7 @@ namespace BeerApp.DataAccess.Migrations
 
             modelBuilder.Entity("BeerApp.DataAccess.Models.Role", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyStamp")
@@ -61,7 +61,7 @@ namespace BeerApp.DataAccess.Migrations
 
             modelBuilder.Entity("BeerApp.DataAccess.Models.User", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
@@ -117,9 +117,9 @@ namespace BeerApp.DataAccess.Migrations
 
             modelBuilder.Entity("BeerApp.DataAccess.Models.UserFavoriteBeer", b =>
                 {
-                    b.Property<long>("BeerId");
+                    b.Property<int>("BeerId");
 
-                    b.Property<long>("UserId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("BeerId", "UserId");
 
@@ -128,7 +128,7 @@ namespace BeerApp.DataAccess.Migrations
                     b.ToTable("Favorites");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -137,7 +137,7 @@ namespace BeerApp.DataAccess.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<long>("RoleId");
+                    b.Property<int>("RoleId");
 
                     b.HasKey("Id");
 
@@ -146,7 +146,7 @@ namespace BeerApp.DataAccess.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -155,7 +155,7 @@ namespace BeerApp.DataAccess.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<long>("UserId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
@@ -164,7 +164,7 @@ namespace BeerApp.DataAccess.Migrations
                     b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider");
 
@@ -172,7 +172,7 @@ namespace BeerApp.DataAccess.Migrations
 
                     b.Property<string>("ProviderDisplayName");
 
-                    b.Property<long>("UserId");
+                    b.Property<int>("UserId");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -181,11 +181,11 @@ namespace BeerApp.DataAccess.Migrations
                     b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.Property<long>("UserId");
+                    b.Property<int>("UserId");
 
-                    b.Property<long>("RoleId");
+                    b.Property<int>("RoleId");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -194,9 +194,9 @@ namespace BeerApp.DataAccess.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.Property<long>("UserId");
+                    b.Property<int>("UserId");
 
                     b.Property<string>("LoginProvider");
 
@@ -222,7 +222,7 @@ namespace BeerApp.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("BeerApp.DataAccess.Models.Role")
                         .WithMany()
@@ -230,7 +230,7 @@ namespace BeerApp.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.HasOne("BeerApp.DataAccess.Models.User")
                         .WithMany()
@@ -238,7 +238,7 @@ namespace BeerApp.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.HasOne("BeerApp.DataAccess.Models.User")
                         .WithMany()
@@ -246,7 +246,7 @@ namespace BeerApp.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
                     b.HasOne("BeerApp.DataAccess.Models.Role")
                         .WithMany()
@@ -259,7 +259,7 @@ namespace BeerApp.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.HasOne("BeerApp.DataAccess.Models.User")
                         .WithMany()

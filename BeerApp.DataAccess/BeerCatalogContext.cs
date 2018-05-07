@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BeerApp.DataAccess
 {
-	public class BeerCatalogContext : IdentityDbContext<User, Role, long>
+	public class BeerCatalogContext : IdentityDbContext<User, Role, int>
 	{
 		public DbSet<Beer> Beers { get; set; }
 		public DbSet<UserFavoriteBeer> UserFavoriteBeers { get; set; }

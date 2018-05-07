@@ -24,7 +24,7 @@ namespace BeerApp.DataAccess.Repositories
 			return addedBeer.Entity;
 		}
 
-	    public async Task<Beer> FindFirstAsync(long punkBeerId)
+	    public async Task<Beer> FindFirstAsync(int punkBeerId)
 	    {
 		    Beer foundBeer = await DbContext.Beers
 			    .FirstOrDefaultAsync(beer => beer.PunkBeerId == punkBeerId);
@@ -32,7 +32,7 @@ namespace BeerApp.DataAccess.Repositories
 		    return foundBeer;
 	    }
 
-	    public async Task<IReadOnlyList<Beer>> FindAll(long[] punkBeerIds)
+	    public async Task<IReadOnlyList<Beer>> FindAll(int[] punkBeerIds)
 	    {
 		    IReadOnlyList<Beer> foundBeers = await DbContext.Beers
 				.Where(beer => punkBeerIds.Contains(beer.PunkBeerId))

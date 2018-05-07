@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BeerApp.Web.Models.Search;
 using PunkApiSearchParams = BeerApp.PunkApi.Models.Search.SearchParams;
 using SearchParams = BeerApp.PunkApi.Models.Search.SearchParams;
 
@@ -10,12 +9,6 @@ namespace BeerApp.Web.Mappers.Profiles
 	    public SearchProfile()
 	    {
 			CreateMap<SearchParams, PunkApiSearchParams>();
-		    CreateMap<FavoritesSearchParams, PunkApiSearchParams>().ForMember(
-			    pasp => pasp.BeerIds,
-			    opts => opts.MapFrom(
-				    fsp => string.Join("|", fsp.BeerIds)
-				)
-		    );
 		}
 	}
 }

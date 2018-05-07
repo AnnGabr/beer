@@ -6,9 +6,7 @@ using BeerApp.DataAccess.Models;
 using BeerApp.DataAccess.Repositories;
 using BeerApp.PunkApi.Services;
 using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
-using PunkApiSearchParams = BeerApp.PunkApi.Models.Search.SearchParams;
 using BeerApp.Web.Models.Beer;
-using BeerApp.Web.Models.Search;
 
 namespace BeerApp.Web.Services
 {
@@ -29,7 +27,7 @@ namespace BeerApp.Web.Services
 			Mapper = mapper;
 		}
 
-		public async Task<bool> AddAsync(long userId, long punkBeerId) //TODO: change to beer model in 4 phase
+		public async Task<bool> AddAsync(int userId, int punkBeerId) //TODO: change to beer model in 4 phase
 		{
 			Beer beer = await BeerService.FindFirstAsync(punkBeerId)
 				?? await BeerService.AddAsync(punkBeerId);
@@ -49,7 +47,7 @@ namespace BeerApp.Web.Services
 			return addedFavorite != null;
 		}
 
-		public async Task<bool> RemoveAsync(long userId, long beerId)
+		public async Task<bool> RemoveAsync(int userId, int beerId)
 		{
 			UserFavoriteBeer favoriteBeer = await GetFavoriteAsync(userId, beerId);
 			if (favoriteBeer == null)
@@ -62,27 +60,26 @@ namespace BeerApp.Web.Services
 			return removedFavorite != null;
 		}
 
-		protected async Task<UserFavoriteBeer> GetFavoriteAsync(long userId, long beerId)
+		protected async Task<UserFavoriteBeer> GetFavoriteAsync(int userId, int beerId)
 		{
 			UserFavoriteBeer userFavoriteBeer = await FavoritesRepository.FindAsync(userId, beerId);
 
 			return userFavoriteBeer;
 		}
 
-		public async Task<IReadOnlyList<BeerWithDescription>> GetAllAsync(long userId)
+		public async Task<IReadOnlyList<BeerWithDescription>> GetAllAsync(int userId)
 		{
 			IEnumerable<Beer> favoriteBeers = await FavoritesRepository.GetAllAsync(userId);
 
-			long[] favoritePunkBeerIds = favoriteBeers
+			int[] favoritePunkBeerIds = favoriteBeers
 				.Select(beer => beer.PunkBeerId)
 				.ToArray();
-			var searchParams = new FavoritesSearchParams(favoritePunkBeerIds);
-			IEnumerable<PunkApiBeer> favoritePunkBeers = await PunkApiService.GetSearchResultAsync(Mapper.Map<PunkApiSearchParams>(searchParams));
+			IEnumerable<PunkApiBeer> favoritePunkBeers = await PunkApiService.GetBeerByIdsAsync(favoritePunkBeerIds);
 
 			return BeerService.ZipMany<BeerWithDescription>(favoritePunkBeers, favoriteBeers);
 		}
 
-		protected long[] GetAllBeerIds(IEnumerable<Beer> beers)
+		protected int[] GetAllBeerIds(IEnumerable<Beer> beers)
 		{
 			return beers
 				.Select(beer => beer.BeerId)

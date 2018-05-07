@@ -2,8 +2,8 @@
 {
     public class BaseBeer : IBeer
     {
-	    public long? Id { get; set; }
-	    public long PunkId { get; set; }
+	    public int? Id { get; set; }
+	    public int PunkId { get; set; }
 
 		public string BeerName { get; set; }
 	    public string Tagline { get; set; }

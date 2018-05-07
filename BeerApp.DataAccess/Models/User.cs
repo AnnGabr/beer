@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BeerApp.DataAccess.Models
 {
-    public class User : IdentityUser<long>
+    public class User : IdentityUser<int>
     {
 		public string NickName { get; set; }
 		public string ProfilePictureUrl { get; set; }
@@ -13,5 +13,5 @@ namespace BeerApp.DataAccess.Models
 		public IList<UserFavoriteBeer> UserFavoriteBeers { get; set; }
 	}
 
-	public class Role : IdentityRole<long> { }
+	public class Role : IdentityRole<int> { }
 }

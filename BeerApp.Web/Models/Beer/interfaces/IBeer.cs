@@ -2,7 +2,7 @@
 {
     public interface IBeer
     {
-	    long? Id { get; set; }
-	    long PunkId { get; set; }
+	    int? Id { get; set; }
+	    int PunkId { get; set; }
 	}
 }

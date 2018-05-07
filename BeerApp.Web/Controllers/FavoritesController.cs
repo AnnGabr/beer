@@ -24,7 +24,7 @@ namespace BeerApp.Web.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetAsync() 
 		{
-			long? currentUserId = await GetCurrentUserId();
+			int? currentUserId = await GetCurrentUserId();
 			if (currentUserId == null)
 			{
 				return Unauthorized();
@@ -32,7 +32,7 @@ namespace BeerApp.Web.Controllers
 
 			try
 			{
-				IEnumerable<IBeer> favorites = await favoritesService.GetAllAsync((long) currentUserId);
+				IEnumerable<IBeer> favorites = await favoritesService.GetAllAsync((int) currentUserId);
 
 				return new ObjectResult(favorites);
 			}
@@ -44,15 +44,15 @@ namespace BeerApp.Web.Controllers
 
 	    [Route("favorites/{beerId}")]
 		[HttpDelete]
-	    public async Task<IActionResult> DeleteAsync(long beerId)
+	    public async Task<IActionResult> DeleteAsync(int beerId)
 	    {
-		    long? currentUserId = await GetCurrentUserId();
+		    int? currentUserId = await GetCurrentUserId();
 		    if (currentUserId == null)
 		    {
 			    return Unauthorized();
 		    }
 
-		    bool deleted = await favoritesService.RemoveAsync((long) currentUserId, beerId);
+		    bool deleted = await favoritesService.RemoveAsync((int) currentUserId, beerId);
 		    if (deleted)
 		    {
 			    return NoContent();
@@ -63,15 +63,15 @@ namespace BeerApp.Web.Controllers
 
 		[Route("favorites/{punkBeerId}")]
 	    [HttpPost]
-	    public async Task<IActionResult> AddAsync(long punkBeerId)
+	    public async Task<IActionResult> AddAsync(int punkBeerId)
 	    {
-		    long? currentUserId = await GetCurrentUserId();
+		    int? currentUserId = await GetCurrentUserId();
 		    if (currentUserId == null)
 		    {
 			    return Unauthorized();
 		    }
 
-		    bool added = await favoritesService.AddAsync((long) currentUserId, punkBeerId);
+		    bool added = await favoritesService.AddAsync((int) currentUserId, punkBeerId);
 		    if (added)
 		    {
 			    return NoContent();
@@ -80,7 +80,7 @@ namespace BeerApp.Web.Controllers
 		    return BadRequest("Can`t add to favorites.");
 	    }
 
-		private async Task<long?> GetCurrentUserId()
+		private async Task<int?> GetCurrentUserId()
 		{
 			return await userService.GetCurrentUserIdAsync(HttpContext.User);
 		}

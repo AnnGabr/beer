@@ -6,8 +6,8 @@ namespace BeerApp.Web.Services
 {
     public interface IFavoritesService
     {
-		Task<IReadOnlyList<BeerWithDescription>> GetAllAsync(long userId);
-		Task<bool> RemoveAsync(long userId, long beerId);
-		Task<bool> AddAsync(long userId, long punkApiBeerId);
+		Task<IReadOnlyList<BeerWithDescription>> GetAllAsync(int userId);
+		Task<bool> RemoveAsync(int userId, int beerId);
+		Task<bool> AddAsync(int userId, int punkApiBeerId);
     }
 }

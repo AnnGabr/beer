@@ -6,7 +6,7 @@ namespace BeerApp.Web.Services
 {
     public interface IUserService
     {
-	    Task<long?> GetCurrentUserIdAsync(ClaimsPrincipal principal);
+	    Task<int?> GetCurrentUserIdAsync(ClaimsPrincipal principal);
 		Task<User> GetUserByIdAsync(string id);
 	}
 }
