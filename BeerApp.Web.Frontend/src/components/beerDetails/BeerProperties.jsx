@@ -29,10 +29,10 @@ export default class BeerProperties extends Component {
 
     getContent() {
         const { properties } = this.props;
-        const propertysNames = Object.keys(properties);
+        const propertiesNames = Object.keys(properties);
 
         const content = [];
-        propertysNames.forEach((propertyName) => {
+        propertiesNames.forEach((propertyName) => {
             if (properties[propertyName] && BEER_PROPERTIES_INFO[propertyName]) {
                 content.push({
                     name: BEER_PROPERTIES_INFO[propertyName].acronym,

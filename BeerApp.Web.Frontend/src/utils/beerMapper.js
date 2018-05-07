@@ -21,22 +21,15 @@ const mapToDetailsModel = beer => ({
         ...getMainInfo(beer),
         description: beer.description
     },
-    properties: {
-        internationalBitternessUnits: beer.ibu,
-        colorEbc: beer.ebc,
-        alcoholVolume: beer.abv
+    properties: beer.properties && {
+        alcoholVolume: beer.properties.abv,
+        internationalBitternessUnits: beer.properties.ibu,
+        colorEbc: beer.properties.ebc
     },
-    method: beer.method && {
-        twist: beer.twist,
-        fermentation: beer.fermentation,
-        mashTemp: beer.method.mash_temp
-    },
-    ingredients: beer.ingredients && {
-        ...beer.ingredients,
-        water: beer.boil_volume
-    },
-    foodPairing: beer.food_pairing,
-    brewersTips: beer.brewers_tips
+    method: beer.method,
+    ingredients: beer.ingredients,
+    foodPairing: beer.foodPairing,
+    brewersTips: beer.brewersTips
 });
 
 const getMainInfo = beer => ({
@@ -48,16 +41,19 @@ const getMainInfo = beer => ({
 });
 
 const map = (serverResponse, mapToModel) => {
-    let beers = [];
+    let mapResult = null;
     try {
         const parsedResponse = JSON.parse(serverResponse);
         if (Array.isArray(parsedResponse)) {
-            beers = parsedResponse.map(beer => mapToModel(beer));
+            mapResult = parsedResponse.map(beer => mapToModel(beer));
+        } else {
+            mapResult = mapToModel(parsedResponse);
         }
     } catch (err) {
         console.log(`Can not parse server response: ${serverResponse}.`);
     }
-    return beers;
+
+    return mapResult;
 };
 
 export default {

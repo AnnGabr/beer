@@ -23,9 +23,9 @@ class BeerDetails extends Component {
     fetchData() {
         const { match } = this.props;
 
-        beerService.getBeersByIds([match.params.beerId])
+        beerService.getBeerById(match.params.beerId)
             .then(response =>
-                this.setState(mapper.mapToDetailsModels(response)[0]));
+                this.setState(mapper.mapToDetailsModels(response)));
     }
 
     render() {
