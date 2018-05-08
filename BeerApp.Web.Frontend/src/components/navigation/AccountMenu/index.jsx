@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
 import './account-menu.css';
-import './account-details.css'
+import './account-details.css';
 
 export default class AccountMenu extends Component {
     constructor(props) {
