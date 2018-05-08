@@ -1,0 +1,28 @@
+.account-menu {
+    position: absolute;
+    z-index: 5;
+    top: 100%;
+    right: 0;
+
+    width: 240px;
+    margin: 0.5rem 1.5rem;
+}
+
+.account-menu__content {
+    padding: 0.5rem 0;
+
+    border-radius: 3px;
+    background-color: hsl(0, 100%, 100%);
+    box-shadow: 0 3px 20px hsl(248, 39%, 39%),
+    0 1px 2px hsl(240, 67%, 94%),
+    0 0 0 1px hsl(240, 67%, 94%);
+}
+
+.account__details {
+    display: block;
+    padding: 0.5rem 1rem;
+}
+
+.account__details:hover {
+    background-color: hsl(0, 0%, 96%);
+}

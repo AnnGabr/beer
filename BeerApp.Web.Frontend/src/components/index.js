@@ -1,5 +1,5 @@
 import Drawer from './navigation/Drawer';
-import DropdownMenu from './navigation/DropdownMenu';
+import AccountMenu from './navigation/AccountMenu';
 import Header from './navigation/Header';
 import Searchbar from './beerSearch/Searchbar';
 import Filter from './beerSearch/Filter';
@@ -14,7 +14,7 @@ import ComponentWithHeader from './beerDetails/ComponentWithHeader';
 
 export {
     Drawer,
-    DropdownMenu,
+    AccountMenu,
     Header,
     Searchbar,
     Filter,

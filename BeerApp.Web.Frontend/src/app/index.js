@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Drawer, Header, DropdownMenu } from '../components';
+import { Drawer, Header, AccountMenu } from '../components';
 import { Router } from './routes';
 
 import 'bulma/css/bulma.css';
@@ -18,7 +18,7 @@ export default class App extends Component {
             <div className="layout">
                 {this.getDrawer()}
                 <Header onHamburgerClick={this.toggleDrawer}>
-                    <DropdownMenu />
+                    <AccountMenu />
                 </Header>
                 <Router />
             </div>

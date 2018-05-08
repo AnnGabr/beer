@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Hamburger from './hamburger';
-import DropdownMenu from '../DropdownMenu';
 
 import './header.css';
 

@@ -1,0 +1,46 @@
+.account-details {
+    display: block;
+
+    text-align: center;
+}
+
+.account-details__avatar {
+    position: relative;
+    z-index: 10;
+
+    display: block;
+
+    width: 96px;
+    height: 96px;
+    margin: auto;
+    margin-bottom: 0.5rem;
+
+    border-radius: 50%;
+}
+
+.account-details__avatar::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    content: "";
+
+    border-radius: 50%;
+    background-image: url(https://www.herokucdn.com/images/ninja-avatar-96x96.png);
+    background-size: cover;
+}
+
+.account-details__nickname {
+    color: hsl(0, 0%, 29%);
+
+    font-weight: 600;
+}
+
+.account-details__email {
+    color: hsl(0, 0%, 71%);
+
+    font-size: 0.8em;
+}
