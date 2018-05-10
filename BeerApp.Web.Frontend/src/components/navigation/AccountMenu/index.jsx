@@ -1,6 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
+import SettingsLink from './SettingsLink';
+import SignoutLink from './SignoutLink';
+import SigninLink from './SigninLink';
+import RegisterLink from './RegisterLink';
+
 import './account-menu.css';
 import './account-details.css';
 
@@ -16,10 +21,10 @@ export default class AccountMenu extends Component {
 
     render() {
         return (
-            <div class="account-menu">
-                <div class="account-menu__content">
+            <div className="account-menu">
+                <div className="account-menu__content">
                     {this.renderUserAvatar()}
-                    <hr class="dropdown-divider"/>
+                    <hr className="dropdown-divider"/>
                     {this.renderMenu()}
                 </div>
             </div>
@@ -32,23 +37,26 @@ export default class AccountMenu extends Component {
 
     renderUserMenu = () => (
         <Fragment>
-            <Link to="/" class="dropdown-item">
-                Account settings
-            </Link>
-            <Link to="/" class="dropdown-item">
+            <SettingsLink className="dropdown-item">
+                Sign in
+            </SettingsLink>
+            <SigninLink className="dropdown-item">
+                Change account
+            </SigninLink>
+            <SignoutLink className="dropdown-item">
                 Sign out
-            </Link>
+            </SignoutLink>
         </Fragment>
     )
 
     renderGuestMenu = () => (
         <Fragment>
-            <Link to="/" class="dropdown-item">
+            <SigninLink className="dropdown-item">
                 Sign in
-            </Link>
-            <Link to="/" class="dropdown-item">
+            </SigninLink>
+            <RegisterLink className="dropdown-item">
                 Register
-            </Link>
+            </RegisterLink>
         </Fragment>
     )
 
@@ -58,12 +66,12 @@ export default class AccountMenu extends Component {
             : <div className="account-details__avatar"/>;
 
         return (
-            <Link to="/" className="account__details">
+            <SettingsLink className="account__details dropdown-item">
                 <figure className="account-details">
                     {avatarImage}
                     {this.renderUserDetails()}
                 </figure>
-            </Link>
+            </SettingsLink>
         );
     }
 

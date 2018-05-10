@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
 import { Drawer, Header, AccountMenu } from '../components';
-import { Router } from './routes';
+import Router from './routes';
 
 import 'bulma/css/bulma.css';
+import 'react-router-modal/css/react-router-modal.css';
 import './index.css';
 
 export default class App extends Component {
@@ -16,7 +17,7 @@ export default class App extends Component {
     render() {
         return (
             <div className="layout">
-                {this.getDrawer()}
+                {this.renderDrawer()}
                 <Header onHamburgerClick={this.toggleDrawer}>
                     <AccountMenu />
                 </Header>
@@ -25,7 +26,7 @@ export default class App extends Component {
         );
     }
 
-    getDrawer = () => (
+    renderDrawer = () => (
         this.state.isDrawerOpened
             ? <Drawer onClick={this.toggleDrawer}/>
             : null
