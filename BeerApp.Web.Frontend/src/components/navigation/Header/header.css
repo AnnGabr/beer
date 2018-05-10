@@ -21,6 +21,7 @@
 
 .account-button {
     cursor: pointer;
+    user-select: none;
 }
 
 .header-account-icon {

@@ -11,6 +11,8 @@
 .account-menu__content {
     padding: 0.5rem 0;
 
+    user-select: none;
+
     border-radius: 3px;
     background-color: hsl(0, 100%, 100%);
     box-shadow: 0 3px 20px hsl(248, 39%, 39%),
@@ -20,6 +22,7 @@
 
 .account__details {
     display: block;
+
     padding: 0.5rem 1rem;
 }
 
