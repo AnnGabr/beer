@@ -66,7 +66,7 @@ export default class AccountMenu extends Component {
             : <div className="account-details__avatar"/>;
 
         return (
-            <SettingsLink className="account__details dropdown-item">
+            <SettingsLink className="account__details">
                 <figure className="account-details">
                     {avatarImage}
                     {this.renderUserDetails()}
