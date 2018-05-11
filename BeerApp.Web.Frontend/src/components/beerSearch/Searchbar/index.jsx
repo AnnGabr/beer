@@ -12,6 +12,7 @@ export default class Searchbar extends Component {
                         className="input"
                         type="text"
                         placeholder="Search beers..."
+                        autoFocus
                     />
                 </span>
                 <span className="control">

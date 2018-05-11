@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { ModalLink } from 'react-router-modal';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-export class RegisterLink extends Component {
+export class SignUpLink extends Component {
     render() {
-        const path = `${this.props.location.pathname}/account/register`.replace('//', '/');
+        const path = `${this.props.location.pathname}/account/signup`.replace('//', '/');
 
         return (
             <Link to={path} className={this.props.className}>
@@ -15,4 +14,4 @@ export class RegisterLink extends Component {
     }
 }
 
-export default withRouter(connect()(RegisterLink));
+export default withRouter(connect()(SignUpLink));

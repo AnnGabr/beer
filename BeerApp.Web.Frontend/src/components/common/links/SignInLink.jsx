@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-export class SigninLink extends Component {
+export class SignInLink extends Component {
     render() {
         const path = `${this.props.location.pathname}/account/signin`.replace('//', '/');
 
@@ -14,4 +14,4 @@ export class SigninLink extends Component {
     }
 }
 
-export default withRouter(connect()(SigninLink));
+export default withRouter(connect()(SignInLink));

@@ -18,7 +18,7 @@ export default class Header extends Component {
                         <Hamburger onClick={this.props.onHamburgerClick} />
                     </div>
                     <div className="navbar-item">
-                        <h1 className="header__site-name">Beer Catalog</h1>
+                        <h1 className="header__site-name">B e e r C a t a l o g</h1>
                     </div>
                 </div>
                 <div className="header__menu">

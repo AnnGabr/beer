@@ -4,7 +4,7 @@ import { ModalContainer, ModalRoute } from 'react-router-modal';
 
 import Modal from '../../components/common/Modal';
 import { Landing, Favorites, Details } from '../pages';
-import { SigninForm } from '../../containers';
+import { SignInForm } from '../../containers';
 
 export default class Router extends Component {
     render() {
@@ -16,8 +16,8 @@ export default class Router extends Component {
                     <Route path='/' component={Landing} />
                 </Switch>
                 <Switch>
-                    <ModalRoute path='*/account/register' component={Modal} />
-                    <ModalRoute path='*/account/signin' component={SigninForm} />
+                    <ModalRoute path='*/account/signup' component={Modal} />
+                    <ModalRoute path='*/account/signin' component={SignInForm} />
                     <ModalRoute path='*/account/settings' component={Modal} />
                 </Switch>
 

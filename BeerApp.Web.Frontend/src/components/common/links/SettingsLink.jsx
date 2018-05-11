@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { ModalLink } from 'react-router-modal';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
-
-import Modal from '../../common/Modal';
 
 export class SettingsLink extends Component {
     render() {

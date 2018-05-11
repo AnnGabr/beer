@@ -14,16 +14,16 @@ class Drawer extends Component {
             <aside className={containerClass} onClick={this.props.onClick}>
                 <nav className="drawer" onClick={this.stopPropagation}>
                     <header className="hero is-info drawer__header">
-                        <span className="title is-5">Beer Catolog</span>
+                        <span className="title is-5">B e e r C a t o l o g</span>
                     </header>
-                    <nav className="primary-navigation drawer__content" onClick={this.props.onClick}>
-                        <Link to="/" className="primary-navigation-item">
+                    <nav className="primary-navigation drawer__content">
+                        <Link to="/" className="primary-navigation-item" onClick={this.props.onClick}>
                             <span className="material-icon primary-navigation__icon" aria-hidden="true">
                                 inbox
                             </span>
                             <span>Home</span>
                         </Link>
-                        <Link to="/favorites/page=1" className="primary-navigation-item">
+                        <Link to="/favorites/page=1" className="primary-navigation-item" onClick={this.props.onClick}>
                             <span className="material-icon primary-navigation__icon" aria-hidden="true">
                                 star
                             </span>

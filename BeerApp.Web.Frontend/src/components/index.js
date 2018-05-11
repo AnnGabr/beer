@@ -11,6 +11,7 @@ import InfiniteList from './beerSearch/InfiniteList';
 import PropertiesList from './beerDetails/PropertiesList';
 import SimpleList from './beerDetails/SimpleList';
 import ComponentWithHeader from './beerDetails/ComponentWithHeader';
+import ErrorField from './common/ErrorField';
 
 export {
     Drawer,
@@ -25,5 +26,6 @@ export {
     InfiniteList,
     PropertiesList,
     SimpleList,
-    ComponentWithHeader
+    ComponentWithHeader,
+    ErrorField
 };

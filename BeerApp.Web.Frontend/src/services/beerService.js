@@ -1,4 +1,4 @@
-import * as api from '../api/fetchApi';
+import * as api from '../api/apiCalls';
 import urlBuilder from '../utils/urlBuilder';
 
 const ROOT_URL = '/beer';

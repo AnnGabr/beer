@@ -1,9 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import SettingsLink from './SettingsLink';
-import SignoutLink from './SignoutLink';
-import SigninLink from './SigninLink';
-import RegisterLink from './RegisterLink';
+import { SettingsLink, SignOutLink, SignInLink, SignUpLink } from '../../common/links';
 
 import './account-menu.css';
 import './account-details.css';
@@ -39,23 +36,23 @@ export default class AccountMenu extends Component {
             <SettingsLink className="dropdown-item">
                 Settings
             </SettingsLink>
-            <SigninLink className="dropdown-item">
+            <SignInLink className="dropdown-item">
                 Change account
-            </SigninLink>
-            <SignoutLink className="dropdown-item">
+            </SignInLink>
+            <SignOutLink className="dropdown-item">
                 Sign out
-            </SignoutLink>
+            </SignOutLink>
         </Fragment>
     )
 
     renderGuestMenu = () => (
         <Fragment>
-            <SigninLink className="dropdown-item">
+            <SignInLink className="dropdown-item">
                 Sign in
-            </SigninLink>
-            <RegisterLink className="dropdown-item">
+            </SignInLink>
+            <SignUpLink className="dropdown-item">
                 Register
-            </RegisterLink>
+            </SignUpLink>
         </Fragment>
     )
 
