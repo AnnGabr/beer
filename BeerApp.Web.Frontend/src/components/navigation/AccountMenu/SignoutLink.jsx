@@ -1,16 +1,9 @@
-import React, { Component } from 'react';
-import { ModalLink } from 'react-router-modal';
-import { withRouter, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React from 'react';
 
-export class SignoutLink extends Component {
-    render() {
-        return (
-            <a className="dropdown-item">
-                {this.props.children}
-            </a>
-        );
-    }
-}
+export const SignoutLink = props => (
+    <a className={props.className}>
+        {props.children}
+    </a>
+);
 
-export default withRouter(connect()(SignoutLink));
+export default SignoutLink;

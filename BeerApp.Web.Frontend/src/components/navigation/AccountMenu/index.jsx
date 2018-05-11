@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
 
 import SettingsLink from './SettingsLink';
 import SignoutLink from './SignoutLink';
@@ -38,7 +37,7 @@ export default class AccountMenu extends Component {
     renderUserMenu = () => (
         <Fragment>
             <SettingsLink className="dropdown-item">
-                Sign in
+                Settings
             </SettingsLink>
             <SigninLink className="dropdown-item">
                 Change account
@@ -62,7 +61,7 @@ export default class AccountMenu extends Component {
 
     renderUserAvatar() {
         const avatarImage = this.user && this.user.imageUrl
-            ? <img className="account-details__avatar" src={this.user.imageUrl}/>
+            ? <img className="account-details__avatar" src={this.user.imageUrl} alt="avatar"/>
             : <div className="account-details__avatar"/>;
 
         return (

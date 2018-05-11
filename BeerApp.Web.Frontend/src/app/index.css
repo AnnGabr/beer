@@ -10,4 +10,12 @@
   overflow-y: hidden;
 }
 
+.is-full-width {
+  width: 100%;
+}
+
+.no-bg-color {
+  background-color: initial;
+}
+
 

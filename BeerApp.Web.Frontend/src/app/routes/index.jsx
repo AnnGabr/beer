@@ -4,6 +4,7 @@ import { ModalContainer, ModalRoute } from 'react-router-modal';
 
 import Modal from '../../components/common/Modal';
 import { Landing, Favorites, Details } from '../pages';
+import { SigninForm } from '../../containers';
 
 export default class Router extends Component {
     render() {
@@ -16,11 +17,13 @@ export default class Router extends Component {
                 </Switch>
                 <Switch>
                     <ModalRoute path='*/account/register' component={Modal} />
-                    <ModalRoute path='*/account/signin' component={Modal} />
+                    <ModalRoute path='*/account/signin' component={SigninForm} />
                     <ModalRoute path='*/account/settings' component={Modal} />
                 </Switch>
 
-                <ModalContainer />
+                <ModalContainer
+                    modalClassName="react-router-modal__modal is-full-width no-bg-color"
+                />
             </Fragment>
         );
     }
