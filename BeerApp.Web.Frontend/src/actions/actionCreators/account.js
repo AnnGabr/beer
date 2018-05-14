@@ -1,23 +1,26 @@
 import { actionTypes } from '../actionTypes';
 import createAction from './actionCreator';
 
-import beerService from '../../services/beerService';
-import mapper from '../../utils/beerMapper';
+import accountService from '../../services/accountService';
+import mapper from '../../utils/userMapper';
 
-const fetchBeers = favoriteBeersIds => (dispatch) => {
-    dispatch(createAction(actionTypes.FETCH_FAVORITE_BEERS));
+const signIn = userCredentials => (dispatch) => {
+    dispatch(createAction(actionTypes.LOGIN_REQUESTED));
 
-    return beerService
-        .getBeersByIds(favoriteBeersIds)
-        .then((response) => {
+    return accountService
+        .signIn(userCredentials)
+        .then((userProfileInfo) => {
             dispatch(createAction(
                 actionTypes.FAVORITE_BEERS_FETCH_SUCCEEDED,
-                mapper.mapToFavoritesModels(response),
+                userProfileInfo
             ));
         })
         .catch((error) => {
-            dispatch(createAction(actionTypes.FAVORITE_BEERS_FETCH_FAILED, error));
+            dispatch(createAction(
+                actionTypes.FAVORITE_BEERS_FETCH_FAILED,
+                error.validationError
+            ));
         });
 };
 
-export default fetchBeers;
+export default signIn;

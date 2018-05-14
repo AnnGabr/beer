@@ -51,24 +51,9 @@ namespace BeerApp.Web.Controllers
 		public async Task<IActionResult> Login([FromBody] UserToLogin userToLogin)
 		{
 			var loginParams = mapper.Map<LoginCredentials>(userToLogin);
-
-			bool isEmailRegistered = await accountService.IsEmailRegistered(loginParams.Email);
-			if (!isEmailRegistered)
-			{
-				return BadRequest("Couldn`t find account with given email.");
-			}
-
 			LoginResult loginResult = await accountService.LoginAsync(loginParams);
-			if (loginResult.User != null)
-			{
-				return new ObjectResult(loginResult.User);
-			}
 
-			return BadRequest(
-				loginResult.EmailIsNotConfirmed 
-					? "Email not confirmed." 
-					: "Wrong login or password."
-			);
+			return new ObjectResult(loginResult);
 		}
 
 		[HttpGet]

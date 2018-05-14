@@ -1,11 +1,11 @@
-﻿using System;
-using BeerApp.Account.Models;
+﻿using BeerApp.Account.Models;
 
 namespace BeerApp.Account.Account
 {
     public class LoginResult
     {
 	    public UserProfile User { get; set; }
-		public Boolean EmailIsNotConfirmed { get; set; }
+		public bool EmailIsNotConfirmed { get; set; }
+		//public string EmailResendLink { get; set; }
 	}
 }

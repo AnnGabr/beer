@@ -40,17 +40,12 @@ const getMainInfo = beer => ({
     tagline: beer.tagline
 });
 
-const map = (serverResponse, mapToModel) => {
+const map = (response, mapToModel) => {
     let mapResult = null;
-    try {
-        const parsedResponse = JSON.parse(serverResponse);
-        if (Array.isArray(parsedResponse)) {
-            mapResult = parsedResponse.map(beer => mapToModel(beer));
-        } else {
-            mapResult = mapToModel(parsedResponse);
-        }
-    } catch (err) {
-        console.log(`Can not parse server response: ${serverResponse}.`);
+    if (Array.isArray(response)) {
+        mapResult = response.map(beer => mapToModel(beer));
+    } else {
+        mapResult = mapToModel(response);
     }
 
     return mapResult;

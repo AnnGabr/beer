@@ -2,7 +2,7 @@ export const get = url =>
     fetch(url)
         .then((response) => {
             if (response.ok) {
-                return response.text();
+                return response.json();
             }
             const errorMessage = `${response.status} (${response.statusText})`;
             const error = new Error(errorMessage);
@@ -22,7 +22,7 @@ export const post = (url, data) =>
     )
         .then((response) => {
             if (response.ok) {
-                return response.text();
+                return response.json();
             }
             const error = new Error(response.statusText);
             error.response = response;
