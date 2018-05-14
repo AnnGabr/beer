@@ -2,34 +2,34 @@ import React, { Fragment } from 'react';
 
 import './error-field.css';
 
-const ErrorField = ({ errors }) => {
-    const makeString = (array) => {
-        if (Array.isArray(array)) {
-            if (array.length === 1) {
-                return array[0];
-            }
+const ErrorField = ({ errors }) => (
+    <div className="field error-field">
+        {errors && makeString(errors)}
+    </div>
+);
 
-            return array.map((item, index) => (
-                index === array.length - 1
-                    ? (
-                        <span key={index} >{item}</span>
-                    )
-                    : (
-                        <Fragment key={index}>
-                            <span>{item}</span>&nbsp;·&nbsp;
-                        </Fragment>
-                    )
-            ));
+const makeString = (object) => {
+    if (object.isArray(object)) {
+        if (object.length === 1) {
+            return trimDot(object[0]);
         }
 
-        return array;
-    };
+        return object.map((item, index) => (
+            index === object.length - 1
+                ? (
+                    <span key={index} >{trimDot(item)}</span>
+                )
+                : (
+                    <Fragment key={index}>
+                        <span>{trimDot(item)}</span>&nbsp;·&nbsp;
+                    </Fragment>
+                )
+        ));
+    }
 
-    return (
-        <div className="field error-field">
-            {makeString(errors)}
-        </div>
-    );
+    return trimDot(object);
 };
+
+const trimDot = str => str.replace(new RegExp(/\. +$/, ''));
 
 export default ErrorField;

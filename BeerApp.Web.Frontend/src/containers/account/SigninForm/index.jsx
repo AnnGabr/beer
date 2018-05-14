@@ -4,20 +4,19 @@ import { connect } from 'react-redux';
 
 import { SignUpLink } from '../../../components/common/links';
 import { ErrorField } from '../../../components';
+
+
 import accountService from '../../../services/accountService.js';
+import { getLastErrors } from '../../../reducers/account';
 
 import './signin-modal.css';
 import './signin-form.css';
 
+const mapStateToProps = (state, route) => ({
+    validationErrors: getLastErrors(state)
+});
+
 export class SignInForm extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            validationErrors: null
-        };
-    }
-
     render() {
         return (
             <section className="signin-modal has-text-centered">
@@ -27,39 +26,20 @@ export class SignInForm extends Component {
                         B e e r C a t a l o g
                     </p>
                     <div className="box signin-form__form">
-                        <ErrorField errors={this.state.validationErrors}/>
+                        {this.renderErrorField()}
                         <form className="signin-form__form" onSubmit={this.handleSignInClick}>
                             <div className="field">
                                 <div className="control">
-                                    <input
-                                        ref={ node => this.loginInput = node }
-                                        className="input is-large"
-                                        type="email"
-                                        placeholder="Your Email"
-                                        autoFocus
-                                        required
-                                    />
+                                    {this.renderEmailInput()}
                                 </div>
                             </div>
                             <div className="field">
                                 <div className="control">
-                                    <input
-                                        ref={ node => this.passwordInput = node }
-                                        className="input is-large"
-                                        type="password"
-                                        placeholder="Your Password"
-                                        required
-                                    />
+                                    {this.renderPasswordInput()}
                                 </div>
                             </div>
                             <div className="field">
-                                <label className="checkbox">
-                                    <input
-                                        type="checkbox"
-                                        ref={ node => this.rememberMeCheckbox = node }
-                                    />
-                                    Remember me
-                                </label>
+                                {this.renderRememberMeCheckbox()}
                             </div>
                             <button className="button is-block signin-form__button is-large is-fullwidth">
                                 Sign in
@@ -78,6 +58,41 @@ export class SignInForm extends Component {
         );
     }
 
+    renderErrorField = () => (
+        <ErrorField errors={this.props.validationErrors}/>
+    )
+
+    renderEmailInput = () => (
+        <input
+            ref={ node => this.loginInput = node }
+            className="input is-large"
+            type="email"
+            placeholder="Your Email"
+            autoFocus
+            required
+        />
+    )
+
+    renderPasswordInput = () => (
+        <input
+            ref={ node => this.passwordInput = node }
+            className="input is-large"
+            type="password"
+            placeholder="Your Password"
+            required
+        />
+    )
+
+    renderRememberMeCheckbox = () => (
+        <label className="checkbox">
+            <input
+                type="checkbox"
+                ref={ node => this.rememberMeCheckbox = node }
+            />
+            Remember me
+        </label>
+    )
+
     handleSignInClick = (e) => {
         e.preventDefault();
 
@@ -93,4 +108,4 @@ export class SignInForm extends Component {
     }
 }
 
-export default withRouter(connect()(SignInForm));
+export default withRouter(connect(mapStateToProps)(SignInForm));
