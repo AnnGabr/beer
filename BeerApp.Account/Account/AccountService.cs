@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Web;
 using AutoMapper;
+using BeerApp.Account.Account;
 using BeerApp.Account.Extensions;
 using BeerApp.DataAccess.Models;
 using BeerApp.Account.Models;
@@ -48,13 +49,23 @@ namespace BeerApp.Account.Services
 			return registrationResult.GetValidationErrors();
 		}
 	
-		public async Task<SignInResult> LoginAsync(LoginCredentials loginCredentials)
+		public async Task<LoginResult> LoginAsync(LoginCredentials loginCredentials)
 		{
 			await LogoutAsync();
-			SignInResult loginResult = await SignInManager
-				.PasswordSignInAsync(loginCredentials.Email, loginCredentials.Password, loginCredentials.RememberMe, true);
-			
-			return loginResult;
+
+			SignInResult signInResult = await SignInManager
+				.PasswordSignInAsync(loginCredentials.Email, loginCredentials.Password, loginCredentials.RememberMe, false);
+			if (signInResult.Succeeded)
+			{
+				User user = await UserManager.FindByEmailAsync(loginCredentials.Email);
+
+				return new LoginResult() { User = Mapper.Map<UserProfile>(user) };	
+			}
+
+			return new LoginResult()
+			{
+				EmailIsNotConfirmed = signInResult.IsNotAllowed
+			};
 		}
 
 		public async Task LogoutAsync()

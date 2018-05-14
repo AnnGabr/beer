@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using BeerApp.Account.Account;
 using BeerApp.Account.Models;
 using BeerApp.Account.Services;
 using BeerApp.Web.Extentions.Attributes;
@@ -57,14 +58,14 @@ namespace BeerApp.Web.Controllers
 				return BadRequest("Couldn`t find account with given email.");
 			}
 
-			SignInResult signInResult = await accountService.LoginAsync(loginParams);
-			if (signInResult.Succeeded)
+			LoginResult loginResult = await accountService.LoginAsync(loginParams);
+			if (loginResult.User != null)
 			{
-				return NoContent();
+				return new ObjectResult(loginResult.User);
 			}
 
 			return BadRequest(
-				signInResult.IsNotAllowed 
+				loginResult.EmailIsNotConfirmed 
 					? "Email not confirmed." 
 					: "Wrong login or password."
 			);
