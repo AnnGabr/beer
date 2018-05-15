@@ -5,12 +5,12 @@ const mapToProfileInfo = user => user && ({
     avatarUrl: user.profilePictureUrl
 });
 
-const mapToLoginResult = loginResult => ({
-    emailIsNotConfirmed: loginResult.emailIsNotConfirmed,
-    userProfileInfo: mapToProfileInfo(loginResult.user)
+const mapToSignInResult = SignInResult => ({
+    emailIsNotConfirmed: SignInResult.emailIsNotConfirmed,
+    userProfileInfo: mapToProfileInfo(SignInResult.user)
 });
 
 export default {
     mapToProfileInfo,
-    mapToLoginResult
+    mapToSignInResult
 };

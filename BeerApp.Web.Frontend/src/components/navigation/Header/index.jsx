@@ -4,12 +4,6 @@ import Hamburger from './hamburger';
 import './header.css';
 
 export default class Header extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = { isAccountMenuOpened: false };
-    }
-
     render() {
         return (
             <div className="navbar header is-primary">
@@ -29,26 +23,14 @@ export default class Header extends Component {
         );
     }
 
-    renderAccountButton() {
-        return this.props.children
-            ? (
-                <div className="navbar-item account-button">
-                    <span className="material-icon header-account-icon is-block" aria-hidden="true" onClick={this.toggleAccountMenu}>
-                        account_circle
-                    </span>
-                </div>
-            )
-            : null;
-    }
+    renderAccountButton = () => (
+        <div className="navbar-item account-button">
+            <span className="material-icon header-account-icon is-block" aria-hidden="true" onClick={this.props.onAccountMenuClick}>
+                account_circle
+            </span>
+        </div>
+    )
 
-    rendeAccountMenu = () => (
-        this.state.isAccountMenuOpened
-            ? this.props.children
-            : null
-    );
-
-    toggleAccountMenu = () => {
-        this.setState({ isAccountMenuOpened: !this.state.isAccountMenuOpened });
-    }
+    rendeAccountMenu = () => this.props.children
 }
 

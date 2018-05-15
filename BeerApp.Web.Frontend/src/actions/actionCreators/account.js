@@ -2,25 +2,26 @@ import { actionTypes } from '../actionTypes';
 import createAction from './actionCreator';
 
 import accountService from '../../services/accountService';
-import mapper from '../../utils/userMapper';
 
-const signIn = userCredentials => (dispatch) => {
-    dispatch(createAction(actionTypes.LOGIN_REQUESTED));
+export const signIn = userCredentials => (dispatch) => {
+    dispatch(createAction(actionTypes.SIGN_IN_REQUESTED));
 
     return accountService
         .signIn(userCredentials)
         .then((userProfileInfo) => {
             dispatch(createAction(
-                actionTypes.FAVORITE_BEERS_FETCH_SUCCEEDED,
+                actionTypes.SIGN_IN_SUCCEEDED,
                 userProfileInfo
             ));
         })
         .catch((error) => {
             dispatch(createAction(
-                actionTypes.FAVORITE_BEERS_FETCH_FAILED,
-                error.validationError
+                actionTypes.SIGN_IN_FAILED,
+                error.reasons
             ));
         });
 };
 
-export default signIn;
+export const clearErrors = () => (dispatch) => {
+    dispatch(createAction(actionTypes.CLEAR_ERRORS));
+};

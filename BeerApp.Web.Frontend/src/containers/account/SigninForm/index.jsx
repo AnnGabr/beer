@@ -5,14 +5,13 @@ import { connect } from 'react-redux';
 import { SignUpLink } from '../../../components/common/links';
 import { ErrorField } from '../../../components';
 
-
-import accountService from '../../../services/accountService.js';
 import { getLastErrors } from '../../../reducers/account';
+import { signIn, clearErrors } from '../../../actions/actionCreators/account';
 
 import './signin-modal.css';
 import './signin-form.css';
 
-const mapStateToProps = (state, route) => ({
+const mapStateToProps = state => ({
     validationErrors: getLastErrors(state)
 });
 
@@ -101,11 +100,8 @@ export class SignInForm extends Component {
             password: this.passwordInput.value,
             rememberMe: this.rememberMeCheckbox.checked
         };
-
-        /*accountService.signIn(userCredentials)
-            .catch(error => error.response.text()).then(resp => this.setState({validationErrors: resp}));*/
-        // this.props.history.goBack();
+        this.props.signIn(userCredentials);
     }
 }
 
-export default withRouter(connect(mapStateToProps)(SignInForm));
+export default withRouter(connect(mapStateToProps, { signIn, clearErrors })(SignInForm));

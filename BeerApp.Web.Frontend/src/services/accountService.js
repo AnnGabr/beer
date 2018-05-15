@@ -1,20 +1,30 @@
 import * as api from '../api/apiCalls';
 import mapper from '../utils/userMapper';
 
-function signIn(credentials) {
-    return api.post('/account/login', credentials)
+const signIn = credentials =>
+    api.post('/account/login', credentials)
         .then((response) => {
-            const loginResult = mapper.mapToLoginResult(response);
-            if (loginResult.userProfileInfo) {
-                return loginResult.userProfileInfo;
+            const signInResult = mapper.mapToSignInResult(response);
+            if (signInResult.userProfileInfo) {
+                return signInResult.userProfileInfo;
             }
 
-            const error = new Error('user validation failed');
-            error.validationError = loginResult.emailIsNotConfirmed
+            const reason = signInResult.emailIsNotConfirmed
                 ? 'confirm your email first'
-                : 'wrong login or password';
-            throw (error);
+                : 'wrong email or password';
+            throwValidationError('sign in failed', reason);
+        })
+        .catch((error) => {
+            if (!error.reasons) {
+                throwValidationError('sign in failed', 'oops, something went wrong');
+            }
+            throw error;
         });
+
+function throwValidationError(message, reasons) {
+    const error = new Error(message);
+    error.reasons = reasons;
+    throw error;
 }
 
 export default {

@@ -9,7 +9,7 @@ const ErrorField = ({ errors }) => (
 );
 
 const makeString = (object) => {
-    if (object.isArray(object)) {
+    if (Array.isArray(object)) {
         if (object.length === 1) {
             return trimDot(object[0]);
         }

@@ -4,9 +4,7 @@ export const get = url =>
             if (response.ok) {
                 return response.json();
             }
-            const errorMessage = `${response.status} (${response.statusText})`;
-            const error = new Error(errorMessage);
-            throw (error);
+            throwError(response);
         });
 
 export const post = (url, data) =>
@@ -24,7 +22,11 @@ export const post = (url, data) =>
             if (response.ok) {
                 return response.json();
             }
-            const error = new Error(response.statusText);
-            error.response = response;
-            throw error;
+            throwError(response);
         });
+
+function throwError(response) {
+    const error = new Error(response.statusText);
+    error.response = response;
+    throw error;
+}

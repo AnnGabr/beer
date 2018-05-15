@@ -7,18 +7,22 @@ const initialState = {
 
 export default function account(state = initialState, action) {
     switch (action.type) {
-    case actionTypes.LOGIN_REQUESTED:
+    case actionTypes.SIGN_IN_REQUESTED:
         return {
             user: null,
             lastErrors: null
         };
-    case actionTypes.LOGIN_SUCCEEDED:
+    case actionTypes.SIGN_IN_SUCCEEDED:
         return {
             user: action.payload
         };
-    case actionTypes.LOGIN_FAILED:
+    case actionTypes.SIGN_IN_FAILED:
         return {
             lastErrors: action.payload
+        };
+    case actionTypes.CLEAR_ERRORS:
+        return {
+            lastErrors: null
         };
     default:
         return state;

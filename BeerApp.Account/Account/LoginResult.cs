@@ -6,6 +6,5 @@ namespace BeerApp.Account.Account
     {
 	    public UserProfile User { get; set; }
 		public bool EmailIsNotConfirmed { get; set; }
-		//public string EmailResendLink { get; set; }
 	}
 }
