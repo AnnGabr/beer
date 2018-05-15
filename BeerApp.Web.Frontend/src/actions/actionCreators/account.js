@@ -6,8 +6,7 @@ import accountService from '../../services/accountService';
 export const signIn = userCredentials => (dispatch) => {
     dispatch(createAction(actionTypes.SIGN_IN_REQUESTED));
 
-    return accountService
-        .signIn(userCredentials)
+    return accountService.signIn(userCredentials)
         .then((userProfileInfo) => {
             dispatch(createAction(
                 actionTypes.SIGN_IN_SUCCEEDED,
@@ -19,6 +18,15 @@ export const signIn = userCredentials => (dispatch) => {
                 actionTypes.SIGN_IN_FAILED,
                 error.reasons
             ));
+        });
+};
+
+export const signOut = () => (dispatch) => {
+    dispatch(createAction(actionTypes.SIGN_OUT_REQUESTED));
+
+    return accountService.signOut()
+        .catch((error) => {
+            console.log(error.reasons || error.message);
         });
 };
 

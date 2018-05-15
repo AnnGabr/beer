@@ -84,6 +84,9 @@ namespace BeerApp.PunkApi.Models.Beer
 
 		[DataMember(Name = "hops")]
 		public List<Hop> Hops { get; set; }
+
+		[DataMember(Name = "yeast")]
+		public string Yeast { get; set; }
 	}
 
 	[DataContract(Name = "malt")]

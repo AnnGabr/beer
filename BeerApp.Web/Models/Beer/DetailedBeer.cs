@@ -41,6 +41,7 @@ namespace BeerApp.Web.Models.Beer
 		public ValueInUnit Water { get; set; } 
 		public List<Malt> Malt { get; set; }
 		public List<Hop> Hops { get; set; }
+		public string Yeast { get; set; }
 	}
 
 	public class Malt : Ingredient { }

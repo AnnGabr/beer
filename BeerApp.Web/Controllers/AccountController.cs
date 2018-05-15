@@ -27,11 +27,12 @@ namespace BeerApp.Web.Controllers
 			this.userService = userService;
 			this.mapper = mapper;
 		}
-		
+
+		[Route("account/register")]
 		[HttpPost]
 		[AllowAnonymous]
 		[ValidateBody]
-		public async Task<IActionResult> Register([FromBody] UserToRegister userToRegister) 
+		public async Task<IActionResult> RegisterAsync([FromBody] UserToRegister userToRegister) 
 		{
 			var registerCredentials = mapper.Map<RegisterCredentials>(userToRegister);
 
@@ -45,10 +46,11 @@ namespace BeerApp.Web.Controllers
 			return BadRequest(registrationErrors);
 		}
 
+		[Route("account/login")]
 		[HttpPost]
 		[AllowAnonymous]
 		[ValidateBody]
-		public async Task<IActionResult> Login([FromBody] UserToLogin userToLogin)
+		public async Task<IActionResult> LoginAsync([FromBody] UserToLogin userToLogin)
 		{
 			var loginParams = mapper.Map<LoginCredentials>(userToLogin);
 			LoginResult loginResult = await accountService.LoginAsync(loginParams);
@@ -56,16 +58,18 @@ namespace BeerApp.Web.Controllers
 			return new ObjectResult(loginResult);
 		}
 
+		[Route("account/logout")]
 		[HttpGet]
-		public async Task<IActionResult> Logout()
+		public async Task<IActionResult> LogoutAsync()
 		{ 
 			await accountService.LogoutAsync();
 
 			return NoContent();
 		}
 
+		[Route("account/delete")]
 		[HttpDelete]
-		public async Task<IActionResult> Delete()
+		public async Task<IActionResult> DeleteAsync()
 		{
 			bool isDeleted = await accountService.DeleteAsync(HttpContext.User);
 			if (isDeleted)
@@ -76,8 +80,9 @@ namespace BeerApp.Web.Controllers
 			return Content("Couldn`t delete account.");
 		}
 
+		[Route("account/profile")]
 		[HttpGet]
-		public async Task<IActionResult> Profile()
+		public async Task<IActionResult> GetProfileAsync()
 		{
 			UserProfile userProfile = await accountService.GetProfileInfo(HttpContext.User);
 			if (userProfile == null)

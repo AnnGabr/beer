@@ -24,6 +24,11 @@ export default function account(state = initialState, action) {
         return {
             lastErrors: null
         };
+    case actionTypes.SIGN_OUT_REQUESTED:
+        return {
+            user: null,
+            lastErrors: null
+        };
     default:
         return state;
     }

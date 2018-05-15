@@ -5,18 +5,31 @@ import { connect } from 'react-redux';
 import { SignUpLink } from '../../../components/common/links';
 import { ErrorField } from '../../../components';
 
-import { getLastErrors } from '../../../reducers/account';
-import { signIn, clearErrors } from '../../../actions/actionCreators/account';
+import { getLastErrors, hasActiveUser } from '../../../reducers/account';
+import { signIn, clearErrors, signOut } from '../../../actions/actionCreators/account';
 
 import './signin-modal.css';
 import './signin-form.css';
 
 const mapStateToProps = state => ({
-    validationErrors: getLastErrors(state)
+    validationErrors: getLastErrors(state),
+    hasActiveUser: hasActiveUser(state),
+    signInSucceeded: hasActiveUser(state)
 });
 
 export class SignInForm extends Component {
+    componentDidMount() {
+        /*if (this.props.hasActiveUser) {
+            this.props.signOut();
+        }*/
+    }
+
     render() {
+        /*if (this.props.hasActiveUser) {
+            console.log(this.props);
+            this.props.closeModal();
+        }*/
+
         return (
             <section className="signin-modal has-text-centered">
                 <div className="signin-form">
@@ -104,4 +117,11 @@ export class SignInForm extends Component {
     }
 }
 
-export default withRouter(connect(mapStateToProps, { signIn, clearErrors })(SignInForm));
+export default withRouter(connect(
+    mapStateToProps,
+    {
+        signIn,
+        clearErrors,
+        signOut
+    }
+)(SignInForm));

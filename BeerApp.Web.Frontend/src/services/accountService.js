@@ -12,21 +12,30 @@ const signIn = credentials =>
             const reason = signInResult.emailIsNotConfirmed
                 ? 'confirm your email first'
                 : 'wrong email or password';
-            throwValidationError('sign in failed', reason);
+            throwError('sign in failed', reason);
         })
         .catch((error) => {
             if (!error.reasons) {
-                throwValidationError('sign in failed', 'oops, something went wrong');
+                throwError('sign in failed', 'oops, something went wrong');
             }
             throw error;
         });
 
-function throwValidationError(message, reasons) {
+const signOut = () => api.get('/account/logout')
+    .catch((error) => {
+        if (error.code === 401) {
+            throwError('sign out failed', 'user is not authorized');
+        }
+        throwError('sign out failed', 'server error');
+    });
+
+function throwError(message, reasons) {
     const error = new Error(message);
     error.reasons = reasons;
     throw error;
 }
 
 export default {
-    signIn
+    signIn,
+    signOut
 };

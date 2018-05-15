@@ -25,7 +25,11 @@ export default class Header extends Component {
 
     renderAccountButton = () => (
         <div className="navbar-item account-button">
-            <span className="material-icon header-account-icon is-block" aria-hidden="true" onClick={this.props.onAccountMenuClick}>
+            <span
+                className="material-icon header-account-icon is-block"
+                aria-hidden="true"
+                onClick={this.props.onAccountMenuClick}
+            >
                 account_circle
             </span>
         </div>

@@ -7,7 +7,7 @@ export class SignInLink extends Component {
         const path = `${this.props.location.pathname}/account/signin`.replace('//', '/');
 
         return (
-            <Link to={path} className={this.props.className} >
+            <Link to={path} className={this.props.className} onClick={this.handleLinkClick}>
                 {this.props.children}
             </Link>
         );
