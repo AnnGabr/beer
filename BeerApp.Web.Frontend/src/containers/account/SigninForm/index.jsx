@@ -18,18 +18,7 @@ const mapStateToProps = state => ({
 });
 
 export class SignInForm extends Component {
-    componentDidMount() {
-        /*if (this.props.hasActiveUser) {
-            this.props.signOut();
-        }*/
-    }
-
     render() {
-        /*if (this.props.hasActiveUser) {
-            console.log(this.props);
-            this.props.closeModal();
-        }*/
-
         return (
             <section className="signin-modal has-text-centered">
                 <div className="signin-form">

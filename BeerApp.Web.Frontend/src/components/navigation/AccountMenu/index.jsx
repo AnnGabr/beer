@@ -15,8 +15,8 @@ const mapStateToProps = state => ({
 export class AccountMenu extends Component {
     render() {
         return (
-            <div className="account-menu">
-                <div className="account-menu__content" onClick={this.props.onMenuClick}>
+            <div className="account-menu" onClick={this.props.onMenuClick}>
+                <div className="account-menu__content">
                     {this.renderUserAvatar()}
                     <hr className="dropdown-divider"/>
                     {this.renderMenu()}

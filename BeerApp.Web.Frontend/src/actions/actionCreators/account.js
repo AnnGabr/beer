@@ -21,14 +21,14 @@ export const signIn = userCredentials => (dispatch) => {
         });
 };
 
-export const signOut = () => (dispatch) => {
-    dispatch(createAction(actionTypes.SIGN_OUT_REQUESTED));
-
-    return accountService.signOut()
+export const signOut = () => dispatch =>
+    accountService.signOut()
         .catch((error) => {
             console.log(error.reasons || error.message);
+        })
+        .then(() => {
+            dispatch(createAction(actionTypes.SIGN_OUT));
         });
-};
 
 export const clearErrors = () => (dispatch) => {
     dispatch(createAction(actionTypes.CLEAR_ERRORS));
