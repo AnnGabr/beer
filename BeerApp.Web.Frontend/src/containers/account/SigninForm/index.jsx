@@ -6,7 +6,7 @@ import { SignUpLink } from '../../../components/common/links';
 import { ErrorField } from '../../../components';
 
 import { getLastErrors } from '../../../reducers/account';
-import { signIn, clearErrors, signOut } from '../../../actions/actionCreators/account';
+import { signIn, clearErrors } from '../../../actions/actionCreators/account';
 
 import './signin-modal.css';
 import './signin-form.css';
@@ -16,6 +16,10 @@ const mapStateToProps = state => ({
 });
 
 export class SignInForm extends Component {
+    componentDidMount() {
+        this.props.clearErrors();
+    }
+
     render() {
         return (
             <section className="signin-modal has-text-centered">
@@ -103,7 +107,6 @@ export class SignInForm extends Component {
         this.props.signIn(userCredentials)
             .then(() => {
                 if (!this.props.validationErrors) {
-                    this.props.clearErrors();
                     this.props.closeModal();
                 }
             });

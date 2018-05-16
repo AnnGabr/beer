@@ -22,6 +22,7 @@ export default function account(state = initialState, action) {
         };
     case actionTypes.CLEAR_ERRORS:
         return {
+            ...state,
             lastErrors: null
         };
     case actionTypes.SIGN_OUT:
