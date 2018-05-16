@@ -5,16 +5,14 @@ import { connect } from 'react-redux';
 import { SignUpLink } from '../../../components/common/links';
 import { ErrorField } from '../../../components';
 
-import { getLastErrors, hasActiveUser } from '../../../reducers/account';
+import { getLastErrors } from '../../../reducers/account';
 import { signIn, clearErrors, signOut } from '../../../actions/actionCreators/account';
 
 import './signin-modal.css';
 import './signin-form.css';
 
 const mapStateToProps = state => ({
-    validationErrors: getLastErrors(state),
-    hasActiveUser: hasActiveUser(state),
-    signInSucceeded: hasActiveUser(state)
+    validationErrors: getLastErrors(state)
 });
 
 export class SignInForm extends Component {
@@ -102,15 +100,14 @@ export class SignInForm extends Component {
             password: this.passwordInput.value,
             rememberMe: this.rememberMeCheckbox.checked
         };
-        this.props.signIn(userCredentials);
+        this.props.signIn(userCredentials)
+            .then(() => {
+                if (!this.props.validationErrors) {
+                    this.props.clearErrors();
+                    this.props.closeModal();
+                }
+            });
     }
 }
 
-export default withRouter(connect(
-    mapStateToProps,
-    {
-        signIn,
-        clearErrors,
-        signOut
-    }
-)(SignInForm));
+export default withRouter(connect(mapStateToProps, { signIn, clearErrors })(SignInForm));

@@ -8,7 +8,6 @@ using BeerApp.Account.Models;
 using BeerApp.Account.Services;
 using BeerApp.Web.Extentions.Attributes;
 using BeerApp.Web.Models.User;
-using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 using BeerApp.Web.Services;
 using BeerApp.DataAccess.Models;
 

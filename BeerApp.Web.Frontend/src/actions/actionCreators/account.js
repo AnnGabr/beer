@@ -3,12 +3,11 @@ import createAction from './actionCreator';
 
 import accountService from '../../services/accountService';
 
-export const signIn = userCredentials => (dispatch, getState) => {
+export const signIn = userCredentials => (dispatch) => {
     dispatch(createAction(actionTypes.SIGN_IN_REQUESTED));
 
     return accountService.signIn(userCredentials)
         .then((userProfileInfo) => {
-            //goBack here
             dispatch(createAction(
                 actionTypes.SIGN_IN_SUCCEEDED,
                 userProfileInfo
