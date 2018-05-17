@@ -57,8 +57,8 @@ export class AccountMenu extends Component {
     renderUserAvatar() {
         const { user } = this.props;
         const avatarImage = user && user.avatarUrl
-            ? <img className="account-details__avatar" src={user.avatarUrl} alt="avatar"/>
-            : <div className="account-details__avatar"/>;
+            ? <img className="user-avatar account-details__avatar" src={user.avatarUrl} alt="avatar"/>
+            : <div className="user-avatar account-details__avatar"/>;
 
         return (
             <SettingsLink className="account__details">

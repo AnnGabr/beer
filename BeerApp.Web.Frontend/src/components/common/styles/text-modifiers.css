@@ -1,3 +1,7 @@
 .is-capitalized {
     text-transform: capitalize;
 }
+
+.is-bold {
+    font-weight: bold;
+}

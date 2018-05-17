@@ -29,5 +29,6 @@ function throwError(response) {
     const error = new Error(response.statusText);
     error.code = response.status;
     error.response = response;
+
     throw error;
 }

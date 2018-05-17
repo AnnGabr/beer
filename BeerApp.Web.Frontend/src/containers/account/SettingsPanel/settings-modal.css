@@ -1,4 +1,7 @@
 .settings-modal {
+    display: flex;
+    flex-direction: column;
+
     margin: 1rem;
     padding: 1rem;
 
@@ -7,16 +10,6 @@
     box-shadow: 0 3px 20px hsl(0, 39%, 100%),
     0 -2px 2px hsl(240, 67%, 94%),
     0 0 0 1px hsl(240, 67%, 94%);
-}
 
-.settings-modal__profile-settings {
-    max-width: 600px;
-    margin: auto;
-    padding: 1rem 2rem;
-}
-
-@media (max-width: 768px) {
-    .settings-modal__profile-settings {
-        padding: 1rem 1rem;
-    }
+    align-items: center;
 }

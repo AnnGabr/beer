@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { SignUpLink } from '../../../components/common/links';
@@ -113,4 +112,4 @@ export class SignInForm extends Component {
     }
 }
 
-export default withRouter(connect(mapStateToProps, { signIn, clearErrors })(SignInForm));
+export default connect(mapStateToProps, { signIn, clearErrors })(SignInForm);

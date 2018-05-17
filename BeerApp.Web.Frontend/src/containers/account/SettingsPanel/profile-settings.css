@@ -1,0 +1,18 @@
+.profile-settings__save-button {
+    color: hsl(240, 67%, 94%) !important;
+    background-color: hsl(274.6,100%,25.5%) !important;
+}
+
+.profile-settings__avatar {
+    margin: 0 auto 1rem;
+}
+
+.profile-settings__avatar-settings,
+.profile-settings__user-info-settings {
+    display: inline-block;
+}
+
+.profile-settings__user-info-settings {
+    vertical-align: top;
+    margin-left: 2rem;
+}
