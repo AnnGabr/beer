@@ -1,7 +1,11 @@
 import { actionTypes } from '../actions/actionTypes';
 
 const initialState = {
-    user: null,
+    user: {
+        birthDate: new Date(),
+        nickName: 'Ann',
+        email: 'myemail@gmail.com'
+    },
     lastErrors: null
 };
 

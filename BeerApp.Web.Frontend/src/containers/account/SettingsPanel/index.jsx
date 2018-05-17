@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { ErrorField } from '../../../components';
+import { ErrorField, DatePicker } from '../../../components';
 
 import { getUser } from '../../../reducers/account';
 
@@ -57,16 +57,16 @@ export class SignInForm extends Component {
     }
 
     renderUploadButton = () => (
-        <div class="file is-centered">
-            <label class="file-label ">
+        <div className="file is-centered">
+            <label className="file-label">
                 <input
                     ref={node => this.imageInput = node}
-                    class="file-input"
+                    className="file-input"
                     type="file"
                     onChange={this.handleAvatarChange}
                 />
-                <span class="file-cta ">
-                    <span class="file-label">
+                <span className="file-cta">
+                    <span className="file-label">
                         Upload
                     </span>
                 </span>
@@ -94,7 +94,14 @@ export class SignInForm extends Component {
     )
 
     renderBirthDateSettings() {
-        return this.props.user.birthDate;
+        const birthDate = new Date(this.props.user.birthDate);
+
+        return (
+            <DatePicker
+                date={birthDate}
+                ref={node => this.datePicker = node}
+            />
+        );
     }
 
     renderErrorField = () => (

@@ -12,6 +12,7 @@ import PropertiesList from './beerDetails/PropertiesList';
 import SimpleList from './beerDetails/SimpleList';
 import ComponentWithHeader from './beerDetails/ComponentWithHeader';
 import ErrorField from './common/ErrorField';
+import DatePicker from './common/DatePicker';
 
 export {
     Drawer,
@@ -27,5 +28,6 @@ export {
     PropertiesList,
     SimpleList,
     ComponentWithHeader,
-    ErrorField
+    ErrorField,
+    DatePicker
 };
