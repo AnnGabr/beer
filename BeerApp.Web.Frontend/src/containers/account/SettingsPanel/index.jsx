@@ -14,6 +14,14 @@ const mapStateToProps = state => ({
 });
 
 export class SettingsPanel extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            avatarUrl: props.user.avatarUrl
+        };
+    }
+
     render() {
         return (
             <section className="container settings-modal has-text-centered">
@@ -42,19 +50,17 @@ export class SettingsPanel extends Component {
         );
     }
 
-    renderAvatar() {
-        const { user } = this.props;
-
-        return user.avatarUrl
+    renderAvatar = () => (
+        this.state.avatarUrl
             ? (
                 <img
                     className="user-avatar user-avatar--200x200 profile-settings__avatar"
-                    src={user.avatarUrl}
+                    src={this.state.avatarUrl}
                     alt="avatar"
                 />
             )
-            : <div className="user-avatar user-avatar--200x200 profile-settings__avatar"/>;
-    }
+            : <div className="user-avatar user-avatar--200x200 profile-settings__avatar"/>
+    )
 
     renderUploadButton = () => (
         <div className="file is-centered">
@@ -109,7 +115,11 @@ export class SettingsPanel extends Component {
     )
 
     handleAvatarChange = () => {
-
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            this.setState({ avatarUrl: e.target.result });
+        };
+        reader.readAsDataURL(this.imageInput.files[0]);
     }
 
     handleSaveClick = () => {
