@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
     user: getUser(state)
 });
 
-export class SignInForm extends Component {
+export class SettingsPanel extends Component {
     render() {
         return (
             <section className="container settings-modal has-text-centered">
@@ -117,4 +117,4 @@ export class SignInForm extends Component {
     }
 }
 
-export default connect(mapStateToProps)(SignInForm);
+export default connect(mapStateToProps)(SettingsPanel);
