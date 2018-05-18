@@ -69,6 +69,7 @@ export class SettingsPanel extends Component {
                     ref={(node) => { this.imageInput = node; }}
                     className="file-input"
                     type="file"
+                    accept="image/*"
                     onChange={this.handleAvatarChange}
                 />
                 <span className="file-cta">
