@@ -60,7 +60,7 @@ export class SettingsPanel extends Component {
         <div className="file is-centered">
             <label className="file-label">
                 <input
-                    ref={node => this.imageInput = node}
+                    ref={(node) => { this.imageInput = node; }}
                     className="file-input"
                     type="file"
                     onChange={this.handleAvatarChange}
@@ -99,7 +99,7 @@ export class SettingsPanel extends Component {
         return (
             <DatePicker
                 date={birthDate}
-                ref={node => this.datePicker = node}
+                ref={(node) => { this.datePicker = node; }}
             />
         );
     }
@@ -113,7 +113,7 @@ export class SettingsPanel extends Component {
     }
 
     handleSaveClick = () => {
-
+        console.log(this.datePicker.state);
     }
 }
 
