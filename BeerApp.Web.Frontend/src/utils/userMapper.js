@@ -2,7 +2,7 @@ const mapToProfileInfo = user => user && ({
     nickName: user.nickName,
     birthDate: user.birthDate,
     email: user.email,
-    avatarUrl: user.profilePictureUrl
+    avatarImageName: user.profilePictureUrl
 });
 
 const mapToSignInResult = SignInResult => ({

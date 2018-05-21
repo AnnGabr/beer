@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { ErrorField, DatePicker } from '../../../components';
 
 import { getUser } from '../../../reducers/account';
+import cloudinary from '../../../services/cloudinaryService';
 
 import './settings-modal.css';
 import './profile-settings.css';
@@ -18,7 +19,8 @@ export class SettingsPanel extends Component {
         super(props);
 
         this.state = {
-            avatarUrl: props.user.avatarUrl
+            avatarUrl: props.user.avatarUrl,
+            errors: null
         };
     }
 
@@ -30,6 +32,7 @@ export class SettingsPanel extends Component {
                     B e e r C a t a l o g
                 </p>
                 <div className="box settings-modal__profile-settings">
+                    {this.renderErrorField()}
                     <div className="profile-settings">
                         <div className="profile-settings__avatar-settings">
                             {this.renderAvatar()}
@@ -49,6 +52,10 @@ export class SettingsPanel extends Component {
             </section>
         );
     }
+
+    renderErrorField = () => (
+        <ErrorField errors={this.state.errors}/>
+    )
 
     renderAvatar = () => (
         this.state.avatarUrl
@@ -111,20 +118,31 @@ export class SettingsPanel extends Component {
         );
     }
 
-    renderErrorField = () => (
-        <ErrorField errors={this.props.validationErrors}/>
-    )
-
     handleAvatarChange = () => {
+        this.setImageToAvatarPreview();
+    }
+
+    setImageToAvatarPreview() {
+        if (!this.imageInput.files) {
+            return;
+        }
+
         const reader = new FileReader();
         reader.onload = (e) => {
             this.setState({ avatarUrl: e.target.result });
+            cloudinary.uploadImage(e.target.result);
         };
         reader.readAsDataURL(this.imageInput.files[0]);
     }
 
     handleSaveClick = () => {
-        console.log(this.datePicker.state);
+        const { day, month, year } = this.datePicker.state;
+
+        const birthDate = new Date();
+
+
+        //TODO: save to cloundinary
+        //TODO: send valid data on server
     }
 }
 
