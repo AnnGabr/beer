@@ -92,6 +92,14 @@ namespace BeerApp.Web.Controllers
 			return new ObjectResult(userProfile);
 		}
 
+		[AllowAnonymous]
+		[Route("account/profile")]
+		[HttpPost]
+		public IActionResult UpdateProfileInfoAsync()
+		{
+			return NoContent();
+		}
+
 		[Route("account/confirm/email/{userId}/{emailToken}")]
 		[HttpGet]
 		[AllowAnonymous]

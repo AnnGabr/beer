@@ -6,6 +6,7 @@ using System.Web;
 using AutoMapper;
 using BeerApp.Account.Account;
 using BeerApp.Account.Extensions;
+using BeerApp.Account.Image.Interfaces;
 using BeerApp.DataAccess.Models;
 using BeerApp.Account.Models;
 
@@ -14,18 +15,19 @@ namespace BeerApp.Account.Services
 	public class AccountService : IAccountService
 	{
 		protected readonly IMapper Mapper;
-
 		protected readonly IVerificationEmailSender VarificationEmailSender;
-
 		protected readonly UserManager<User> UserManager;
 		protected readonly SignInManager<User> SignInManager;
+		protected readonly IImageCloudService ImageCloudService;
 		
-		public AccountService(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, IVerificationEmailSender varificationEmailSender)
+		public AccountService(UserManager<User> userManager, SignInManager<User> signInManager, 
+			IMapper mapper, IVerificationEmailSender varificationEmailSender, IImageCloudService imageCloudService)
 		{
 			Mapper = mapper;
 			VarificationEmailSender = varificationEmailSender;
 			UserManager = userManager;
 			SignInManager = signInManager;
+			ImageCloudService = imageCloudService;
 		}
 
 		public async Task<IReadOnlyList<string>> RegisterAsync(RegisterCredentials registerCredentials, string host)

@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using AutoMapper;
+using BeerApp.Account.Image.CloudinaryCloud;
+using BeerApp.Account.Image.Interfaces;
 using BeerApp.Web.Mappers;
 using BeerApp.Web.Services;
 using BeerApp.DataAccess;
@@ -111,23 +113,36 @@ namespace BeerApp.Web
 
 			services.AddTransient<IAccountService, AccountService>();
 		    services.AddTransient<IUserService, UserService>();
+
+		    ConfigureImageService(services);
+	    }
+
+	    private void ConfigureEmailService(IServiceCollection services)
+		{
+			services.AddTransient<IImageCloudService, CloudinaryService>();
+
+			services.Configure<CloudinaryOptions>(options => {
+				options.CloudName = Configuration["CloundinarySecrets:CloudName"];
+				options.ApiKey = Configuration["CloundinarySecrets:ApiKey"];
+				options.ApiSecret = Configuration["CloundinarySecrets:ApiSecret"];
+			});
 		}
 
-		private void ConfigureEmailService(IServiceCollection services)
-		{
+	    private void ConfigureImageService(IServiceCollection services)
+	    {
 			services.AddTransient<IEmailSender, SendGridEmailSender>();
 
-			services.Configure<SendGridOptions>(options => {
-				options.SendGridKey = Configuration["SendGridKey"];
-			});
+		    services.Configure<SendGridOptions>(options => {
+			    options.SendGridKey = Configuration["SendGridKey"];
+		    });
 
-			services.AddTransient<IVerificationEmailSender, VerificationEmailSender>();
+		    services.AddTransient<IVerificationEmailSender, VerificationEmailSender>();
 
-			services.Configure<VerificationEmailOptions>(options => {
-				options.FromEmail = Configuration["VarificationEmailDetails:FromEmail"];
-				options.FromName = Configuration["VarificationEmailDetails:FromName"];
-				options.Subject = Configuration["VarificationEmailDetails:Subject"];
-			});
+		    services.Configure<VerificationEmailOptions>(options => {
+			    options.FromEmail = Configuration["VarificationEmailDetails:FromEmail"];
+			    options.FromName = Configuration["VarificationEmailDetails:FromName"];
+			    options.Subject = Configuration["VarificationEmailDetails:Subject"];
+		    });
 		}
 
 		private void ConfigureMvc(IServiceCollection services)

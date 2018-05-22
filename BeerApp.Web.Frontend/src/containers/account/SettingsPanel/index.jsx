@@ -22,6 +22,8 @@ export class SettingsPanel extends Component {
             avatarUrl: props.user.avatarUrl,
             errors: null
         };
+
+        
     }
 
     render() {

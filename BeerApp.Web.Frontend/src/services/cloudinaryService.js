@@ -13,7 +13,7 @@ cloudinary.config({
 function uploadImage(imagePath, onupload) {
     cloudinary.uploader.upload(
         imagePath,
-        (result) => { onupload(result); },
+        (result) => { console.log(result); },
         {
             ...getTransformationProperties()
         }
