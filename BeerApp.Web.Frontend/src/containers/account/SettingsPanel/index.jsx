@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { ErrorField, DatePicker } from '../../../components';
 
 import { getUser } from '../../../reducers/account';
-import cloudinary from '../../../services/cloudinaryService';
 
 import './settings-modal.css';
 import './profile-settings.css';
@@ -22,8 +21,6 @@ export class SettingsPanel extends Component {
             avatarUrl: props.user.avatarUrl,
             errors: null
         };
-
-        
     }
 
     render() {
@@ -132,7 +129,6 @@ export class SettingsPanel extends Component {
         const reader = new FileReader();
         reader.onload = (e) => {
             this.setState({ avatarUrl: e.target.result });
-            cloudinary.uploadImage(e.target.result);
         };
         reader.readAsDataURL(this.imageInput.files[0]);
     }
@@ -142,9 +138,7 @@ export class SettingsPanel extends Component {
 
         const birthDate = new Date();
 
-
-        //TODO: save to cloundinary
-        //TODO: send valid data on server
+        // TODO: send valid data on server
     }
 }
 

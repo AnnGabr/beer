@@ -97,6 +97,7 @@ namespace BeerApp.Web.Controllers
 		[HttpPost]
 		public IActionResult UpdateProfileInfoAsync()
 		{
+			//TODO: update user profile
 			return NoContent();
 		}
 

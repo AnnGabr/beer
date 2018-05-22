@@ -102,6 +102,11 @@ namespace BeerApp.Account.Services
 			return user != null;
 		}
 
+		public void UpdateProfileAsync(ClaimsPrincipal principal, ChangableProfileInfo newProfileinfo)
+		{
+			//TODO: update user profile info	
+		}
+
 		public async Task<bool> ConfirmEmailAsync(User user, string emailToken)
 		{
 			IdentityResult result = await UserManager.ConfirmEmailAsync(user, emailToken);

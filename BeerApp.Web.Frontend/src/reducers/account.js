@@ -1,13 +1,11 @@
 import { actionTypes } from '../actions/actionTypes';
 
-import cloudinary from '../services/cloudinaryService';
-
 const initialState = {
     user: {
         birthDate: new Date(),
         nickName: 'Ann',
         email: 'myemail@gmail.com',
-        avatarImageName: 'paporotnik_list_rastenie_zelenyj_119970_1920x1080'
+        avatarUrl: 'paporotnik_list_rastenie_zelenyj_119970_1920x1080'
     },
     lastErrors: null
 };
@@ -45,8 +43,7 @@ export default function account(state = initialState, action) {
 export const hasActiveUser = ({ account }) => account.user != null;
 
 export const getUser = ({ account }) => ({
-    ...account.user,
-    avatarUrl: cloudinary.getImageUrl(account.user.avatarImageName)
+    ...account.user
 });
 
 export const getLastErrors = ({ account }) => account.lastErrors;
