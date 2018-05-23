@@ -1,8 +1,6 @@
-using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
-using BeerApp.Account.Image.Interfaces;
 using BeerApp.Account.Image.Transformations;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
@@ -33,7 +31,7 @@ namespace BeerApp.Account.Image.CloudinaryCloud
 				.BuildImageTag(imageId);
 		}
 
-		public async Task<ImageUploadResponse> UploadAvatarAsync(FileStream image, TransformationParams transformationParams)
+		public async Task<ImageUploadResponse> UploadAvatarAsync(string base64StringImage, TransformationParams transformationParams)
 		{
 			Transformation transformation = new Transformation()
 				.Width(transformationParams.Width)
@@ -41,7 +39,7 @@ namespace BeerApp.Account.Image.CloudinaryCloud
 				.Crop(transformationParams.Crop)
 				.Gravity(transformationParams.Gravity);
 
-			CloudinaryUploadResponse uploadResponse = await UploadAsync(image, transformation);
+			CloudinaryUploadResponse uploadResponse = await UploadAsync(base64StringImage, transformation);
 
 			return new ImageUploadResponse()
 			{
@@ -50,13 +48,13 @@ namespace BeerApp.Account.Image.CloudinaryCloud
 			};
 		}
 
-		public async Task<CloudinaryUploadResponse> UploadAsync(FileStream image, Transformation transformation)
+		public async Task<CloudinaryUploadResponse> UploadAsync(string base64StringImage, Transformation transformation)
 		{
 			ImageUploadResult uploadResult = await Task.Run(() =>
 				Cloudinary.Upload(
 					new ImageUploadParams()
 					{
-						File = new FileDescription(image.Name, image),
+						File = new FileDescription(base64StringImage),
 						Transformation = transformation
 					}));
 
@@ -72,8 +70,7 @@ namespace BeerApp.Account.Image.CloudinaryCloud
 				};
 			}
 
-			return new CloudinaryUploadResponse(uploadResult.StatusCode);
-				
+			return new CloudinaryUploadResponse(uploadResult.StatusCode);	
 		}	
     }
 }

@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
 });
 
 export class SignInForm extends Component {
-    componentDidMount() {
+    componentWillUnmount() {
         this.props.clearErrors();
     }
 

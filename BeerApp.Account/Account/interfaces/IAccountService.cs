@@ -16,5 +16,6 @@ namespace BeerApp.Account.Services
 	    Task<UserProfile> GetProfileInfo(ClaimsPrincipal principal);
 		Task<bool> IsEmailRegistered(string emailAddress);
 		Task<bool> ConfirmEmailAsync(User user, string emailToken);
-	}
+	    Task<UpdateProfileResult> UpdateProfileAsync(ClaimsPrincipal principal, ChangableProfileInfo newProfileinfo);
+    }
 }

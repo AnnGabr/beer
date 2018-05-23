@@ -95,10 +95,10 @@ namespace BeerApp.Web.Controllers
 		[AllowAnonymous]
 		[Route("account/profile")]
 		[HttpPost]
-		public IActionResult UpdateProfileInfoAsync()
+		public IActionResult UpdateProfileInfoAsync([FromBody] ChangableProfileInfo profile)
 		{
-			//TODO: update user profile
-			return NoContent();
+
+			return Content("");
 		}
 
 		[Route("account/confirm/email/{userId}/{emailToken}")]

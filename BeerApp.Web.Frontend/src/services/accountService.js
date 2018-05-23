@@ -29,6 +29,14 @@ const signOut = () => api.get('/account/logout')
         throwError('sign out failed', 'server error');
     });
 
+const updateProfileInfo = ({ avatarImage, birthDate }) =>
+    api.post('/account/profile', {
+        profileImage: avatarImage,
+        birthDate
+    })
+        .then(response => console.log(response))
+        .catch(error => console.log('fuck'));
+
 function throwError(message, reasons) {
     const error = new Error(message);
     error.reasons = reasons;
@@ -37,5 +45,6 @@ function throwError(message, reasons) {
 
 export default {
     signIn,
-    signOut
+    signOut,
+    updateProfileInfo
 };

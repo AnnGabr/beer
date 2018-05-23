@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using AutoMapper;
 using BeerApp.Account.Image.CloudinaryCloud;
-using BeerApp.Account.Image.Interfaces;
+using BeerApp.Account.Image;
 using BeerApp.Web.Mappers;
 using BeerApp.Web.Services;
 using BeerApp.DataAccess;

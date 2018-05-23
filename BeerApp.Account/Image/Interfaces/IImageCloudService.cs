@@ -1,12 +1,11 @@
-﻿using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BeerApp.Account.Image.Transformations;
 
-namespace BeerApp.Account.Image.Interfaces
+namespace BeerApp.Account.Image
 {
     public interface IImageCloudService
     {
-	    Task<ImageUploadResponse> UploadAvatarAsync(FileStream image, TransformationParams transformationParams);
+	    Task<ImageUploadResponse> UploadAvatarAsync(string base64StringImage, TransformationParams transformationParams);
 	    string GetImageUrl(string imageId);
     }
 }

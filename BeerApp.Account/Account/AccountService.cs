@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -6,7 +7,9 @@ using System.Web;
 using AutoMapper;
 using BeerApp.Account.Account;
 using BeerApp.Account.Extensions;
-using BeerApp.Account.Image.Interfaces;
+using BeerApp.Account.Helpers;
+using BeerApp.Account.Image;
+using BeerApp.Account.Image.Transformations;
 using BeerApp.DataAccess.Models;
 using BeerApp.Account.Models;
 
@@ -102,15 +105,61 @@ namespace BeerApp.Account.Services
 			return user != null;
 		}
 
-		public void UpdateProfileAsync(ClaimsPrincipal principal, ChangableProfileInfo newProfileinfo)
+		public async Task<UpdateProfileResult> UpdateProfileAsync(ClaimsPrincipal principal, ChangableProfileInfo newProfileInfo)
 		{
-			//TODO: update user profile info	
+			User user = await UserManager.GetUserAsync(principal);
+
+			if (newProfileInfo.ProfileImage != null)
+			{
+				ImageUploadResponse profileImageUploadResponse = await UploadImage(newProfileInfo.ProfileImage);
+				if (!profileImageUploadResponse.Succeeded)
+				{
+					return new UpdateProfileResult()
+					{
+						Errors = new List<string>() {profileImageUploadResponse.Error}
+					};
+				}
+
+				user.ProfilePictureUrl = profileImageUploadResponse.ImageId;
+			}
+
+			if (newProfileInfo.BirthDate != null)
+			{
+				if (!Validator.IsBirthDateValid((DateTime)newProfileInfo.BirthDate))
+				{
+					return new UpdateProfileResult()
+					{
+						Errors = new List<string>() { "Invalid birth date." }
+					};
+				}
+
+				user.BirthDate = newProfileInfo.BirthDate;
+			}
+
+			IdentityResult updateResult = await UserManager.UpdateAsync(user);
+			if (!updateResult.Succeeded)
+			{
+				return new UpdateProfileResult()
+				{
+					Errors = new List<string>() { "Can`t update user info." }
+				};
+			}
+
+			return new UpdateProfileResult()
+			{
+				Profile = Mapper.Map<UserProfile>(user)
+			};
+		}
+
+		private async Task<ImageUploadResponse> UploadImage(string image)
+		{
+			return await ImageCloudService.UploadAvatarAsync(image, new AvatarTransformation());
 		}
 
 		public async Task<bool> ConfirmEmailAsync(User user, string emailToken)
 		{
 			IdentityResult result = await UserManager.ConfirmEmailAsync(user, emailToken);
-
+			
 			return result.Succeeded;
 		}
 	}
