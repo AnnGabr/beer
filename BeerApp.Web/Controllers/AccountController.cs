@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using BeerApp.Account.Account;
 using BeerApp.Account.Models;
-using BeerApp.Account.Services;
 using BeerApp.Web.Extentions.Attributes;
 using BeerApp.Web.Models.User;
 using BeerApp.Web.Services;
@@ -52,6 +51,7 @@ namespace BeerApp.Web.Controllers
 		public async Task<IActionResult> LoginAsync([FromBody] UserToLogin userToLogin)
 		{
 			var loginParams = mapper.Map<LoginCredentials>(userToLogin);
+
 			LoginResult loginResult = await accountService.LoginAsync(loginParams);
 
 			return new ObjectResult(loginResult);
@@ -84,21 +84,17 @@ namespace BeerApp.Web.Controllers
 		public async Task<IActionResult> GetProfileAsync()
 		{
 			UserProfile userProfile = await accountService.GetProfileInfo(HttpContext.User);
-			if (userProfile == null)
-			{
-				return Unauthorized();
-			}
 
 			return new ObjectResult(userProfile);
 		}
 
-		[AllowAnonymous]
 		[Route("account/profile")]
 		[HttpPost]
-		public IActionResult UpdateProfileInfoAsync([FromBody] ChangableProfileInfo profile)
+		public async Task<IActionResult> UpdateProfileInfoAsync([FromBody] ChangableProfileInfo newProfileInfo)
 		{
+			UpdateProfileResult updateResult = await accountService.UpdateProfileAsync(HttpContext.User, newProfileInfo);
 
-			return Content("");
+			return new ObjectResult(updateResult);
 		}
 
 		[Route("account/confirm/email/{userId}/{emailToken}")]

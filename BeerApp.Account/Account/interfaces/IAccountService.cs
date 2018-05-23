@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using BeerApp.Account.Account;
 using BeerApp.Account.Models;
 using BeerApp.DataAccess.Models;
 
-namespace BeerApp.Account.Services
+namespace BeerApp.Account.Account
 {
     public interface IAccountService
     {

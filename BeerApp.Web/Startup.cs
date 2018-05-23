@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using AutoMapper;
+using BeerApp.Account.Account;
 using BeerApp.Account.Image.CloudinaryCloud;
 using BeerApp.Account.Image;
 using BeerApp.Web.Mappers;

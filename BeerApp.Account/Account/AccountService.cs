@@ -1,19 +1,19 @@
 ﻿using System;
-using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using AutoMapper;
-using BeerApp.Account.Account;
 using BeerApp.Account.Extensions;
 using BeerApp.Account.Helpers;
 using BeerApp.Account.Image;
 using BeerApp.Account.Image.Transformations;
-using BeerApp.DataAccess.Models;
 using BeerApp.Account.Models;
+using BeerApp.Account.Services;
+using BeerApp.DataAccess.Models;
+using Microsoft.AspNetCore.Identity;
 
-namespace BeerApp.Account.Services
+namespace BeerApp.Account.Account
 {
 	public class AccountService : IAccountService
 	{
