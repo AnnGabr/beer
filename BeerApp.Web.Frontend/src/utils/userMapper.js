@@ -1,3 +1,13 @@
+const mapToSignInResult = signInResponse => ({
+    emailIsNotConfirmed: signInResponse.emailIsNotConfirmed,
+    userProfile: mapToProfileInfo(signInResponse.user)
+});
+
+const mapToUpdateResult = updateResponse => ({
+    errors: updateResponse.errors,
+    userProfile: mapToProfileInfo(updateResponse.profile)
+});
+
 const mapToProfileInfo = user => user && ({
     nickName: user.nickName,
     birthDate: user.birthDate,
@@ -5,12 +15,14 @@ const mapToProfileInfo = user => user && ({
     avatarUrl: user.profilePictureUrl
 });
 
-const mapToSignInResult = SignInResult => ({
-    emailIsNotConfirmed: SignInResult.emailIsNotConfirmed,
-    userProfileInfo: mapToProfileInfo(SignInResult.user)
+const mapToChangableProfileInfo = profileInfo => ({
+    birthDate: profileInfo.birthDate,
+    profileImage: profileInfo.avatarImage.src
 });
 
 export default {
     mapToProfileInfo,
-    mapToSignInResult
+    mapToSignInResult,
+    mapToUpdateResult,
+    mapToChangableProfileInfo
 };

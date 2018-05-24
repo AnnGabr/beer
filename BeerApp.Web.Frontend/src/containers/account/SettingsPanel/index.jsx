@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 
 import { ErrorField, DatePicker } from '../../../components';
 
-import { getUser } from '../../../reducers/account';
+import { getUser, getLastErrors } from '../../../reducers/account';
+import { updateProfileInfo, clearErrors } from '../../../actions/actionCreators/account';
 
 import './settings-modal.css';
 import './profile-settings.css';
 import '../../../components/common/styles/user-avatar.css';
 
 const mapStateToProps = state => ({
-    user: getUser(state)
+    user: getUser(state),
+    errors: getLastErrors(state)
 });
 
 export class SettingsPanel extends Component {
@@ -18,9 +20,11 @@ export class SettingsPanel extends Component {
         super(props);
 
         this.state = {
-            avatarUrl: props.user.avatarUrl,
-            errors: null
+            avatar: props.user.avatarUrl
         };
+    }
+    componentWillUnmount() {
+        this.props.clearErrors();
     }
 
     render() {
@@ -53,15 +57,15 @@ export class SettingsPanel extends Component {
     }
 
     renderErrorField = () => (
-        <ErrorField errors={this.state.errors}/>
+        <ErrorField errors={this.props.errors}/>
     )
 
     renderAvatar = () => (
-        this.state.avatarUrl
+        this.state.avatar
             ? (
                 <img
                     className="user-avatar user-avatar--200x200 profile-settings__avatar"
-                    src={this.state.avatarUrl}
+                    src={this.state.avatar}
                     alt="avatar"
                 />
             )
@@ -76,6 +80,7 @@ export class SettingsPanel extends Component {
                     className="file-input"
                     type="file"
                     accept="image/*"
+                    alt="avatar"
                     onChange={this.handleAvatarChange}
                 />
                 <span className="file-cta">
@@ -122,24 +127,26 @@ export class SettingsPanel extends Component {
     }
 
     setImageToAvatarPreview() {
-        if (!this.imageInput.files) {
+        if (!this.imageInput.files || this.imageInput.files.length < 1) {
             return;
         }
 
         const reader = new FileReader();
         reader.onload = (e) => {
-            this.setState({ avatarUrl: e.target.result });
+            this.setState({ avatar: e.target.result });
         };
         reader.readAsDataURL(this.imageInput.files[0]);
     }
 
     handleSaveClick = () => {
-        const { day, month, year } = this.datePicker.state;
-
-        const birthDate = new Date();
-
-        // TODO: send valid data on server
+        this.props.updateProfileInfo({
+            birthDate: this.datePicker.state,
+            avatarImage: {
+                src: this.state.avatar,
+                size: this.imageInput.files[0].size
+            }
+        });
     }
 }
 
-export default connect(mapStateToProps)(SettingsPanel);
+export default connect(mapStateToProps, { updateProfileInfo, clearErrors })(SettingsPanel);

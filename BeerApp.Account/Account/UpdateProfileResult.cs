@@ -7,9 +7,5 @@ namespace BeerApp.Account.Account
     {
 	    public UserProfile Profile { get; set; }
 	    public List<string> Errors { get; set; }
-		public bool Succeeded
-		{
-			get => !(Errors?.Count > 0);
-		}
 	}
 }

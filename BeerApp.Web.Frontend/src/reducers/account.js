@@ -4,35 +4,33 @@ const initialState = {
     user: {
         birthDate: new Date(),
         nickName: 'Ann',
-        email: 'myemail@gmail.com',
-        avatarUrl: 'paporotnik_list_rastenie_zelenyj_119970_1920x1080'
+        email: 'myemail@gmail.com'
     },
     lastErrors: null
 };
 
 export default function account(state = initialState, action) {
     switch (action.type) {
+    case actionTypes.SIGN_OUT:
     case actionTypes.SIGN_IN_REQUESTED:
         return {
             user: null,
             lastErrors: null
         };
+    case actionTypes.UPDATE_PROFILE_SUCCEEDED:
     case actionTypes.SIGN_IN_SUCCEEDED:
         return {
             user: action.payload
         };
+    case actionTypes.UPDATE_PROFILE_FAILED:
     case actionTypes.SIGN_IN_FAILED:
         return {
+            ...state,
             lastErrors: action.payload
         };
     case actionTypes.CLEAR_ERRORS:
         return {
             ...state,
-            lastErrors: null
-        };
-    case actionTypes.SIGN_OUT:
-        return {
-            user: null,
             lastErrors: null
         };
     default:

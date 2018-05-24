@@ -5,8 +5,8 @@ const signIn = credentials =>
     api.post('/account/login', credentials)
         .then((response) => {
             const signInResult = mapper.mapToSignInResult(response);
-            if (signInResult.userProfileInfo) {
-                return signInResult.userProfileInfo;
+            if (signInResult.userProfile) {
+                return signInResult.userProfile;
             }
 
             const reason = signInResult.emailIsNotConfirmed
@@ -29,13 +29,24 @@ const signOut = () => api.get('/account/logout')
         throwError('sign out failed', 'server error');
     });
 
-const updateProfileInfo = ({ avatarImage, birthDate }) =>
+const updateProfileInfo = newProfileInfo =>
     api.post('/account/profile', {
-        profileImage: avatarImage,
-        birthDate
+        ...mapper.mapToChangableProfileInfo(newProfileInfo)
     })
-        .then(response => console.log(response))
-        .catch(error => console.log('fuck'));
+        .then((response) => {
+            const updateResult = mapper.mapToUpdateResult(response);
+            if (updateResult.userProfileInfo) {
+                return updateResult.userProfile;
+            }
+
+            throwError('update profile failed', 'can`t update profile, invalid data');
+        })
+        .catch((error) => {
+            if (!error.reasons) {
+                throwError('update profile failed', 'failed, try later');
+            }
+            throw error;
+        });
 
 function throwError(message, reasons) {
     const error = new Error(message);
