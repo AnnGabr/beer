@@ -1,4 +1,4 @@
-﻿namespace BeerApp.Account.Image.CloudinaryCloud
+﻿namespace BeerApp.Account.Image
 {
     public class CloudinaryOptions
     {

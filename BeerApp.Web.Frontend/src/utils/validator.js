@@ -9,7 +9,7 @@ function validateProfileInfo(profileInfo) {
         errors.push('invalid date');
     }
     if (!isValidAvatarImage(profileInfo.avatarImage)) {
-        errors.push(`image size must be less then ${validationParams.MAX_AVATAR_SIZE_MB}mb`);
+        errors.push(`image size must be less than ${validationParams.MAX_AVATAR_SIZE_MB}mb`);
     }
 
     return errors.length > 0 ? errors : null;

@@ -7,7 +7,7 @@ using CloudinaryDotNet.Actions;
 using Microsoft.Extensions.Options;
 using CloudinaryAccount = CloudinaryDotNet.Account;
 
-namespace BeerApp.Account.Image.CloudinaryCloud
+namespace BeerApp.Account.Image
 {
     public class CloudinaryService : IImageCloudService
     {
@@ -50,7 +50,7 @@ namespace BeerApp.Account.Image.CloudinaryCloud
 
 		public async Task<CloudinaryUploadResponse> UploadAsync(string base64StringImage, Transformation transformation)
 		{
-			ImageUploadResult uploadResult = await Task.Run(() =>
+			ImageUploadResult uploadResult = await Task.Run<ImageUploadResult>(() =>
 				Cloudinary.Upload(
 					new ImageUploadParams()
 					{

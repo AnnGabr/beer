@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using BeerApp.Account.Account;
-using BeerApp.Account.Models;
+using BeerApp.Account.Account.Models;
 using BeerApp.Web.Extentions.Attributes;
 using BeerApp.Web.Models.User;
 using BeerApp.Web.Services;

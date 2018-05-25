@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using BeerApp.Account.Models;
+using BeerApp.Account.Account.Models;
 using BeerApp.DataAccess.Models;
 
 namespace BeerApp.Account.Account

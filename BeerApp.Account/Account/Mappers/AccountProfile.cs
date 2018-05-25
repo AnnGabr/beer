@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using BeerApp.Account.Models;
+using BeerApp.Account.Account.Models;
 using BeerApp.DataAccess.Models;
 
-namespace BeerApp.Account.Mappers
+namespace BeerApp.Account.Account.Mappers
 {
 	public class AccountProfile : Profile
 	{

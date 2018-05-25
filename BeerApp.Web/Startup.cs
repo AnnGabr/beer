@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Net;
-using System.Threading.Tasks;
+using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using AutoMapper;
 using BeerApp.Account.Account;
-using BeerApp.Account.Image.CloudinaryCloud;
 using BeerApp.Account.Image;
+using BeerApp.Account.Jwt;
 using BeerApp.Web.Mappers;
 using BeerApp.Web.Services;
 using BeerApp.DataAccess;
@@ -20,6 +17,8 @@ using BeerApp.DataAccess.Models;
 using BeerApp.DataAccess.Repositories;
 using BeerApp.PunkApi.Services;
 using BeerApp.Account.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BeerApp.Web
 {
@@ -37,7 +36,7 @@ namespace BeerApp.Web
 	        ConfigureMapper(services);
 			ConfigureDbConnection(services);
 			ConfigureIdentity(services);
-			ConfigureCookie(services);
+	        ConfigureJwt(services);
 			ConfigureCustomServices(services);
 			ConfigureMvc(services);
 		}
@@ -70,7 +69,6 @@ namespace BeerApp.Web
 			    options.Password.RequireNonAlphanumeric = false;
 			    options.Password.RequireUppercase = false;
 			    options.Password.RequiredUniqueChars = 3;
-			    options.Password.RequireLowercase = true;
 
 				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
 			    options.Lockout.MaxFailedAccessAttempts = 10;
@@ -80,23 +78,37 @@ namespace BeerApp.Web
 		    });
 		}
 
-	    private void ConfigureCookie(IServiceCollection services)
+	    private void ConfigureJwt(IServiceCollection services)
 	    {
-		    Func<RedirectContext<CookieAuthenticationOptions>, Task> ReplaceRedirector(HttpStatusCode statusCode, Func<RedirectContext<CookieAuthenticationOptions>, Task> existingRedirector) =>
-			    context => {
-					context.Response.StatusCode = (int)statusCode;
-					return Task.CompletedTask;
-			    };
+		    services.Configure<JwtOptions>(options =>
+		    {
+			    options.Issuer = Configuration["Jwt:Issuer"];
+			    options.Audience = Configuration["Jwt:Issuer"];
+			    options.ExpirationInDays = int.Parse(Configuration["Jwt:JwtExpireDays"]);
+			    options.SigningCredentials = new SigningCredentials(
+					new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),SecurityAlgorithms.HmacSha256);
+		    });
 
-			services.ConfigureApplicationCookie(options =>
-			{
-				options.Cookie.HttpOnly = true;
-				options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-				options.SlidingExpiration = true;
+		    var tokenValidationParameters = new TokenValidationParameters
+		    {
+				ValidateIssuer = true,
+			    ValidateAudience = true,
+			    ValidateLifetime = true,
+			    ValidateIssuerSigningKey = true,
 
-				options.Events.OnRedirectToAccessDenied = ReplaceRedirector(HttpStatusCode.Forbidden, options.Events.OnRedirectToAccessDenied);
-				options.Events.OnRedirectToLogin = ReplaceRedirector(HttpStatusCode.Unauthorized, options.Events.OnRedirectToLogin);
-			});
+				ValidIssuer = Configuration["Jwt:Issuer"],
+				ValidAudience = Configuration["Jwt:Issuer"],
+			    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
+				ClockSkew = TimeSpan.Zero //TODO:what does it do
+		    };
+
+		    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(cfg =>
+				{
+					cfg.ClaimsIssuer = Configuration["Jwt:Issuer"];
+					cfg.TokenValidationParameters = tokenValidationParameters;
+					cfg.SaveToken = true;
+				});
 		}
 
 	    private void ConfigureCustomServices(IServiceCollection services)
@@ -118,33 +130,33 @@ namespace BeerApp.Web
 		    ConfigureImageService(services);
 	    }
 
-	    private void ConfigureEmailService(IServiceCollection services)
+	    private void ConfigureImageService(IServiceCollection services)
 		{
-			services.AddTransient<IImageCloudService, CloudinaryService>();
-
 			services.Configure<CloudinaryOptions>(options => {
 				options.CloudName = Configuration["CloundinarySecrets:CloudName"];
 				options.ApiKey = Configuration["CloundinarySecrets:ApiKey"];
 				options.ApiSecret = Configuration["CloundinarySecrets:ApiSecret"];
 			});
+
+			services.AddTransient<IImageCloudService, CloudinaryService>();	
 		}
 
-	    private void ConfigureImageService(IServiceCollection services)
+	    private void ConfigureEmailService(IServiceCollection services)
 	    {
-			services.AddTransient<IEmailSender, SendGridEmailSender>();
-
 		    services.Configure<SendGridOptions>(options => {
 			    options.SendGridKey = Configuration["SendGridKey"];
 		    });
 
-		    services.AddTransient<IVerificationEmailSender, VerificationEmailSender>();
+			services.AddTransient<IEmailSender, SendGridEmailSender>();
 
-		    services.Configure<VerificationEmailOptions>(options => {
-			    options.FromEmail = Configuration["VarificationEmailDetails:FromEmail"];
-			    options.FromName = Configuration["VarificationEmailDetails:FromName"];
-			    options.Subject = Configuration["VarificationEmailDetails:Subject"];
-		    });
-		}
+			services.Configure<VerificationEmailOptions>(options => {
+				options.FromEmail = Configuration["VarificationEmailDetails:FromEmail"];
+				options.FromName = Configuration["VarificationEmailDetails:FromName"];
+				options.Subject = Configuration["VarificationEmailDetails:Subject"];
+			});
+
+		    services.AddTransient<IVerificationEmailSender, VerificationEmailSender>();
+	    }
 
 		private void ConfigureMvc(IServiceCollection services)
 		{

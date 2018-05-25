@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BeerApp.Account.Models;
+using BeerApp.Account.Account.Models;
 using BeerApp.Web.Models.User;
 
 namespace BeerApp.Web.Mappers.Profiles

@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace BeerApp.Account.Image.CloudinaryCloud
+namespace BeerApp.Account.Image
 {
 	public class CloudinaryUploadResponse
 	{

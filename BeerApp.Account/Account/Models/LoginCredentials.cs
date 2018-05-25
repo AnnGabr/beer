@@ -1,4 +1,4 @@
-﻿namespace BeerApp.Account.Models
+﻿namespace BeerApp.Account.Account.Models
 {
     public class LoginCredentials
     {

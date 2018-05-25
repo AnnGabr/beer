@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BeerApp.Account.Models
+namespace BeerApp.Account.Account.Models
 {
     public class RegisterCredentials
     {
@@ -8,6 +8,5 @@ namespace BeerApp.Account.Models
 		public string Password { get; set; }
 		public string Email { get; set; }
 		public DateTime? BirthDate { get; set; }
-		public string ProfilePictureUrl { get; set; }
 	}
 }

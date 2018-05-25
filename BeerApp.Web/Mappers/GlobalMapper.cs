@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using BeerApp.Account.Account.Mappers;
 using BeerApp.Account.Image.Mappers;
 using BeerApp.Web.Mappers.Profiles;
-using BeerApp.Account.Mappers;
 
 namespace BeerApp.Web.Mappers
 {
@@ -15,7 +15,7 @@ namespace BeerApp.Web.Mappers
 				cfg.AddProfile(new BeerProfile());
 				cfg.AddProfile(new UserProfile());
 				cfg.AddProfile(new AccountProfile());
-				cfg.AddProfile(new ImageServiceProfile());
+				cfg.AddProfile(new ImageProfile());
 			})
 			.CreateMapper();
 		}

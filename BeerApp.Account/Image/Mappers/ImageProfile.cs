@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using BeerApp.Account.Image.CloudinaryCloud;
 using CloudinaryDotNet.Actions;
 
 namespace BeerApp.Account.Image.Mappers
 {
-    public class ImageServiceProfile : Profile
+    public class ImageProfile : Profile
     {
-	    public ImageServiceProfile()
+	    public ImageProfile()
 	    {
 		    CreateMap<ImageUploadResult, CloudinaryImage>();
 	    }

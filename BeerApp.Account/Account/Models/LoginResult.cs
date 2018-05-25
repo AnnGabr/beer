@@ -1,6 +1,4 @@
-﻿using BeerApp.Account.Models;
-
-namespace BeerApp.Account.Account
+namespace BeerApp.Account.Account.Models
 {
     public class LoginResult
     {
