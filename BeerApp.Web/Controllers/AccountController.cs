@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +10,11 @@ using BeerApp.Web.Extentions.Attributes;
 using BeerApp.Web.Models.User;
 using BeerApp.Web.Services;
 using BeerApp.DataAccess.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace BeerApp.Web.Controllers
 {
-	[Authorize]
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 	public class AccountController : Controller
 	{
 		private readonly IAccountService accountService;
@@ -49,6 +51,18 @@ namespace BeerApp.Web.Controllers
 		[AllowAnonymous]
 		[ValidateBody]
 		public async Task<IActionResult> LoginAsync([FromBody] UserToLogin userToLogin)
+		{
+			var loginParams = mapper.Map<LoginCredentials>(userToLogin);
+
+			LoginResult loginResult = await accountService.LoginAsync(loginParams);
+
+			return new ObjectResult(loginResult);
+		}
+
+		[Route("account/token")]
+		[HttpPost]
+		[AllowAnonymous]
+		public async Task<IActionResult> AuthAsync([FromBody] UserToLogin userToLogin)
 		{
 			var loginParams = mapper.Map<LoginCredentials>(userToLogin);
 

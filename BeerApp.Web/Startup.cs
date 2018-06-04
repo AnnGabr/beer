@@ -10,6 +10,7 @@ using AutoMapper;
 using BeerApp.Account.Account;
 using BeerApp.Account.Image;
 using BeerApp.Account.Jwt;
+using BeerApp.Account.Jwt.Interfaces;
 using BeerApp.Web.Mappers;
 using BeerApp.Web.Services;
 using BeerApp.DataAccess;
@@ -84,30 +85,30 @@ namespace BeerApp.Web
 		    {
 			    options.Issuer = Configuration["Jwt:Issuer"];
 			    options.Audience = Configuration["Jwt:Issuer"];
-			    options.ExpirationInDays = int.Parse(Configuration["Jwt:JwtExpireDays"]);
+			    options.ExpirationInDays = int.Parse(Configuration["Jwt:ExpireDays"]);
 			    options.SigningCredentials = new SigningCredentials(
-					new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),SecurityAlgorithms.HmacSha256);
+					new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])), SecurityAlgorithms.HmacSha256);
 		    });
 
-		    var tokenValidationParameters = new TokenValidationParameters
-		    {
-				ValidateIssuer = true,
-			    ValidateAudience = true,
-			    ValidateLifetime = true,
-			    ValidateIssuerSigningKey = true,
-
-				ValidIssuer = Configuration["Jwt:Issuer"],
-				ValidAudience = Configuration["Jwt:Issuer"],
-			    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
-				ClockSkew = TimeSpan.Zero //TODO:what does it do
-		    };
+		    services.AddSingleton<IJwtFactory, JwtFactory>();
 
 		    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-				.AddJwtBearer(cfg =>
-				{
-					cfg.ClaimsIssuer = Configuration["Jwt:Issuer"];
-					cfg.TokenValidationParameters = tokenValidationParameters;
-					cfg.SaveToken = true;
+				.AddJwtBearer(options =>
+			    {
+				    options.RequireHttpsMetadata = false; //TODO: not to use in ral app
+					options.ClaimsIssuer = Configuration["Jwt:Issuer"];
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuer = true,
+						ValidateAudience = true,
+						ValidateLifetime = true,
+						ValidateIssuerSigningKey = true,
+						ValidIssuer = Configuration["Jwt:Issuer"],
+						ValidAudience = Configuration["Jwt:Issuer"],
+						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
+						ClockSkew = TimeSpan.Zero 
+					};
+					//options.SaveToken = true; //TODO:what does it do
 				});
 		}
 

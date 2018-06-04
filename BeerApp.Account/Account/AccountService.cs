@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -9,6 +10,7 @@ using BeerApp.Account.Extensions;
 using BeerApp.Account.Helpers;
 using BeerApp.Account.Image;
 using BeerApp.Account.Image.Transformations;
+using BeerApp.Account.Jwt.Interfaces;
 using BeerApp.Account.Services;
 using BeerApp.DataAccess.Models;
 using Microsoft.AspNetCore.Identity;
@@ -22,15 +24,18 @@ namespace BeerApp.Account.Account
 		protected readonly UserManager<User> UserManager;
 		protected readonly SignInManager<User> SignInManager;
 		protected readonly IImageCloudService ImageCloudService;
-		
+		protected readonly IJwtFactory JwtFactory;
+
 		public AccountService(UserManager<User> userManager, SignInManager<User> signInManager, 
-			IMapper mapper, IVerificationEmailSender varificationEmailSender, IImageCloudService imageCloudService)
+			IMapper mapper, IVerificationEmailSender varificationEmailSender, 
+			IImageCloudService imageCloudService, IJwtFactory jwtFactory)
 		{
 			Mapper = mapper;
 			VarificationEmailSender = varificationEmailSender;
 			UserManager = userManager;
 			SignInManager = signInManager;
 			ImageCloudService = imageCloudService;
+			JwtFactory = jwtFactory;
 		}
 
 		public async Task<IReadOnlyList<string>> RegisterAsync(RegisterCredentials registerCredentials, string host)
@@ -64,7 +69,11 @@ namespace BeerApp.Account.Account
 			{
 				User user = await UserManager.FindByEmailAsync(loginCredentials.Email);
 
-				return new LoginResult() { User = Mapper.Map<UserProfile>(user) };	
+				return new LoginResult()
+				{
+					User = Mapper.Map<UserProfile>(user),
+					Token = JwtFactory.GenerateEncodedToken(user)
+				};	
 			}
 
 			return new LoginResult()
@@ -95,7 +104,7 @@ namespace BeerApp.Account.Account
 		{
 			User user = await UserManager.GetUserAsync(principal);
 
-			return user == null ? null : Mapper.Map<UserProfile>(user);
+			return Mapper.Map<UserProfile>(user);
 		}
 
 		public async Task<bool> IsEmailRegistered(string emailAddress)

@@ -4,5 +4,6 @@ namespace BeerApp.Account.Account.Models
     {
 	    public UserProfile User { get; set; }
 		public bool EmailIsNotConfirmed { get; set; }
+	    public string Token { get; set; }
 	}
 }

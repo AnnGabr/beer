@@ -1,6 +1,9 @@
-﻿namespace BeerApp.Account.Jwt.Interfaces
+﻿using BeerApp.DataAccess.Models;
+
+namespace BeerApp.Account.Jwt.Interfaces
 {
-    class IJwtFactory
+	public interface IJwtFactory
     {
+	    string GenerateEncodedToken(User user);
     }
 }

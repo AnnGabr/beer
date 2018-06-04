@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Threading.Tasks;
+using BeerApp.Account.Jwt.Interfaces;
+using BeerApp.DataAccess.Models;
 using Microsoft.Extensions.Options;
 
 namespace BeerApp.Account.Jwt
 {
-	internal class JwtFactory
+	public class JwtFactory : IJwtFactory
     {
 		public JwtOptions Options { get; }
 
@@ -15,14 +16,21 @@ namespace BeerApp.Account.Jwt
 		    Options = optionsAccessor.Value;
 	    }
 
-	    public async Task<string> GenerateEncodedToken(string userEmail, ClaimsIdentity identity)
+	    public string GenerateEncodedToken(User user)
 	    {
+			var claims = new[]
+		    {
+			    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+				new Claim(JwtRegisteredClaimNames.Email, user.Email)
+			};
+
 		    var jwt = new JwtSecurityToken(
 			    Options.Issuer,
 			    Options.Audience,
-				identity.Claims,
-			    DateTime.Now.AddDays(Options.ExpirationInDays),
+				claims,
 			    DateTime.UtcNow,
+				DateTime.Now.AddDays(Options.ExpirationInDays),			    
 				Options.SigningCredentials);
 
 		    string encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
