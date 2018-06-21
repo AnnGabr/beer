@@ -1,11 +1,14 @@
 import * as api from '../api/apiCalls';
+import localStorage from './localStorageService';
 import mapper from '../utils/userMapper';
 
 const signIn = credentials =>
     api.post('/account/login', credentials)
         .then((response) => {
             const signInResult = mapper.mapToSignInResult(response);
-            if (signInResult.userProfile) {
+            if (signInResult.userProfile && signInResult.token) {
+                localStorage.setItem(localStorage.keys.JWT_TOKEN, signInResult.token);
+
                 return signInResult.userProfile;
             }
 
@@ -35,7 +38,7 @@ const updateProfileInfo = newProfileInfo =>
     })
         .then((response) => {
             const updateResult = mapper.mapToUpdateResult(response);
-            if (updateResult.userProfileInfo) {
+            if (updateResult.userProfile) {
                 return updateResult.userProfile;
             }
 

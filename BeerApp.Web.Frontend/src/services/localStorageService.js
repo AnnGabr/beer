@@ -1,3 +1,7 @@
+const keys = {
+    JWT_TOKEN: 'JWT_TOKEN'
+};
+
 function getItem(key) {
     let item;
     try {
@@ -21,5 +25,6 @@ function setItem(key, item) {
 
 export default{
     getItem,
-    setItem
+    setItem,
+    keys
 };

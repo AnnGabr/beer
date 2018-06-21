@@ -1,5 +1,6 @@
 const mapToSignInResult = signInResponse => ({
     emailIsNotConfirmed: signInResponse.emailIsNotConfirmed,
+    token: signInResponse.token,
     userProfile: mapToProfileInfo(signInResponse.user)
 });
 

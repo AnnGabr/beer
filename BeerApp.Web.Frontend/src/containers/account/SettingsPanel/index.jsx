@@ -20,7 +20,8 @@ export class SettingsPanel extends Component {
         super(props);
 
         this.state = {
-            avatar: props.user.avatarUrl
+            avatar: props.user.avatarUrl,
+            birthDate: props.user.birthDate
         };
     }
     componentWillUnmount() {
@@ -92,6 +93,22 @@ export class SettingsPanel extends Component {
         </div>
     )
 
+    handleAvatarChange = () => {
+        this.setImageToAvatarPreview();
+    }
+
+    setImageToAvatarPreview() {
+        if (!this.imageInput.files || this.imageInput.files.length < 1) {
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            this.setState({ avatar: e.target.result });
+        };
+        reader.readAsDataURL(this.imageInput.files[0]);
+    }
+
     renderUserInfo = () => (
         <table className="table has-text-grey">
             <tbody>
@@ -112,38 +129,28 @@ export class SettingsPanel extends Component {
     )
 
     renderBirthDateSettings() {
-        const birthDate = new Date(this.props.user.birthDate);
+        const { birthDate } = this.props.user;
 
         return (
             <DatePicker
-                date={birthDate}
-                ref={(node) => { this.datePicker = node; }}
+                selected={birthDate}
+                onChange={this.handleBirthDateChange}
             />
         );
     }
 
-    handleAvatarChange = () => {
-        this.setImageToAvatarPreview();
-    }
-
-    setImageToAvatarPreview() {
-        if (!this.imageInput.files || this.imageInput.files.length < 1) {
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            this.setState({ avatar: e.target.result });
-        };
-        reader.readAsDataURL(this.imageInput.files[0]);
+    handleBirthDateChange = selectedMoment => {
+        this.setState({
+            birthDate: selectedMoment.format()
+        });
     }
 
     handleSaveClick = () => {
         this.props.updateProfileInfo({
-            birthDate: this.datePicker.state,
+            birthDate: this.state.birthDate,
             avatarImage: {
                 src: this.state.avatar,
-                size: this.imageInput.files[0].size
+                size: this.imageInput.files[0] && this.imageInput.files[0].size
             }
         });
     }

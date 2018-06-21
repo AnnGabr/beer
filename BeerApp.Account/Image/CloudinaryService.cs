@@ -66,7 +66,7 @@ namespace BeerApp.Account.Image
 				{
 					Image = cloudinaryImage,
 					StatusCode = uploadResult.StatusCode,
-					Error = uploadResult.Error.Message
+					Error = uploadResult.Error?.Message
 				};
 			}
 

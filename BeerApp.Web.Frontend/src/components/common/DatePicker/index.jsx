@@ -1,33 +1,58 @@
 import React, { Component } from 'react';
 import lodash from 'lodash';
+import moment from 'moment';
+
+const YEAR_SHIFT = 70;
 
 export default class DatePicker extends Component {
     constructor(props) {
         super(props);
 
-        const date = props.date || new Date();
+        let selectedMoment = moment(props.selected);
+        if (!selectedMoment.isValid()) {
+            selectedMoment = moment();
+        }
         this.state = {
-            day: date.getUTCDate(),
-            month: date.getUTCMonth() + 1,
-            year: date.getUTCFullYear()
+            day: selectedMoment.date(),
+            month: selectedMoment.month() + 1,
+            year: selectedMoment.year()
         };
+        this.setYearRange(selectedMoment);
+    }
+
+    setYearRange() {
+        const currentYear = moment().year();
+        this.endYear = currentYear;
+        this.startYear = currentYear - YEAR_SHIFT;
     }
 
     render() {
         return (
             <div className="date-picker">
                 <span className="select is-info is-small">
-                    <select value={this.state.day} onChange={this.handleDayChange}>
+                    <select
+                        ref={node => { this.daySelect = node; }}
+                        value={this.state.day}
+                        onChange={this.handleChange}
+                    >
                         {this.renderDayOptions()}
                     </select>
                 </span>
                 <div className="select is-info is-small">
-                    <select value={this.state.month} onChange={this.handleMonthChange}>
+                    <select
+                        ref={node => { this.monthSelect = node; }}
+                        value={this.state.month}
+                        onChange={this.handleChange}
+                    >
                         {this.renderMonthOptions()}
                     </select>
                 </div>
                 <div className="select is-info is-small">
-                    <select value={this.state.year} onChange={this.handleYearChange}>
+                    <select
+                        ref={node => { this.yearSelect = node; }}
+                        value={this.state.year}
+                        onChange={this.handleChange}
+                    >
                         {this.renderYearOptions()}
                     </select>
                 </div>
@@ -36,25 +61,21 @@ export default class DatePicker extends Component {
     }
 
     renderDayOptions() {
-        const { day } = this.state;
-
-        return this.renderOptionsInRange(31, day);
+        return this.renderOptionsInRange(31);
     }
 
     renderMonthOptions() {
-        const { month } = this.state;
-
-        return this.renderOptionsInRange(12, month);
+        return this.renderOptionsInRange(12);
     }
 
     renderYearOptions() {
-        const { year } = this.state;
+        const { startYear, endYear } = this;
 
-        return this.renderOptionsInRange(year, year, year - 40);
+        return this.renderOptionsInRange(endYear, startYear);
     }
 
-    renderOptionsInRange = (end, selectedValue, start = 0) =>
-        lodash.range(start, end).map((value) => {
+    renderOptionsInRange = (end, start = 0) =>
+        lodash.range(start, end).map(value => {
             const currentValue = value + 1;
 
             return (
@@ -64,16 +85,31 @@ export default class DatePicker extends Component {
             );
         });
 
-    handleDayChange = (e) => {
-        this.setState({ day: Number(e.target.value) });
+    handleChange = () => {
+        const day = this.daySelect.value;
+        const month = this.monthSelect.value;
+        const year = this.yearSelect.value;
+
+        const validMoment = this.getValidMoment(year, month, day);
+
+        this.setState({
+            year,
+            month,
+            day: validMoment.date()
+        });
+
+        this.props.onChange(validMoment);
     }
 
-    handleMonthChange = (e) => {
-        this.setState({ month: Number(e.target.value) });
+    getValidMoment(year, month, day) {
+        let validMoment = this.getMoment(year, month - 1, day);
+        while (!validMoment.isValid()) {
+            day -= 1;
+            validMoment = this.getMoment(year, month - 1, day);
+        }
+
+        return validMoment;
     }
 
-    handleYearChange = (e) => {
-        this.setState({ year: Number(e.target.value) });
-    }
+    getMoment = (year, month, day) => moment([year, month, day]);
 }
-
