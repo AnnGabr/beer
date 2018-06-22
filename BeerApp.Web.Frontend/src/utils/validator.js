@@ -1,6 +1,7 @@
 const validationParams = {
-    MAX_AVATAR_SIZE_KB: 500 * 1024,
-    MAX_AVATAR_SIZE_MB: 500
+    MAX_AVATAR_SIZE_B: 2 * 1024 * 1024,
+    MAX_AVATAR_SIZE_KB: 2 * 1024,
+    MAX_AVATAR_SIZE_MB: 2
 };
 
 function validateProfileInfo(profileInfo) {
@@ -14,7 +15,7 @@ function validateProfileInfo(profileInfo) {
 }
 
 const isValidAvatarImage = avatarImage =>
-    avatarImage.size <= validationParams.MAX_AVATAR_SIZE_KB;
+    avatarImage.size <= validationParams.MAX_AVATAR_SIZE_B;
 
 function validateEmail(email) {
 

@@ -27,8 +27,7 @@ namespace BeerApp.Account.Image
 
 		public string GetImageUrl(string imageId)
 		{
-			return Cloudinary.Api.UrlImgUp
-				.BuildImageTag(imageId);
+			return Cloudinary.Api.UrlImgUp.BuildUrl(imageId);
 		}
 
 		public async Task<ImageUploadResponse> UploadAvatarAsync(string base64StringImage, TransformationParams transformationParams)

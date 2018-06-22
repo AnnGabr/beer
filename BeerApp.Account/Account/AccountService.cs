@@ -17,159 +17,167 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BeerApp.Account.Account
 {
-	public class AccountService : IAccountService
-	{
-		protected readonly IMapper Mapper;
-		protected readonly IVerificationEmailSender VarificationEmailSender;
-		protected readonly UserManager<User> UserManager;
-		protected readonly SignInManager<User> SignInManager;
-		protected readonly IImageCloudService ImageCloudService;
-		protected readonly IJwtFactory JwtFactory;
+    public class AccountService : IAccountService
+    {
+        protected readonly IMapper Mapper;
+        protected readonly IVerificationEmailSender VarificationEmailSender;
+        protected readonly UserManager<User> UserManager;
+        protected readonly SignInManager<User> SignInManager;
+        protected readonly IImageCloudService ImageCloudService;
+        protected readonly IJwtFactory JwtFactory;
 
-		public AccountService(UserManager<User> userManager, SignInManager<User> signInManager, 
-			IMapper mapper, IVerificationEmailSender varificationEmailSender, 
-			IImageCloudService imageCloudService, IJwtFactory jwtFactory)
-		{
-			Mapper = mapper;
-			VarificationEmailSender = varificationEmailSender;
-			UserManager = userManager;
-			SignInManager = signInManager;
-			ImageCloudService = imageCloudService;
-			JwtFactory = jwtFactory;
-		}
+        public AccountService(UserManager<User> userManager, SignInManager<User> signInManager,
+            IMapper mapper, IVerificationEmailSender varificationEmailSender,
+            IImageCloudService imageCloudService, IJwtFactory jwtFactory)
+        {
+            Mapper = mapper;
+            VarificationEmailSender = varificationEmailSender;
+            UserManager = userManager;
+            SignInManager = signInManager;
+            ImageCloudService = imageCloudService;
+            JwtFactory = jwtFactory;
+        }
 
-		public async Task<IReadOnlyList<string>> RegisterAsync(RegisterCredentials registerCredentials, string host)
-		{
-			var user = Mapper.Map<User>(registerCredentials);
-			user.UserName = registerCredentials.Email;
+        public async Task<IReadOnlyList<string>> RegisterAsync(RegisterCredentials registerCredentials, string host)
+        {
+            var user = Mapper.Map<User>(registerCredentials);
+            user.UserName = registerCredentials.Email;
 
-			IdentityResult registrationResult = await UserManager.CreateAsync(user, registerCredentials.Password);
-			if (registrationResult.Succeeded) 
-			{
-				string emailVerificationCode = await UserManager.GenerateEmailConfirmationTokenAsync(user);
-				string confirmationUrl = 
-					$"http://{host}/account/confirm/email/{user.Id}/{HttpUtility.UrlEncode(emailVerificationCode)}";
+            IdentityResult registrationResult = await UserManager.CreateAsync(user, registerCredentials.Password);
+            if (registrationResult.Succeeded)
+            {
+                string emailVerificationCode = await UserManager.GenerateEmailConfirmationTokenAsync(user);
+                string confirmationUrl =
+                    $"http://{host}/account/confirm/email/{user.Id}/{HttpUtility.UrlEncode(emailVerificationCode)}";
 
-				SendEmailResponse response = await VarificationEmailSender
-					.SendUserVarificationEmailAsync(user.NickName, user.Email, confirmationUrl);
-				
-				return response.Errors;
-			}
+                SendEmailResponse response = await VarificationEmailSender
+                    .SendUserVarificationEmailAsync(user.NickName, user.Email, confirmationUrl);
 
-			return registrationResult.GetValidationErrors();
-		}
-	
-		public async Task<LoginResult> LoginAsync(LoginCredentials loginCredentials)
-		{
-			await LogoutAsync();
+                return response.Errors;
+            }
 
-			SignInResult signInResult = await SignInManager
-				.PasswordSignInAsync(loginCredentials.Email, loginCredentials.Password, loginCredentials.RememberMe, false);
-			if (signInResult.Succeeded)
-			{
-				User user = await UserManager.FindByEmailAsync(loginCredentials.Email);
+            return registrationResult.GetValidationErrors();
+        }
 
-				return new LoginResult()
-				{
-					User = Mapper.Map<UserProfile>(user),
-					Token = JwtFactory.GenerateEncodedToken(user)
-				};	
-			}
+        public async Task<LoginResult> LoginAsync(LoginCredentials loginCredentials)
+        {
+            await LogoutAsync();
 
-			return new LoginResult()
-			{
-				EmailIsNotConfirmed = signInResult.IsNotAllowed
-			};
-		}
+            SignInResult signInResult = await SignInManager
+                .PasswordSignInAsync(loginCredentials.Email, loginCredentials.Password, loginCredentials.RememberMe, false);
+            if (signInResult.Succeeded)
+            {
+                User user = await UserManager.FindByEmailAsync(loginCredentials.Email);
 
-		public async Task LogoutAsync()
-		{
-			await SignInManager.SignOutAsync();
-		}
+                return new LoginResult()
+                {
+                    Profile = GetUserProfile(user),
+                    Token = JwtFactory.GenerateEncodedToken(user)
+                };
+            }
 
-		public async Task<bool> DeleteAsync(ClaimsPrincipal principal)
-		{
-			User user = await UserManager.GetUserAsync(principal);
-			if (user == null)
-			{
-				return false;
-			}
+            return new LoginResult()
+            {
+                EmailIsNotConfirmed = signInResult.IsNotAllowed
+            };
+        }
 
-			IdentityResult deleteResult = await UserManager.DeleteAsync(user);
+        public async Task LogoutAsync()
+        {
+            await SignInManager.SignOutAsync();
+        }
 
-			return deleteResult.Succeeded;
-		}
+        public async Task<bool> DeleteAsync(ClaimsPrincipal principal)
+        {
+            User user = await UserManager.GetUserAsync(principal);
+            if (user == null)
+            {
+                return false;
+            }
 
-		public async Task<UserProfile> GetProfileInfo(ClaimsPrincipal principal)
-		{
-			User user = await UserManager.GetUserAsync(principal);
+            IdentityResult deleteResult = await UserManager.DeleteAsync(user);
 
-			return Mapper.Map<UserProfile>(user);
-		}
+            return deleteResult.Succeeded;
+        }
 
-		public async Task<bool> IsEmailRegistered(string emailAddress)
-		{
-			User user = await UserManager.FindByEmailAsync(emailAddress);
+        public async Task<UserProfile> GetUserProfile(ClaimsPrincipal principal)
+        {
+            User user = await UserManager.GetUserAsync(principal);
 
-			return user != null;
-		}
+            return GetUserProfile(user);
+        }
 
-		public async Task<UpdateProfileResult> UpdateProfileAsync(ClaimsPrincipal principal, ChangableProfileInfo newProfileInfo)
-		{
-			User user = await UserManager.GetUserAsync(principal);
+        public async Task<bool> IsEmailRegistered(string emailAddress)
+        {
+            User user = await UserManager.FindByEmailAsync(emailAddress);
 
-			if (newProfileInfo.ProfileImage != null)
-			{
-				ImageUploadResponse profileImageUploadResponse = await UploadImage(newProfileInfo.ProfileImage);
-				if (!profileImageUploadResponse.Succeeded)
-				{
-					return new UpdateProfileResult()
-					{
-						Errors = new List<string>() {profileImageUploadResponse.Error}
-					};
-				}
+            return user != null;
+        }
 
-				user.ProfilePictureUrl = profileImageUploadResponse.ImageId;
-			}
+        public async Task<UpdateProfileResult> UpdateProfileAsync(ClaimsPrincipal principal, ChangableProfileInfo newProfileInfo)
+        {
+            User user = await UserManager.GetUserAsync(principal);
 
-			if (newProfileInfo.BirthDate != null)
-			{
-				if (!Validator.IsBirthDateValid((DateTime)newProfileInfo.BirthDate))
-				{
-					return new UpdateProfileResult()
-					{
-						Errors = new List<string>() { "Invalid birth date." }
-					};
-				}
+            if (newProfileInfo.ProfileImage != null)
+            {
+                ImageUploadResponse profileImageUploadResponse = await UploadImage(newProfileInfo.ProfileImage);
+                if (!profileImageUploadResponse.Succeeded)
+                {
+                    return new UpdateProfileResult()
+                    {
+                        Errors = new List<string>() { profileImageUploadResponse.Error }
+                    };
+                }
 
-				user.BirthDate = newProfileInfo.BirthDate;
-			}
+                user.ProfilePictureUrl = profileImageUploadResponse.ImageId;
+            }
 
-			IdentityResult updateResult = await UserManager.UpdateAsync(user);
-			if (!updateResult.Succeeded)
-			{
-				return new UpdateProfileResult()
-				{
-					Errors = new List<string>() { "Can`t update user info." }
-				};
-			}
+            if (newProfileInfo.BirthDate != null)
+            {
+                if (!Validator.IsBirthDateValid((DateTime)newProfileInfo.BirthDate))
+                {
+                    return new UpdateProfileResult()
+                    {
+                        Errors = new List<string>() { "Invalid birth date." }
+                    };
+                }
 
-			return new UpdateProfileResult()
-			{
-				Profile = Mapper.Map<UserProfile>(user)
-			};
-		}
+                user.BirthDate = newProfileInfo.BirthDate;
+            }
 
-		private async Task<ImageUploadResponse> UploadImage(string image)
-		{
-			return await ImageCloudService.UploadAvatarAsync(image, new AvatarTransformation());
-		}
+            IdentityResult updateResult = await UserManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                return new UpdateProfileResult()
+                {
+                    Errors = new List<string>() { "Can`t update user info." }
+                };
+            }
 
-		public async Task<bool> ConfirmEmailAsync(User user, string emailToken)
-		{
-			IdentityResult result = await UserManager.ConfirmEmailAsync(user, emailToken);
-			
-			return result.Succeeded;
-		}
-	}
+            return new UpdateProfileResult()
+            {
+                Profile = GetUserProfile(user)
+            };
+        }
+
+        private UserProfile GetUserProfile(User user)
+        {
+            var userProfile = Mapper.Map<UserProfile>(user);
+            userProfile.ProfilePictureUrl = ImageCloudService.GetImageUrl(user.ProfilePictureUrl);
+
+            return userProfile;
+        }
+
+        private async Task<ImageUploadResponse> UploadImage(string image)
+        {
+            return await ImageCloudService.UploadAvatarAsync(image, new AvatarTransformation());
+        }
+
+        public async Task<bool> ConfirmEmailAsync(User user, string emailToken)
+        {
+            IdentityResult result = await UserManager.ConfirmEmailAsync(user, emailToken);
+
+            return result.Succeeded;
+        }
+    }
 }

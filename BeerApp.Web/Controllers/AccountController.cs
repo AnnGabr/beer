@@ -59,18 +59,6 @@ namespace BeerApp.Web.Controllers
 			return new ObjectResult(loginResult);
 		}
 
-		[Route("account/token")]
-		[HttpPost]
-		[AllowAnonymous]
-		public async Task<IActionResult> AuthAsync([FromBody] UserToLogin userToLogin)
-		{
-			var loginParams = mapper.Map<LoginCredentials>(userToLogin);
-
-			LoginResult loginResult = await accountService.LoginAsync(loginParams);
-
-			return new ObjectResult(loginResult);
-		}
-
 		[Route("account/logout")]
 		[HttpGet]
 		public async Task<IActionResult> LogoutAsync()
@@ -97,7 +85,7 @@ namespace BeerApp.Web.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetProfileAsync()
 		{
-			UserProfile userProfile = await accountService.GetProfileInfo(HttpContext.User);
+			UserProfile userProfile = await accountService.GetUserProfile(HttpContext.User);
 
 			return new ObjectResult(userProfile);
 		}
