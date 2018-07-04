@@ -110,6 +110,7 @@ namespace BeerApp.Web.Services
 
             return currentPage;
         }
+
         private int GetPagesCount(int itemsCount)
         {
             int fullPages = itemsCount / Options.PerPage;
@@ -117,12 +118,5 @@ namespace BeerApp.Web.Services
 
             return fullPages + notFullPages;
         }
-
-		protected int[] GetAllBeerIds(IEnumerable<Beer> beers)
-		{
-			return beers
-				.Select(beer => beer.BeerId)
-				.ToArray();
-		}
 	}
 }
