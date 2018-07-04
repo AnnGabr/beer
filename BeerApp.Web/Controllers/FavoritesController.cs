@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using BeerApp.Web.Models.Beer;
 using BeerApp.Web.Services;
+using BeerApp.Web.Models.Search;
 
 namespace BeerApp.Web.Controllers
 {
@@ -20,21 +19,17 @@ namespace BeerApp.Web.Controllers
 			this.userService = userService;
 	    }
 
-	    [Route("favorites")]
+	    [Route("favorites/{page}")]
 		[HttpGet]
-		public async Task<IActionResult> GetAsync() 
+		public async Task<IActionResult> GetAsync(int page) 
 		{
-			int? currentUserId = await GetCurrentUserId();
-			if (currentUserId == null)
-			{
-				return Unauthorized();
-			}
+            int currentUserId = (int) await userService.GetCurrentUserIdAsync(HttpContext.User);
 
-			try
+            try
 			{
-				IEnumerable<IBeer> favorites = await favoritesService.GetAllAsync((int) currentUserId);
+				FavoritesPage favoritesPage = await favoritesService.GetByPageAsync(currentUserId, page);
 
-				return new ObjectResult(favorites);
+				return new ObjectResult(favoritesPage);
 			}
 			catch (HttpRequestException exp)
 			{
@@ -46,13 +41,9 @@ namespace BeerApp.Web.Controllers
 		[HttpDelete]
 	    public async Task<IActionResult> DeleteAsync(int beerId)
 	    {
-		    int? currentUserId = await GetCurrentUserId();
-		    if (currentUserId == null)
-		    {
-			    return Unauthorized();
-		    }
+		    int currentUserId = (int) await userService.GetCurrentUserIdAsync(HttpContext.User);
 
-		    bool deleted = await favoritesService.RemoveAsync((int) currentUserId, beerId);
+		    bool deleted = await favoritesService.RemoveAsync(currentUserId, beerId);
 		    if (deleted)
 		    {
 			    return NoContent();
@@ -65,13 +56,9 @@ namespace BeerApp.Web.Controllers
 	    [HttpPost]
 	    public async Task<IActionResult> AddAsync(int punkBeerId)
 	    {
-		    int? currentUserId = await GetCurrentUserId();
-		    if (currentUserId == null)
-		    {
-			    return Unauthorized();
-		    }
+		    int currentUserId = (int) await userService.GetCurrentUserIdAsync(HttpContext.User);
 
-		    bool added = await favoritesService.AddAsync((int) currentUserId, punkBeerId);
+		    bool added = await favoritesService.AddAsync(currentUserId, punkBeerId);
 		    if (added)
 		    {
 			    return NoContent();
@@ -79,10 +66,5 @@ namespace BeerApp.Web.Controllers
 
 		    return BadRequest("Can`t add to favorites.");
 	    }
-
-		private async Task<int?> GetCurrentUserId()
-		{
-			return await userService.GetCurrentUserIdAsync(HttpContext.User);
-		}
 	}
 }

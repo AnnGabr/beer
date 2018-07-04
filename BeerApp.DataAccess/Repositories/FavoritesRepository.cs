@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -33,10 +32,13 @@ namespace BeerApp.DataAccess.Repositories
 		    return removedFavorite.Entity;
 	    }
 
-	    public async Task<IReadOnlyList<Beer>> GetAllAsync(int userId)
+	    public async Task<IReadOnlyList<Beer>> GetRangeAsync(int userId, int toSkip, int toTake)
 	    {
 		    IReadOnlyList<Beer> beers = await DbContext.UserFavoriteBeers
 			    .Where(favorite => favorite.UserId == userId)
+                .OrderBy(favorite => favorite.BeerId)
+                .Skip(toSkip)
+                .Take(toTake)
 			    .Join(
 				    DbContext.Beers,
 				    favorite => favorite.BeerId,
@@ -55,5 +57,14 @@ namespace BeerApp.DataAccess.Repositories
 
 			return userFavoriteBeer;
 	    }
+
+        public async Task<int> GetCountAsync(int userId)
+        {
+            int favoritesCount = await DbContext.UserFavoriteBeers
+                .Where(favorite => favorite.UserId == userId)
+                .CountAsync();
+
+            return favoritesCount;
+        }
     }
 }
