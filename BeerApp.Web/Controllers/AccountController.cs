@@ -50,13 +50,11 @@ namespace BeerApp.Web.Controllers
 		[HttpPost]
 		[AllowAnonymous]
 		[ValidateBody]
-		public async Task<IActionResult> LoginAsync([FromBody] UserToLogin userToLogin)
+		public async Task<LoginResult> LoginAsync([FromBody] UserToLogin userToLogin)
 		{
 			var loginParams = mapper.Map<LoginCredentials>(userToLogin);
 
-			LoginResult loginResult = await accountService.LoginAsync(loginParams);
-
-			return new ObjectResult(loginResult);
+			return await accountService.LoginAsync(loginParams);
 		}
 
 		[Route("account/logout")]
@@ -83,26 +81,22 @@ namespace BeerApp.Web.Controllers
 
 		[Route("account/profile")]
 		[HttpGet]
-		public async Task<IActionResult> GetProfileAsync()
+		public async Task<UserProfile> GetProfileAsync()
 		{
-			UserProfile userProfile = await accountService.GetUserProfile(HttpContext.User);
-
-			return new ObjectResult(userProfile);
+			return await accountService.GetUserProfile(HttpContext.User);
 		}
 
 		[Route("account/profile")]
 		[HttpPost]
-		public async Task<IActionResult> UpdateProfileInfoAsync([FromBody] ChangableProfileInfo newProfileInfo)
+		public async Task<UpdateProfileResult> UpdateProfileInfoAsync([FromBody] ChangableProfileInfo newProfileInfo) //TODO: add mapper
 		{
-			UpdateProfileResult updateResult = await accountService.UpdateProfileAsync(HttpContext.User, newProfileInfo);
-
-			return new ObjectResult(updateResult);
+			return await accountService.UpdateProfileAsync(HttpContext.User, newProfileInfo);
 		}
 
 		[Route("account/confirm/email/{userId}/{emailToken}")]
 		[HttpGet]
 		[AllowAnonymous]
-		public async Task<IActionResult> VarifyEmailAsync(string userId, string emailToken)
+		public async Task<IActionResult> VarifyEmailAsync(string userId, string emailToken) //TODO: redirect
 		{
 			User user = await userService.GetUserByIdAsync(userId);
 			if (user == null)
