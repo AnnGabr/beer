@@ -43,7 +43,7 @@ namespace BeerApp.Web.Services
 			UserFavoriteBeer favoriteBeer = await GetFavoriteAsync(userId, beer.BeerId);
 			if (favoriteBeer != null)
 			{
-				return false;
+				return true;
 			}
 
 			UserFavoriteBeer addedFavorite = await FavoritesRepository.AddAsync(new UserFavoriteBeer
@@ -60,7 +60,7 @@ namespace BeerApp.Web.Services
 			UserFavoriteBeer favoriteBeer = await GetFavoriteAsync(userId, beerId);
 			if (favoriteBeer == null)
 			{
-				return false;
+				return true;
 			}
 
 			UserFavoriteBeer removedFavorite = await FavoritesRepository.RemoveAsync(favoriteBeer);
@@ -77,14 +77,14 @@ namespace BeerApp.Web.Services
 
 		public async Task<FavoritesPage> GetByPageAsync(int userId, int page)
 		{
-            int favoritesCount = await FavoritesRepository.GetCountAsync(userId);
+            int favoritesCount = await FavoritesRepository.GetCountAsync(userId); //TODO: sync start
             int pagesCount = GetPagesCount(favoritesCount);
             page = GetValidPage(page, pagesCount);
 
             int toSkip = ((page - 1) * Options.PerPage);
             int toTake = Options.PerPage;
 
-            IEnumerable<Beer> favoriteBeers = await FavoritesRepository.GetRangeAsync(userId, toSkip, toTake);
+            IEnumerable<Beer> favoriteBeers = await FavoritesRepository.GetRangeAsync(userId, toSkip, toTake); //TODO: sync end
 
 			int[] favoritePunkBeerIds = favoriteBeers
 				.Select(beer => beer.PunkBeerId)
