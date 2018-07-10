@@ -121,7 +121,7 @@ namespace BeerApp.Web
 
 		    services.AddSingleton<IPunkApiService, PunkApiService>();
 		    services.AddTransient<IBeerService, BeerService>();
-            ConfigureFavoritesService(services);
+            services.AddTransient<IFavoritesService, FavoritesService>();
 
             ConfigureEmailService(services);		
 
@@ -130,15 +130,6 @@ namespace BeerApp.Web
 
 		    ConfigureImageService(services);
 	    }
-
-        private void ConfigureFavoritesService(IServiceCollection services)
-        {
-            services.Configure<FavoritesOptions>(options => {
-                options.PerPage = Int32.Parse(Configuration["Favorites:PerPage"]);
-            });
-
-            services.AddTransient<IFavoritesService, FavoritesService>();
-        }
 
 	    private void ConfigureImageService(IServiceCollection services)
 		{

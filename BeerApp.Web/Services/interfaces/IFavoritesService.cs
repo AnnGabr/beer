@@ -5,7 +5,7 @@ namespace BeerApp.Web.Services
 {
     public interface IFavoritesService
     {
-		Task<FavoritesPage> GetByPageAsync(int userId, int page);
+		Task<FavoritesPage> GetByPageAsync(int userId, int page, int perPage);
 		Task<bool> RemoveAsync(int userId, int beerId);
 		Task<bool> AddAsync(int userId, int punkApiBeerId);
     }

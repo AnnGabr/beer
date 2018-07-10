@@ -14,8 +14,6 @@ namespace BeerApp.Web.Services
 {
 	public class FavoritesService : IFavoritesService
 	{
-        public FavoritesOptions Options { get; }
-
         protected readonly IFavoritesRepository FavoritesRepository;
 
 		protected readonly IPunkApiService PunkApiService;
@@ -23,10 +21,9 @@ namespace BeerApp.Web.Services
 
 		protected readonly IMapper Mapper;
 
-		public FavoritesService(IOptions<FavoritesOptions> optionsAccessor, IFavoritesRepository favoritesRepository, 
-            IBeerService beerService, IPunkApiService punkApiService, IMapper mapper)
+		public FavoritesService(IFavoritesRepository favoritesRepository, IBeerService beerService,
+            IPunkApiService punkApiService, IMapper mapper)
 		{
-            Options = optionsAccessor.Value;
             FavoritesRepository = favoritesRepository;
 			BeerService = beerService;
 			PunkApiService = punkApiService;
@@ -75,14 +72,14 @@ namespace BeerApp.Web.Services
 			return userFavoriteBeer;
 		}
 
-		public async Task<FavoritesPage> GetByPageAsync(int userId, int page)
+		public async Task<FavoritesPage> GetByPageAsync(int userId, int page, int perPage)
 		{
             int favoritesCount = await FavoritesRepository.GetCountAsync(userId); //TODO: sync start
-            int pagesCount = GetPagesCount(favoritesCount);
+            int pagesCount = GetPagesCount(favoritesCount, perPage);
             page = GetValidPage(page, pagesCount);
 
-            int toSkip = ((page - 1) * Options.PerPage);
-            int toTake = Options.PerPage;
+            int toSkip = ((page - 1) * perPage);
+            int toTake = perPage;
 
             IEnumerable<Beer> favoriteBeers = await FavoritesRepository.GetRangeAsync(userId, toSkip, toTake); //TODO: sync end
 
@@ -97,7 +94,6 @@ namespace BeerApp.Web.Services
             return new FavoritesPage
             {
                 Page = page,
-                PerPage = Options.PerPage,
                 PagesCount = pagesCount,
                 Beers = zippedBeers
             };
@@ -111,10 +107,10 @@ namespace BeerApp.Web.Services
             return currentPage;
         }
 
-        private int GetPagesCount(int itemsCount)
+        private int GetPagesCount(int itemsCount, int countPerPage)
         {
-            int fullPages = itemsCount / Options.PerPage;
-            int notFullPages = itemsCount % Options.PerPage > 0 ? 1 : 0;
+            int fullPages = itemsCount / countPerPage;
+            int notFullPages = itemsCount % countPerPage > 0 ? 1 : 0;
 
             return fullPages + notFullPages;
         }

@@ -1,7 +1,7 @@
 import { actionTypes } from '../actions/actionTypes';
 
 const initialState = {
-    beerIds: [],
+    beerIds: []
 };
 
 export default function favorites(state = initialState, action) {
@@ -15,11 +15,9 @@ export default function favorites(state = initialState, action) {
 
 export const isFavorite = ({ favorites }, beerId) => favorites.beerIds.includes(beerId);
 
-export const getFavoriteBeersCount = ({ favorites }) => favorites.beerIds.length;
-
 export const getFavoriteBeersIds = ({ favorites }) => favorites.beerIds;
 
-export const addBeerId = ({ favorites }, idToAdd) => favorites.beerIds.concat(idToAdd);
+export const addBeerId = ({ favorites }, idToAdd) => [...favorites.beerIds, idToAdd];
 
 export const removeBeerId = ({ favorites }, idToRemove) =>
     favorites.beerIds.filter(id => id !== idToRemove);

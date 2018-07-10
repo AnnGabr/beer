@@ -1,19 +1,27 @@
-import localStorageService from './localStorageService';
+import * as api from '../api/apiCalls';
 
-const FAVORITES_KEY = 'favorites';
+const ROOT_URL = '/favorites';
 
-function set(beerIds) {
-    localStorageService.setItem(FAVORITES_KEY, {
-        beerIds,
-    });
+function add(punkBeerId) {
+    const url = `${ROOT_URL}/${punkBeerId}`;
+
+    return api.post(url);
 }
 
-function get() {
-    const favorites = localStorageService.getItem(FAVORITES_KEY);
-    return favorites;
+function remove(beerId) {
+    const url = `${ROOT_URL}/${beerId}`;
+
+    return api.del(url);
+}
+
+function getPage(pageNumber, perPageCount) {
+    const url = `${ROOT_URL}/${pageNumber}/${perPageCount}`;
+
+    return api.get(url);
 }
 
 export default {
-    set,
-    get
+    add,
+    remove,
+    getPage
 };

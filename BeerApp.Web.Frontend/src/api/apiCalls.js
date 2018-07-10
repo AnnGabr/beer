@@ -11,12 +11,7 @@ export const get = url =>
             }
         }
     )
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            throwError(response);
-        });
+        .then(parseResponse);
 
 export const post = (url, data) =>
     fetch(
@@ -30,15 +25,31 @@ export const post = (url, data) =>
             }
         }
     )
-        .then((response) => {
-            if (response.ok) {
-                return response.json();
+        .then(parseResponse);
+
+export const del = (url, data) =>
+    fetch(
+        url,
+        {
+            method: 'DELETE',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${getToken()}`
             }
-            throwError(response);
-        });
+        }
+    )
+        .then(parseResponse);
 
 function getToken() {
     return localStorage.getItem(localStorage.keys.JWT_TOKEN);
+}
+
+function parseResponse(response) {
+    if (response.ok) {
+        return response.json();
+    }
+    throwError(response);
 }
 
 function throwError(response) {

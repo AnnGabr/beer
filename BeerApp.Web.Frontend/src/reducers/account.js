@@ -6,7 +6,7 @@ const initialState = {
         nickName: 'Ann',
         email: 'myemail@gmail.com'
     },
-    lastErrors: null
+    errors: null
 };
 
 export default function account(state = initialState, action) {
@@ -15,7 +15,7 @@ export default function account(state = initialState, action) {
     case actionTypes.SIGN_IN_REQUESTED:
         return {
             user: null,
-            lastErrors: null
+            errors: null
         };
     case actionTypes.UPDATE_PROFILE_SUCCEEDED:
     case actionTypes.SIGN_IN_SUCCEEDED:
@@ -26,12 +26,12 @@ export default function account(state = initialState, action) {
     case actionTypes.SIGN_IN_FAILED:
         return {
             ...state,
-            lastErrors: action.payload
+            errors: action.payload
         };
     case actionTypes.CLEAR_ERRORS:
         return {
             ...state,
-            lastErrors: null
+            errors: null
         };
     default:
         return state;
@@ -44,4 +44,4 @@ export const getUser = ({ account }) => ({
     ...account.user
 });
 
-export const getLastErrors = ({ account }) => account.lastErrors;
+export const getLastErrors = ({ account }) => account.errors;

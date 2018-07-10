@@ -1,7 +1,6 @@
 import { actionTypes } from '../actionTypes';
 import createAction from './actionCreator';
 
-import favoritesService from '../../services/favoritesService';
 import { removeBeerId, addBeerId, isFavorite } from '../../reducers/favorites';
 
 export const saveFavoriteChange = (id, isMarkedAsFavorite) => (dispatch, getState) => {
@@ -18,8 +17,6 @@ export const saveFavoriteChange = (id, isMarkedAsFavorite) => (dispatch, getStat
 };
 
 function saveFavorites(newFavoriteBeersIds, dispatch) {
-    favoritesService.set(newFavoriteBeersIds);
-
     dispatch(createAction(
         actionTypes.FAVORITES_CHANGED,
         newFavoriteBeersIds

@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using BeerApp.Web.Services;
 using BeerApp.Web.Models.Search;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace BeerApp.Web.Controllers
 {
-	[Authorize]
-	public class FavoritesController : Controller
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class FavoritesController : Controller
     {
 		private readonly IFavoritesService favoritesService;
 		private readonly IUserService userService;
@@ -19,15 +20,17 @@ namespace BeerApp.Web.Controllers
 			this.userService = userService;
 	    }
 
-	    [Route("favorites/{page}")]
+	    [Route("favorites/{page}/{perPage}")]
 		[HttpGet]
-		public async Task<IActionResult> GetAsync(int page) 
+		public async Task<IActionResult> GetAsync(int page, int perPage) 
 		{
+            //TODO: validate perPage
+
             int currentUserId = (int) await userService.GetCurrentUserIdAsync(HttpContext.User);
 
             try
 			{
-				FavoritesPage favoritesPage = await favoritesService.GetByPageAsync(currentUserId, page);
+				FavoritesPage favoritesPage = await favoritesService.GetByPageAsync(currentUserId, page, perPage);
 
 				return new ObjectResult(favoritesPage);
 			}
@@ -49,7 +52,7 @@ namespace BeerApp.Web.Controllers
 			    return NoContent();
 		    }
 
-		    return BadRequest("Favorite doesn`t exist.");
+		    return BadRequest("Can`t remove from favorites.");
 	    }
 
 		[Route("favorites/{punkBeerId}")]

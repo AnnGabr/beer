@@ -7,16 +7,13 @@ export default class PagingPanel extends Component {
     constructor(props) {
         super(props);
 
-        this.interval = props.interval || 5;
-        this.startPageNumber = props.startPageNumber || 1;
         this.state = {
             visibleStartPageNumber: this.getVisibleStartPageNumber(),
         };
     }
 
     getVisibleStartPageNumber() {
-        const { interval, startPageNumber } = this;
-        const { activePageNumber } = this.props;
+        const { activePageNumber, interval, startPageNumber } = this.props;
 
         let visibleStartPageNumber = startPageNumber;
         while (visibleStartPageNumber + interval <= activePageNumber) {
@@ -37,8 +34,9 @@ export default class PagingPanel extends Component {
     }
 
     getLeftArrow = () => {
+        const { interval, startPageNumber } = this.props;
         const needLeftArrow =
-            this.state.visibleStartPageNumber >= this.interval + this.startPageNumber;
+            this.state.visibleStartPageNumber >= interval + startPageNumber;
 
         return needLeftArrow
             ? (
@@ -52,24 +50,26 @@ export default class PagingPanel extends Component {
     };
 
     handlePreviousPagesClick = () => {
-        let newVisibleStartPageNumber = this.state.visibleStartPageNumber - this.interval;
+        const { interval, startPageNumber } = this.props;
+        let newVisibleStartPageNumber = this.state.visibleStartPageNumber - interval;
+
         newVisibleStartPageNumber =
-            newVisibleStartPageNumber > this.startPageNumber
+            newVisibleStartPageNumber > startPageNumber
                 ? newVisibleStartPageNumber
-                : this.startPageNumber;
+                : startPageNumber;
 
         this.setState({ visibleStartPageNumber: newVisibleStartPageNumber });
     };
 
     getPageLinks() {
-        const { totalPagesCount, activePageNumber } = this.props;
+        const { totalPagesCount, activePageNumber, interval } = this.props;
         if (totalPagesCount < 2) {
             return;
         }
 
         const { visibleStartPageNumber } = this.state;
 
-        const visibleEndPageNumber = visibleStartPageNumber + this.interval - 1;
+        const visibleEndPageNumber = visibleStartPageNumber + interval - 1;
         const links = [];
         for (
             let pageNumber = visibleStartPageNumber;
@@ -101,8 +101,9 @@ export default class PagingPanel extends Component {
     };
 
     getRightArrow = () => {
+        const { interval, totalPagesCount } = this.props;
         const needRightArrow =
-            this.props.totalPagesCount - this.interval >= this.state.visibleStartPageNumber;
+            totalPagesCount - interval >= this.state.visibleStartPageNumber;
 
         return needRightArrow
             ? (
@@ -117,7 +118,7 @@ export default class PagingPanel extends Component {
 
     handleNextPagesClick = () => {
         this.setState({
-            visibleStartPageNumber: this.state.visibleStartPageNumber + this.interval,
+            visibleStartPageNumber: this.state.visibleStartPageNumber + this.props.interval,
         });
     };
 }
