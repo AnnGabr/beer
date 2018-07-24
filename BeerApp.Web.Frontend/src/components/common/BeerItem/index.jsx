@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import './beer.css';
 
 const mapStateToProps = (state, ownProps) => ({
-    isFavorite: isFavorite(state, ownProps.punkId)
+    isFavorite: isFavorite(state, ownProps.id)
 });
 
 class BeerItem extends Component {
