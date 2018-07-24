@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import './beer.css';
 
 const mapStateToProps = (state, ownProps) => ({
-    isFavorite: isFavorite(state, ownProps.id)
+    isFavorite: isFavorite(state, ownProps.punkId)
 });
 
 class BeerItem extends Component {
@@ -103,6 +103,4 @@ class BeerItem extends Component {
     };
 }
 
-BeerItem = connect(mapStateToProps, { saveFavoriteChange })(BeerItem);
-
-export default BeerItem;
+export default connect(mapStateToProps, { saveFavoriteChange })(BeerItem);
