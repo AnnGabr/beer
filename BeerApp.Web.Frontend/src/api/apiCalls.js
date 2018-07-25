@@ -46,6 +46,9 @@ function getToken() {
 }
 
 function parseResponse(response) {
+    if (response.status === 204) {
+        return;
+    }
     if (response.ok) {
         return response.json();
     }

@@ -6,6 +6,7 @@ const initialState = {
     perPageCount: 5,
     beers: [],
     loading: false,
+    needReloadings: 0,
     error: null,
 };
 
@@ -24,7 +25,8 @@ export default function favoritesBeerList(state = initialState, { type, payload 
             pageNumber: payload.pageNumber,
             pagesCount: payload.pagesCount,
             beers: payload.beers,
-            loading: false
+            loading: false,
+            needReloadings: state.needReloadings > 0 ? state.needReloadings - 1 : 0
         };
     case actionTypes.FAVORITE_BEER_PAGE_FETCH_FAILED:
         return {
@@ -32,6 +34,11 @@ export default function favoritesBeerList(state = initialState, { type, payload 
             pagesCount: 0,
             error: payload,
             loading: false
+        };
+    case actionTypes.FAVORITES_CHANGED:
+        return {
+            ...state,
+            needReloadings: state.needReloadings + 1
         };
     default:
         return state;
@@ -49,3 +56,5 @@ export const getPerPageCount = ({ favoritesBeerList }) => favoritesBeerList.perP
 export const isFetching = ({ favoritesBeerList }) => favoritesBeerList.loading;
 
 export const isFetchFailed = ({ favoritesBeerList }) => favoritesBeerList.error;
+
+export const isNeedReloading = ({ favoritesBeerList }) => favoritesBeerList.needReloadings > 0;

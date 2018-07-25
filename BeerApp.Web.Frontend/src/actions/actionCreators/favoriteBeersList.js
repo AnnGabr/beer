@@ -5,9 +5,16 @@ import favoritesService from '../../services/favoritesService';
 import { getPerPageCount } from '../../reducers/favoritesBeerList';
 import mapper from '../../utils/favoritesPageMapper';
 
-const fetchBeers = (pageNumber) => (dispatch, getStore) => {
+export const loadPage = pageNumber => (dispatch, getStore) => {
     dispatch(createAction(actionTypes.FETCH_FAVORITE_BEER_PAGE));
 
+    return getPage(pageNumber, dispatch, getStore);
+};
+
+export const reloadPage = pageNumber => (dispatch, getStore) =>
+    getPage(pageNumber, dispatch, getStore);
+
+function getPage(pageNumber, dispatch, getStore) {
     const perPageCount = getPerPageCount(getStore());
 
     return favoritesService
@@ -19,8 +26,9 @@ const fetchBeers = (pageNumber) => (dispatch, getStore) => {
             ));
         })
         .catch((error) => {
-            dispatch(createAction(actionTypes.FAVORITE_BEER_PAGE_FETCH_FAILED, error));
+            dispatch(createAction(
+                actionTypes.FAVORITE_BEER_PAGE_FETCH_FAILED,
+                error
+            ));
         });
-};
-
-export default fetchBeers;
+}

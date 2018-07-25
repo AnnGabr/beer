@@ -8,11 +8,10 @@ export class BeerItem extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { isFavorite: props.isFavorite };
-    }
-
-    componentDidUpdate() {
-        this.props.saveFavoriteChange(this.props.id, this.state.isFavorite);
+        this.state = {
+            isLoading: false,
+            isFavorite: props.isFavorite
+        };
     }
 
     render() {
@@ -74,11 +73,14 @@ export class BeerItem extends Component {
     }
 
     renderFavoriteButton() {
+        const { isLoading, isFavorite } = this.state;
+
         const favoriteButtonClass = classNames(
             'button',
-            this.state.isFavorite ? 'is-primary' : 'is-light',
+            isFavorite ? 'is-primary' : 'is-light',
+            isLoading && 'is-loading'
         );
-        const favoriteButtonContent = this.state.isFavorite ? 'Remove Favorite' : 'Favorite';
+        const favoriteButtonContent = isFavorite ? 'Remove Favorite' : 'Favorite';
 
         return (
             <button
@@ -91,6 +93,8 @@ export class BeerItem extends Component {
     }
 
     handleFavoriteButtonClick = () => {
-        this.setState({ isFavorite: !this.state.isFavorite });
+        this.props.changeFavorite(this.props.apiId, this.state.isFavorite);
+
+        this.setState({ isLoading: true });
     };
 }

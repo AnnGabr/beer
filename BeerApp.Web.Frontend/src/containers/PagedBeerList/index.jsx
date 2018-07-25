@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import fetchBeers from '../../actions/actionCreators/favoriteBeersList';
+import { loadPage, reloadPage } from '../../actions/actionCreators/favoriteBeersList';
 import {
     getPagedFavoriteBeers,
     getPageNumber,
     getPagesCount,
     getPerPageCount,
     isFetching,
+    isNeedReloading,
     isFetchFailed
 } from '../../reducers/favoritesBeerList';
 
@@ -24,23 +25,30 @@ const mapStateToProps = (state, ownProps) => ({
     pagesCount: getPagesCount(state),
     perPageCount: getPerPageCount(state),
     loading: isFetching(state),
+    isNeedReloading: isNeedReloading(state),
     isLoadingFailed: isFetchFailed(state),
     urlPageNumber: Number(ownProps.match.params.pageNumber) || 1
 });
 
 export class PagedBeerList extends Component {
-    componentWillMount() {
-        this.fetchData();
+    componentDidMount() {
+        this.loadPage();
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps.urlPageNumber !== this.props.urlPageNumber) {
-            this.fetchData();
+            this.loadPage();
+        } else if (this.props.isNeedReloading) {
+            this.reloadPage();
         }
     }
 
-    fetchData() {
-        this.props.fetchBeers(this.props.urlPageNumber);
+    loadPage() {
+        this.props.loadPage(this.props.urlPageNumber);
+    }
+
+    reloadPage() {
+        this.props.reloadPage(this.props.urlPageNumber);
     }
 
     render() {
@@ -95,5 +103,5 @@ export class PagedBeerList extends Component {
     )
 }
 
-export default withRouter(connect(mapStateToProps, { fetchBeers })(PagedBeerList));
+export default withRouter(connect(mapStateToProps, { loadPage, reloadPage })(PagedBeerList));
 

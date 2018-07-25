@@ -34,7 +34,7 @@ const mapToDetailsModel = beer => ({
 
 const getMainInfo = beer => ({
     id: beer.punkId,
-    apiId: beer.Id,
+    apiId: beer.id,
     imageUrl: beer.imageUrl,
     name: beer.beerName,
     tagline: beer.tagline
