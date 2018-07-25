@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
-import BeerItem from '../BeerItem';
-
 export default class BeerList extends Component {
     render() {
-        const { beers, isColumnList, isExpanded } = this.props;
+        const { beers, isColumnList, BeerItem } = this.props;
         const listItemClass = classNames('column', isColumnList ? 'is-two-thirds' : 'is-one-third');
 
         return (
@@ -14,7 +12,6 @@ export default class BeerList extends Component {
                     <li key={beer.id} className={listItemClass}>
                         <BeerItem
                             {...beer}
-                            isExpanded={isExpanded}
                         />
                     </li>
                 ))}

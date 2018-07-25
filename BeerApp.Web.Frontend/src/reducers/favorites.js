@@ -8,10 +8,6 @@ export default function favorites(state = initialState, action) {
     switch (action.type) {
     case actionTypes.FAVORITES_CHANGED:
         return { beerIds: action.payload };
-    case actionTypes.FAVORITE_BEER_PAGE_FETCH_SUCCEEDED:
-        return {
-            beerIds: action.payload.beers.map(beer => beer.id)
-        };
     default:
         return state;
     }

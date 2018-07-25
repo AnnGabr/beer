@@ -68,14 +68,14 @@ export class PagedBeerList extends Component {
             return <Message text={SERVER_ERROR_MESSAGE}/>;
         }
 
-        const { beers } = this.props;
+        const { beers, BeerItem } = this.props;
 
         return beers.length
             ? (
                 <BeerList
-                    beers={this.props.beers}
+                    beers={beers}
+                    BeerItem={BeerItem}
                     isColumnList
-                    isExpanded
                 />
             )
             : <Message text={NO_FAVORITES_MESSAGE}/>;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Message, InfiniteList, BeerList } from '../../components';
+import LandingBeer from '../beerItem/LandingBeer';
 
 import { fetchSearchResult } from '../../actions/actionCreators/landingSearch';
 import { getLandingBeerListState } from '../../reducers/landingBeerList';
@@ -32,7 +33,10 @@ export class LandingBeerList extends Component {
                 onEndAchive={this.fetchMoreData}
                 loading={this.props.loading}
             >
-                <BeerList beers={this.props.beers} />
+                <BeerList
+                    beers={this.props.beers}
+                    BeerItem={LandingBeer}
+                />
             </InfiniteList>
         );
         if (this.props.error) {
