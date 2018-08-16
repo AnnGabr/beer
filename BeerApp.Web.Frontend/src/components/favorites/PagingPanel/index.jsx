@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import classNames from 'classnames';
+import '../../common/styles/state.css';
 
 export default class PagingPanel extends Component {
     constructor(props) {
@@ -53,16 +54,20 @@ export default class PagingPanel extends Component {
         const { interval, startPageNumber } = this.props;
         let newVisibleStartPageNumber = this.state.visibleStartPageNumber - interval;
 
-        newVisibleStartPageNumber =
-            newVisibleStartPageNumber > startPageNumber
-                ? newVisibleStartPageNumber
-                : startPageNumber;
+        newVisibleStartPageNumber = newVisibleStartPageNumber > startPageNumber
+            ? newVisibleStartPageNumber
+            : startPageNumber;
 
         this.setState({ visibleStartPageNumber: newVisibleStartPageNumber });
     };
 
     getPageLinks() {
-        const { totalPagesCount, activePageNumber, interval } = this.props;
+        const {
+            totalPagesCount,
+            activePageNumber,
+            interval,
+            isDisabled
+        } = this.props;
         if (totalPagesCount < 2) {
             return;
         }
@@ -78,6 +83,7 @@ export default class PagingPanel extends Component {
         ) {
             const buttonClass = classNames('button', {
                 'is-info': pageNumber === activePageNumber,
+                'is-disabled': isDisabled
             });
             links.push(
                 <Link
@@ -85,6 +91,7 @@ export default class PagingPanel extends Component {
                     key={pageNumber}
                     className={buttonClass}
                     onClick={this.handleOnPageLinkClick.bind(this, pageNumber)}
+                    disabled={isDisabled}
                 >
                     {pageNumber}
                 </Link>

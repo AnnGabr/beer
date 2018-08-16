@@ -98,6 +98,7 @@ export class PagedBeerList extends Component {
                     totalPagesCount={this.props.pagesCount}
                     interval={this.props.perPageCount}
                     activePageNumber={this.props.activePageNumber}
+                    isDisabled={this.props.isNeedReloading}
                 />
             )
     )
