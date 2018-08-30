@@ -3,16 +3,39 @@ import createAction from './actionCreator';
 
 import favoritesService from '../../services/favoritesService';
 
-export const changeFavorite = (id, isMarkedAsFavorite) => dispatch => {
-    const makeRequest = isMarkedAsFavorite
-        ? favoritesService.remove
-        : favoritesService.add;
+export const changeFavoriteOnFavoritesPage = favorite => dispatch => {
+    dispatch(createAction(
+        actionTypes.FAVORITES.REQUEST_FAVORITE_CHANGE,
+        favorite.punkId
+    ));
 
-    return makeRequest(id)
+    return favoritesService.remove(favorite.id)
         .then(() => {
+            dispatch(createAction(actionTypes.FAVORITES.FAVORITE_REMOVED));
+        });
+};
+
+export const changeFavoriteOnLandingPage = (favorite, isMarkedAsFavorite) => dispatch => {
+    dispatch(createAction(
+        actionTypes.LANDING.REQUEST_FAVORITE_CHANGE,
+        favorite.punkId
+    ));
+
+    if (isMarkedAsFavorite) {
+        return favoritesService.remove(favorite.id)
+            .then(() => {
+                dispatch(createAction(
+                    actionTypes.LANDING.FAVORITE_REMOVED,
+                    favorite.id
+                ))
+            });
+    } 
+
+    return favoritesService.add(favorite.punkId)
+        .then(({ id }) => {
             dispatch(createAction(
-                actionTypes.FAVORITES_CHANGED,
-                id
+                actionTypes.LANDING.FAVORITE_ADDED,
+                {id, punkId: favorite.punkId}
             ));
         });
 };

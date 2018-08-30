@@ -8,7 +8,6 @@ using BeerApp.PunkApi.Services;
 using PunkApiBeer = BeerApp.PunkApi.Models.Beer.Beer;
 using BeerApp.Web.Models.Beer;
 using BeerApp.Web.Models.Search;
-using Microsoft.Extensions.Options;
 
 namespace BeerApp.Web.Services
 {
@@ -30,7 +29,7 @@ namespace BeerApp.Web.Services
 			Mapper = mapper;
 		}
 
-		public async Task<bool> AddAsync(int userId, int punkBeerId) //TODO: change to beer model in 4 phase
+		public async Task<int?> AddAsync(int userId, int punkBeerId) //TODO: change to beer model in 4 phase
 		{
             //TODO: check if exist in punk api
 
@@ -40,7 +39,7 @@ namespace BeerApp.Web.Services
 			UserFavoriteBeer favoriteBeer = await GetFavoriteAsync(userId, beer.BeerId);
 			if (favoriteBeer != null)
 			{
-				return true;
+				return favoriteBeer.BeerId;
 			}
 
 			UserFavoriteBeer addedFavorite = await FavoritesRepository.AddAsync(new UserFavoriteBeer
@@ -49,7 +48,7 @@ namespace BeerApp.Web.Services
 				UserId = userId
 			});
 
-			return addedFavorite != null;
+			return addedFavorite?.BeerId;
 		}
 
 		public async Task<bool> RemoveAsync(int userId, int beerId)
@@ -65,7 +64,7 @@ namespace BeerApp.Web.Services
 			return removedFavorite != null;
 		}
 
-		protected async Task<UserFavoriteBeer> GetFavoriteAsync(int userId, int beerId)
+		public async Task<UserFavoriteBeer> GetFavoriteAsync(int userId, int beerId)
 		{
 			UserFavoriteBeer userFavoriteBeer = await FavoritesRepository.FindAsync(userId, beerId);
 

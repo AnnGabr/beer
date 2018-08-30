@@ -1,4 +1,5 @@
 import { actionTypes } from '../actions/actionTypes';
+import favoritesReducer from './favorites';
 
 const initialState = {
     pageNumber: 1,
@@ -35,7 +36,12 @@ export default function favoritesBeerList(state = initialState, { type, payload 
             error: payload,
             loading: false
         };
-    case actionTypes.FAVORITES_CHANGED:
+    case actionTypes.FAVORITES.REQUEST_FAVORITE_CHANGE:
+        return {
+            ...state,
+            beers: favoritesReducer(state.beers, { type, payload })
+        };
+    case actionTypes.FAVORITES.FAVORITE_REMOVED:
         return {
             ...state,
             needReloadings: state.needReloadings + 1

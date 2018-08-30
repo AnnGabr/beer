@@ -1,12 +1,16 @@
 import { connect } from 'react-redux';
 
 import { BeerItem } from '../../../components/common/BeerItem';
-import { changeFavorite } from '../../../actions/actionCreators/favorites';
+import { changeFavoriteOnFavoritesPage } from '../../../actions/actionCreators/favorites';
 
 const mapStateToProps = () => ({
     isFavorite: true,
     isExpanded: true
 });
 
-export default connect(mapStateToProps, { changeFavorite })(BeerItem);
+const mapDispatchToProps = (dispatch) => ({
+    onFavoriteClick: (favorite) => dispatch(changeFavoriteOnFavoritesPage(favorite))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BeerItem);
 

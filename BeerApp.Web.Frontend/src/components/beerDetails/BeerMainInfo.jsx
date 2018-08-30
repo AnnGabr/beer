@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { changeFavorite } from '../../actions/actionCreators/favorites';
-
 import classNames from 'classnames';
 import '../common/styles/text-modifiers.css';
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = () => ({
     isFavorite: false
 });
 
@@ -83,5 +81,5 @@ export class BeerMainInfo extends Component {
     };
 }
 
-export default connect(mapStateToProps, { changeFavorite })(BeerMainInfo);
+export default connect(mapStateToProps)(BeerMainInfo);
 

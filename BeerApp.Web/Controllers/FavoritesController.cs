@@ -61,13 +61,23 @@ namespace BeerApp.Web.Controllers
 	    {
 		    int currentUserId = (int) await userService.GetCurrentUserIdAsync(HttpContext.User);
 
-		    bool added = await favoritesService.AddAsync(currentUserId, punkBeerId);
-		    if (added)
+		    int? beerId = await favoritesService.AddAsync(currentUserId, punkBeerId);
+		    if (beerId != null)
 		    {
-			    return NoContent();
+			    return new ObjectResult(new { id = beerId });
 		    }
 
 		    return BadRequest("Can`t add to favorites.");
 	    }
+
+		[Route("favorites/{beerId}")]
+		[HttpGet]
+		public async Task<IActionResult> CheckIsFavoriteAsync(int beerId)
+		{
+			int currentUserId = (int)await userService.GetCurrentUserIdAsync(HttpContext.User);
+			var beer = await favoritesService.GetFavoriteAsync(currentUserId, beerId);
+
+			return new ObjectResult(new IsFavoriteResult() { IsFavorite = beer != null });
+		}
 	}
 }

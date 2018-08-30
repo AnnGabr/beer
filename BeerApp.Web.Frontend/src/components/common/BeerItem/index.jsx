@@ -5,15 +5,6 @@ import classNames from 'classnames';
 import './beer.css';
 
 export class BeerItem extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isLoading: false,
-            isFavorite: props.isFavorite
-        };
-    }
-
     render() {
         const beerClass = classNames('beer', { 'beer--expanded': this.props.isExpanded });
 
@@ -67,18 +58,18 @@ export class BeerItem extends Component {
     }
 
     renderOpenButton() {
-        const { id } = this.props;
+        const { punkId } = this.props;
 
-        return <Link to={`/beer/${id}`} className="button is-outlined is-link">Open</Link>;
+        return <Link to={`/beer/${punkId}`} className="button is-outlined is-link">Open</Link>;
     }
 
     renderFavoriteButton() {
-        const { isLoading, isFavorite } = this.state;
+        const { isFavorite, loading } = this.props;
 
         const favoriteButtonClass = classNames(
             'button',
             isFavorite ? 'is-primary' : 'is-light',
-            isLoading && 'is-loading'
+            loading && 'is-loading'
         );
         const favoriteButtonContent = isFavorite ? 'Remove Favorite' : 'Favorite';
 
@@ -93,8 +84,11 @@ export class BeerItem extends Component {
     }
 
     handleFavoriteButtonClick = () => {
-        this.props.changeFavorite(this.props.apiId, this.state.isFavorite);
-
-        this.setState({ isLoading: true });
+        this.props.onFavoriteClick({
+                id: this.props.id, 
+                punkId: this.props.punkId
+            }, 
+            this.props.isFavorite
+        );
     };
 }

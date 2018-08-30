@@ -1,4 +1,5 @@
 import { actionTypes } from '../actions/actionTypes';
+import favoritesReducer from './favorites';
 
 const initialState = {
     beers: [],
@@ -29,6 +30,13 @@ export default function landingBeerList(state = initialState, { type, payload })
         return {
             ...initialState,
             error: payload,
+        };
+    case actionTypes.LANDING.REQUEST_FAVORITE_CHANGE:
+    case actionTypes.LANDING.FAVORITE_ADDED:
+    case actionTypes.LANDING.FAVORITE_REMOVED:
+        return {
+            ...state,
+            beers: favoritesReducer(state.beers, { type, payload })
         };
     default:
         return state;

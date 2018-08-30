@@ -9,7 +9,7 @@ export default class BeerList extends Component {
         return (
             <ul className="columns is-multiline beer-list">
                 {beers.map(beer => (
-                    <li key={beer.id} className={listItemClass}>
+                    <li key={beer.punkId} className={listItemClass}>
                         <BeerItem
                             {...beer}
                         />

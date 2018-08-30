@@ -2,7 +2,8 @@ const mapToLandingModels = serverResponse =>
     map(serverResponse, mapToLandingModel);
 
 const mapToLandingModel = beer => ({
-    ...getMainInfo(beer)
+    ...getMainInfo(beer),
+    ...defaultStateProps
 });
 
 const mapToFavoritesModels = serverResponse =>
@@ -10,6 +11,7 @@ const mapToFavoritesModels = serverResponse =>
 
 const mapToFavoritesModel = beer => ({
     ...getMainInfo(beer),
+    ...defaultStateProps,
     description: beer.description
 });
 
@@ -19,6 +21,7 @@ const mapToDetailsModels = serverResponse =>
 const mapToDetailsModel = beer => ({
     mainInfo: {
         ...getMainInfo(beer),
+        ...defaultStateProps,
         description: beer.description
     },
     properties: beer.properties && {
@@ -33,12 +36,17 @@ const mapToDetailsModel = beer => ({
 });
 
 const getMainInfo = beer => ({
-    id: beer.punkId,
-    apiId: beer.id,
+    punkId: beer.punkId,
+    id: beer.id,
     imageUrl: beer.imageUrl,
     name: beer.beerName,
     tagline: beer.tagline
 });
+
+const defaultStateProps = {
+    loading: false,
+    error: null
+};
 
 const map = (response, mapToModel) => {
     let mapResult = null;
