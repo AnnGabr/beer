@@ -1,0 +1,14 @@
+﻿using BeerApp.DataAccess.Models;
+using BeerApp.Web.Models.Search;
+using System.Threading.Tasks;
+
+namespace BeerApp.Web.Services
+{
+    public interface IFavoritesService
+    {
+		Task<FavoritesPage> GetByPageAsync(int userId, int page, int perPage);
+		Task<UserFavoriteBeer> GetFavoriteAsync(int userId, int beerId);
+		Task<bool> RemoveAsync(int userId, int beerId);
+		Task<int?> AddAsync(int userId, int punkApiBeerId);
+    }
+}

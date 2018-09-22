@@ -1,0 +1,21 @@
+.layout {
+  height: 99%;
+}
+
+.has-scroll {
+  overflow-y: auto;
+}
+
+.no-scroll {
+  overflow-y: hidden;
+}
+
+.is-full-width {
+  width: 100%;
+}
+
+.no-bg-color {
+  background-color: initial;
+}
+
+

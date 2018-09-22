@@ -1,0 +1,21 @@
+.account-details {
+    display: block;
+
+    text-align: center;
+}
+
+.account-details__avatar {
+    margin: 0 auto 0.5rem;
+}
+
+.account-details__nickname {
+    color: hsl(0, 0%, 29%);
+
+    font-weight: 600;
+}
+
+.account-details__email {
+    color: hsl(0, 0%, 71%);
+
+    font-size: 0.8em;
+}

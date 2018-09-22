@@ -1,0 +1,31 @@
+.header {
+    position: relative;
+
+    display: flex;
+
+    justify-content: space-between;
+}
+
+.header__site-name {
+    color: #ffffff;
+
+    font-size: 1.5rem;
+}
+
+.header__navigation,
+.header__menu {
+    display: flex;
+
+    align-items: center;
+}
+
+.account-button {
+    cursor: pointer;
+    user-select: none;
+}
+
+.header-account-icon {
+    color: hsl(0, 100%, 100%);
+
+    font-size: 2.5rem;
+}
